@@ -23,7 +23,7 @@ public class Gene
         SLT(2),            // skip if lower than (compares two values, and skips the next instruction if the first is lower than the second)
         LDP(2),            // load from p-space (loads a number from private storage space)
         STP(2),            // save to p-space (saves a number to private storage space)
-        NOP(2);             // no operation (does nothing)
+        NOP(0);             // no operation (does nothing)
 
         int argNum;
 
@@ -39,12 +39,24 @@ public class Gene
     }
 
     public enum Mode{
-        POUND,          // # immediate
-        DOLLAR,         // $ direct
-        AT,             // @ indirect
-        LESS,           // < indirect with predecrement
-        STAR,           // * indirect using A-field
-        OPEN_CURLY,     // { predrecement indirect using A-field
-        CLOSE_CURLY     // } postincrement indirect using A-field
+        POUND('#'),          // # immediate
+        DOLLAR('$'),         // $ direct
+        AT('@'),             // @ indirect
+        LESS('<'),           // < indirect with predecrement
+        STAR('*'),           // * indirect using A-field
+        OPEN_CURLY('{'),     // { predrecement indirect using A-field
+        CLOSE_CURLY('}');     // } postincrement indirect using A-field
+
+        char symbol;
+
+        Mode(char symbol)
+        {
+            this.symbol = symbol;
+        }
+
+        public char getSymbol()
+        {
+            return symbol;
+        }
     }
 }
