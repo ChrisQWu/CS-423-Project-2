@@ -2,14 +2,26 @@
  * Created by c on 2/23/2017.
  *  Gene properties.
  */
-public class Gene
+public class Constants
 {
-    private int[] gene;
-
-    Gene()
-    {
-        gene = new int[]{0,0,0,0,0,0};
-    }
+    public final static int DEFAULT_LENGTH = 3;
+    private final static char EMPTY_CHAR = ' ';
+    public static char[] modes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
+            EMPTY_CHAR,
+            '#',        // # immediate
+            EMPTY_CHAR,
+            '$',        // $ direct
+            EMPTY_CHAR,
+            '@',        // @ indirect
+            EMPTY_CHAR,
+            '<',        // < indirect with predecrement
+            EMPTY_CHAR,
+            '*',        // * indirect using A-field
+            EMPTY_CHAR,
+            '{',        // { predrecement indirect using A-field
+            EMPTY_CHAR,
+            '}',
+            EMPTY_CHAR,};       // } postincrement indirect using A-field
 
     public enum Instruction{
         DAT("DAT",2),           // data (kills the process)
@@ -52,25 +64,4 @@ public class Gene
         }
     }
 
-    public enum Mode{
-        POUND('#'),          // # immediate
-        DOLLAR('$'),         // $ direct
-        AT('@'),             // @ indirect
-        LESS('<'),           // < indirect with predecrement
-        STAR('*'),           // * indirect using A-field
-        OPEN_CURLY('{'),     // { predrecement indirect using A-field
-        CLOSE_CURLY('}');     // } postincrement indirect using A-field
-
-        char symbol;
-
-        Mode(char symbol)
-        {
-            this.symbol = symbol;
-        }
-
-        public char getSymbol()
-        {
-            return symbol;
-        }
-    }
 }
