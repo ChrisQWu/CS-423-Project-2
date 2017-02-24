@@ -11,11 +11,22 @@ public class Genome
     private Random random;
     private List<Gene> genome;
 
+    /**
+     * Defines an invalid id, a new Random object, generates a default length genome.
+     */
     Genome()
     {
         this.id = -1;
+        genome = new ArrayList<>();
+        this.random = new Random();
+        generateGenome(-1);
     }
 
+    /**
+     * Takes a random object to help the genome generate, assign the genome id
+     * @param random
+     * @param id
+     */
     Genome(Random random, int id)
     {
         this.id = id;
@@ -25,12 +36,26 @@ public class Genome
     }
 
     /**
-     *
-     * @param seed max length of genome, -1 if to be a default length
+     * This constructor also defines the max length of the genome.
+     * @param random a random object to generate an initial genome
+     * @param id id of the genome
+     * @param length max length a genome can be
      */
-    void generateGenome(int seed)
+    Genome(Random random, int id, int length)
     {
-        int length = (seed == -1)?Constants.DEFAULT_LENGTH:seed;
+        this.id = id;
+        genome = new ArrayList<>();
+        this.random = random;
+        generateGenome(length);
+    }
+
+    /**
+     * Generates a default length genome or a variable length genome
+     * @param size max length of genome, -1 if to be a default length
+     */
+    void generateGenome(int size)
+    {
+        int length = (size == -1)?Constants.DEFAULT_LENGTH:random.nextInt(size)+1;
         for (int i = 0; i < length; i++) {
             genome.add(new Gene(length));
         }
