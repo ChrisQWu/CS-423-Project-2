@@ -6,12 +6,18 @@ import java.io.*;
  */
 public class Warrior {
 
-    private static final String FILENAME = "./warrior.red";
+    private static final String FILENAME = "./Warriors_Folder/warrior.red";
     private static final String OPENING = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
     private static final String CLOSING = "end";
+
+    public static void main(String[] args) throws Exception
+    {
+        Genome genome = new Genome();
+        makeWarrior(genome);
+    }
 
     public static void makeWarrior(Genome genome) {
 
