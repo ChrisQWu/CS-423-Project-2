@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 public class CommandLine
 {
     ProcessBuilder builder = new ProcessBuilder(
-        "cmd.exe", "/c", "cd \"C:\\Program Files\\Microsoft SQL Server\" && dir");
+        "cmd.exe", "/c", "");
 
     /**
      * Code from http://stackoverflow.com/questions/15464111/run-cmd-commands-through-java

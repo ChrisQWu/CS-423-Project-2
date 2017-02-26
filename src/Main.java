@@ -4,11 +4,7 @@
  *  Entry point for the program. It's main use at the moment is to test out GA
  */
 public class Main {
-
-
-    private Population oldPopulation;
-    private Population newPopulation;
-
+    private Population population;
 
     public static void main(String [] args)
     {
@@ -17,7 +13,7 @@ public class Main {
 
     public Main()
     {
-        oldPopulation = new Population();
+        population = new Population();
 
     }
 }

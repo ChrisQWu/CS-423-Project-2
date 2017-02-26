@@ -7,9 +7,10 @@ import java.util.Random;
  */
 public class Genome
 {
-    private final int id;
+    private int id;
     private Random random;
     private List<Gene> genome;
+    private int fitness;
 
     /**
      * Defines an invalid id, a new Random object, generates a default length genome.
@@ -19,6 +20,7 @@ public class Genome
         this.id = -1;
         genome = new ArrayList<>();
         this.random = new Random();
+        this.fitness = 0;
         generateGenome(-1);
     }
 
@@ -32,6 +34,7 @@ public class Genome
         this.id = id;
         genome = new ArrayList<>();
         this.random = random;
+        this.fitness = 0;
         generateGenome(-1);
     }
 
@@ -46,7 +49,33 @@ public class Genome
         this.id = id;
         genome = new ArrayList<>();
         this.random = random;
+        this.fitness = 0;
         generateGenome(length);
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public List<Gene> getGenome()
+    {
+        return genome;
+    }
+
+    public void setFitness(int fitness)
+    {
+        this.fitness = fitness;
+    }
+
+    public int getFitness()
+    {
+        return fitness;
     }
 
     /**
@@ -85,7 +114,7 @@ public class Genome
 
         void generateGene(int seed)
         {
-            int instruction = random.nextInt(Constants.Instruction.values().length-1);
+            int instruction = random.nextInt(Constants.INSTRUCTION.values().length-1);
             int mode1 = random.nextInt(Constants.modes.length);
             int param1 = random.nextInt(seed - (-seed) + 1) + seed;
             int mode2 = random.nextInt(Constants.modes.length);
@@ -99,7 +128,7 @@ public class Genome
 
         public String toString()
         {
-            return Constants.Instruction.values()[gene[0]] + " "+Constants.modes[gene[1]]+gene[2]+", "+Constants.modes[gene[3]]+gene[4];
+            return Constants.INSTRUCTION.values()[gene[0]] + " "+Constants.modes[gene[1]]+gene[2]+", "+Constants.modes[gene[3]]+gene[4];
         }
     }
 

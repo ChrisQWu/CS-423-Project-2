@@ -8,22 +8,22 @@ public class Constants
     private final static char EMPTY_CHAR = ' ';
     public static char[] modes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
-            '#',        // # immediate
+//            '#',        // # immediate
             EMPTY_CHAR,
-            '$',        // $ direct
+//            '$',        // $ direct
             EMPTY_CHAR,
-            '@',        // @ indirect
+//            '@',        // @ indirect
             EMPTY_CHAR,
-            '<',        // < indirect with predecrement
+//            '<',        // < indirect with predecrement
             EMPTY_CHAR,
-            '*',        // * indirect using A-field
+//            '*',        // * indirect using A-field
             EMPTY_CHAR,
-            '{',        // { predrecement indirect using A-field
+//            '{',        // { predrecement indirect using A-field
             EMPTY_CHAR,
-            '}',
+//            '}',
             EMPTY_CHAR,};       // } postincrement indirect using A-field
 
-    public enum Instruction{
+    public enum INSTRUCTION{
         DAT("DAT",2),           // data (kills the process)
         MOV("MOV",2),           // move (copies data from one address to another)
         ADD("ADD",2),           // add (adds one number to another)
@@ -47,7 +47,7 @@ public class Constants
         int argNum;
         String command;
 
-        Instruction(String command, int argNum)
+        INSTRUCTION(String command, int argNum)
         {
             this.argNum = argNum;
             this.command = command;
@@ -62,6 +62,19 @@ public class Constants
         {
             return command;
         }
+    }
+
+    public enum SELECTION_MODE{
+        ROULETTE,       //
+        TOURNAMENT,     //
+        REWARD_BASED,   //
+        RANDOM          //randomly replaces lower % of population with with upper %
+    }
+    
+    public enum CROSSOVER_MODE{
+        NO_CROSSOVER,
+        UNIFORM_CROSSOVER,
+        ONE_POINT_CROSSOVER
     }
 
 }
