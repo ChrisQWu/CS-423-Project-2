@@ -86,7 +86,12 @@ public class Population {
      */
     private void evaluatePopulation()
     {
-
+        for (Genome g:newPopulation) {
+            Warrior.makeWarrior(g);
+            float fitness = CommandLine.fitness();
+            System.out.println("id: "+g.getId()+" fitness: "+fitness);
+            g.setFitness(fitness);
+        }
     }
 
     protected class FitnessComparator implements Comparator<Genome>

@@ -10,7 +10,8 @@ public class Genome
     private int id;
     private Random random;
     private List<Gene> genome;
-    private int fitness;
+    private float fitness;
+
 
     /**
      * Defines an invalid id, a new Random object, generates a default length genome.
@@ -26,8 +27,8 @@ public class Genome
 
     /**
      * Takes a random object to help the genome generate, assign the genome id
-     * @param random
-     * @param id
+     * @param random a Random Object to help generate genomes initially
+     * @param id genome id
      */
     Genome(Random random, int id)
     {
@@ -53,27 +54,31 @@ public class Genome
         generateGenome(length);
     }
 
-    public void setId(int id)
+    void setId(int id)
     {
         this.id = id;
     }
 
-    public int getId()
+    int getId()
     {
         return id;
     }
 
-    public List<Gene> getGenome()
+    String getGenome()
     {
-        return genome;
+        String string = "";
+        for (Gene g:genome) {
+            string += g.toString() + "\n";
+        }
+        return string;
     }
 
-    public void setFitness(int fitness)
+    void setFitness(float fitness)
     {
         this.fitness = fitness;
     }
 
-    public int getFitness()
+    float getFitness()
     {
         return fitness;
     }

@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
  */
 public class CommandLine
 {
-    ProcessBuilder builder = new ProcessBuilder(
-        "cmd.exe", "/c", "");
+    static ProcessBuilder builder = new ProcessBuilder(
+        "cmd.exe", "/c", "pmars warrior.red");
 
     /**
      * Code from http://stackoverflow.com/questions/15464111/run-cmd-commands-through-java
@@ -35,7 +35,7 @@ public class CommandLine
         }
     }
 
-    public int fitness()
+    public static int fitness()
     {
         builder.redirectErrorStream(true);
         try
