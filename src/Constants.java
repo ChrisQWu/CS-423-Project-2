@@ -6,7 +6,22 @@ public class Constants
 {
     public final static int DEFAULT_LENGTH = 3;
     private final static char EMPTY_CHAR = ' ';
-    public static char[] modes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
+    public static char[] Amodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
+            EMPTY_CHAR,
+//            '#',        // # immediate
+            EMPTY_CHAR,
+//            '$',        // $ direct
+            EMPTY_CHAR,
+            EMPTY_CHAR,
+            EMPTY_CHAR,
+//            '*',        // * indirect using A-field
+            EMPTY_CHAR,
+//            '{',        // { predrecement indirect using A-field
+            EMPTY_CHAR,
+//            '}',        // } postincrement indirect using A-field
+            EMPTY_CHAR,};
+
+    public static char[] Bmodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
 //            '#',        // # immediate
             EMPTY_CHAR,
@@ -16,12 +31,10 @@ public class Constants
             EMPTY_CHAR,
 //            '<',        // < indirect with predecrement
             EMPTY_CHAR,
-//            '*',        // * indirect using A-field
+//            '<',        // > indirect with postdecrement
             EMPTY_CHAR,
-//            '{',        // { predrecement indirect using A-field
             EMPTY_CHAR,
-//            '}',
-            EMPTY_CHAR,};       // } postincrement indirect using A-field
+            EMPTY_CHAR,};
 
     public enum INSTRUCTION{
         DAT("DAT",2),           // data (kills the process)

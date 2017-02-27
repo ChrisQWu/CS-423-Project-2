@@ -121,9 +121,9 @@ public class Genome
         void generateGene(int seed)
         {
             int instruction = random.nextInt(Constants.INSTRUCTION.values().length-1);
-            int mode1 = random.nextInt(Constants.modes.length);
+            int mode1 = random.nextInt(Constants.Amodes.length);
             int param1 = random.nextInt(seed - (-seed) + 1) + seed;
-            int mode2 = random.nextInt(Constants.modes.length);
+            int mode2 = random.nextInt(Constants.Bmodes.length);
             int param2 = random.nextInt(seed - (-seed) + 1) + seed;
             gene = new int[]{instruction,mode1,param1,mode2,param2};
         }
@@ -134,8 +134,7 @@ public class Genome
 
         public String toString()
         {
-
-            return Constants.INSTRUCTION.values()[gene[0]] + " "+Constants.modes[gene[1]]+gene[2]+", "+Constants.modes[gene[3]]+gene[4];
+            return Constants.INSTRUCTION.values()[gene[0]] + " "+Constants.Amodes[gene[1]]+gene[2]+", "+Constants.Bmodes[gene[3]]+gene[4];
         }
     }
 
