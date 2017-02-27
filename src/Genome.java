@@ -22,7 +22,8 @@ public class Genome
         genome = new ArrayList<>();
         this.random = new Random();
         this.fitness = 0;
-        generateGenome(-1);
+        genome.add(new Gene(1,0,0,0,1));
+//        generateGenome(-1);
     }
 
     /**
@@ -133,6 +134,7 @@ public class Genome
 
         public String toString()
         {
+
             return Constants.INSTRUCTION.values()[gene[0]] + " "+Constants.modes[gene[1]]+gene[2]+", "+Constants.modes[gene[3]]+gene[4];
         }
     }

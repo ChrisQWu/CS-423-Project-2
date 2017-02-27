@@ -33,7 +33,8 @@ public class Population {
     private void generatePopulation()
     {
         for (int i = 0; i < POPULATION_SIZE; i++) {
-            Genome genome = new Genome(random,i, 10);
+//            Genome genome = new Genome(random,i, 10);
+            Genome genome = new Genome();
             currentpopulation.add(genome);
             genome.printGenome();
         }
