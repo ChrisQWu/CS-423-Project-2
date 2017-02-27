@@ -19,6 +19,10 @@ public class Warrior {
         makeWarrior(genome);
     }
 
+    /**
+     * Takes a genome and prints it to a .red file to be used for pmars
+     * @param genome prints out its genes
+     */
     public static void makeWarrior(Genome genome) {
 
         BufferedWriter bw = null;
