@@ -62,8 +62,20 @@ public class Population {
         }
     }
 
+    /**
+     * Take the top 75% of the population
+     */
     private void selectRandom()
     {
+        int top = POPULATION_SIZE-(int)(POPULATION_SIZE*(0.75));
+        for(int i=0; i<top; i++)
+        {
+            newPopulation.add(currentpopulation.poll());
+        }
+        for (int i=top; i<POPULATION_SIZE; i++)
+        {
+            //do replacements or something
+        }
 
     }
 
