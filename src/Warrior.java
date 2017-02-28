@@ -32,12 +32,12 @@ public class Warrior {
 
             fw = new FileWriter(FILENAME,false);
             bw = new BufferedWriter(fw);
-            String content = genome.getGenome();
+            String content = genome.getGenomeAsCommand();
             bw.write(OPENING);
             bw.write(content);
             bw.write(CLOSING);
 
-            System.out.println("Warrior written");
+//            System.out.println("Warrior written");
 
         } catch (IOException e) {
 

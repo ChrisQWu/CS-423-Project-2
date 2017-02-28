@@ -15,7 +15,7 @@ public class Population {
 
     Population()
     {
-        this.POPULATION_SIZE = 10;
+        this.POPULATION_SIZE = 1000;
         new Population(POPULATION_SIZE);
     }
 
@@ -33,12 +33,16 @@ public class Population {
     private void generatePopulation()
     {
         for (int i = 0; i < POPULATION_SIZE; i++) {
-//            Genome genome = new Genome(random,i, 10);
             Genome genome = new Genome(random, i);
+            Warrior.makeWarrior(genome);
+            float fitness = CommandLine.fitness();
+            if(fitness>1) {
+                System.out.println("Fitness: " + fitness);
+                genome.printGenome();
+            }
+            genome.setFitness(fitness);
             currentpopulation.add(genome);
-            genome.printGenome();
         }
-        evaluatePopulation();
     }
 
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
@@ -46,9 +50,6 @@ public class Population {
         switch (selection_mode){
             case RANDOM:
                 selectRandom();
-                break;
-            case REWARD_BASED:
-                selectReward_Based();
                 break;
             case ROULETTE:
                 selectRoulette();
@@ -87,11 +88,6 @@ public class Population {
         {
             //do replacements or something
         }
-
-    }
-
-    private void selectReward_Based()
-    {
 
     }
 

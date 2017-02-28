@@ -80,7 +80,6 @@ public class Constants
     public enum SELECTION_MODE{
         ROULETTE,       //
         TOURNAMENT,     //
-        REWARD_BASED,   //
         RANDOM          //randomly replaces lower % of population with with upper %
     }
     

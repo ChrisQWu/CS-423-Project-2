@@ -40,10 +40,10 @@ public class CommandLine
      *  Calls pmars and get the warrior's fitness score
      * @return fitness score of warrior.red
      */
-    public static int fitness()
+    public static float fitness()
     {
         String line;
-        int score=-1;
+        float score=-1;
         try {
             // create a process and execute
             Process p = Runtime.getRuntime().exec(Command, null, new File("."));
@@ -54,7 +54,7 @@ public class CommandLine
 //                System.out.println("index: " + score);
                 if (score != -1) {
 //                    System.out.println(line.substring(score + 7));
-                    score = Integer.getInteger(line.substring(score + 7));
+                    score = Float.parseFloat(line.substring((int)score + 7));
                     break;
                 }
             }
