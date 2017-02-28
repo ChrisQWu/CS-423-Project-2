@@ -1,7 +1,5 @@
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by thebaker on 2/24/17.
@@ -10,33 +8,29 @@ public class Population {
     private final int POPULATION_SIZE;
     private final Random random = new Random();
     private PriorityQueue<Genome> currentpopulation;
-    private PriorityQueue<Genome> newPopulation;
     private Comparator<Genome> fitnessComparator;
 
-    Population()
-    {
+    Population() {
         this.POPULATION_SIZE = 1000;
         new Population(POPULATION_SIZE);
     }
 
-    Population(int POPULATION_SIZE){
+    Population(int POPULATION_SIZE) {
         this.POPULATION_SIZE = POPULATION_SIZE;
         fitnessComparator = new FitnessComparator();
         currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
-        newPopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
         generatePopulation();
     }
 
     /**
      * initialize currentPopulation with random genomes.
      */
-    private void generatePopulation()
-    {
+    private void generatePopulation() {
         for (int i = 0; i < POPULATION_SIZE; i++) {
             Genome genome = new Genome(random, i);
             Warrior.makeWarrior(genome);
             float fitness = CommandLine.fitness();
-            if(fitness>1) {
+            if (fitness > 1) {
                 System.out.println("Fitness: " + fitness);
                 genome.printGenome();
             }
@@ -46,8 +40,8 @@ public class Population {
     }
 
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
-                                       Constants.CROSSOVER_MODE crossover_mode){
-        switch (selection_mode){
+                                       Constants.CROSSOVER_MODE crossover_mode) {
+        switch (selection_mode) {
             case RANDOM:
                 selectRandom();
                 break;
@@ -61,8 +55,7 @@ public class Population {
                 System.out.println("Invalid Selection Mode");
                 break;
         }
-        switch (crossover_mode)
-        {
+        switch (crossover_mode) {
             case NO_CROSSOVER:
                 break;
             case ONE_POINT_CROSSOVER:
@@ -77,49 +70,63 @@ public class Population {
     /**
      * Take the top 75% of the population
      */
-    private void selectRandom()
-    {
-        int top = POPULATION_SIZE-(int)(POPULATION_SIZE*(0.75));
-        for(int i=0; i<top; i++)
-        {
-            newPopulation.add(currentpopulation.poll());
+    private void selectRandom() {
+        List<Genome> topPercent = new ArrayList<>();
+        int top = POPULATION_SIZE - (int) (POPULATION_SIZE * (0.75));
+        for (int i = 0; i < top; i++) {
+            Genome g = currentpopulation.poll();
+            topPercent.add(g);//save the good ones
         }
-        for (int i=top; i<POPULATION_SIZE; i++)
-        {
-            //do replacements or something
+        currentpopulation.clear();//remove all of the lower fit genomes
+        currentpopulation.addAll(topPercent);//put in the fit genomes back
+        for (int i = top; i < POPULATION_SIZE; i++) {
+            Genome g = topPercent.get(random.nextInt(top));
+            currentpopulation.add(g);//randomly put fit genomes in
         }
+    }
+
+    private void selectRoulette() {
+        float fitness = 0;
+        List<Genome> winners = new ArrayList<>();
+        for (Genome g:currentpopulation) {
+            fitness+=g.getFitness();
+        }
+
+        for (int i = 0; i < POPULATION_SIZE; i++) {
+            float rand = random.nextFloat()*fitness;
+            for (Genome g:currentpopulation) {
+                if(g.getFitness() < rand){
+                    winners.add(g);
+                    break;
+                }
+            }
+        }
+        currentpopulation.clear();
+        currentpopulation.addAll(winners);
 
     }
 
-    private void selectRoulette()
-    {
-
-    }
-
-    private void selectTournament()
-    {
+    private void selectTournament() {
 
     }
 
     /**
      * Evaluates each genome in the current population
      */
-    private void evaluatePopulation()
-    {
-        for (Genome g:newPopulation) {
+    private void evaluatePopulation() {
+        for (Genome g : currentpopulation) {
             Warrior.makeWarrior(g);
             float fitness = CommandLine.fitness();
-            System.out.println("id: "+g.getId()+" fitness: "+fitness);
+            System.out.println("id: " + g.getId() + " fitness: " + fitness);
             g.setFitness(fitness);
         }
     }
 
-    protected class FitnessComparator implements Comparator<Genome>
-    {
+    protected class FitnessComparator implements Comparator<Genome> {
         @Override
         public int compare(Genome genome1, Genome genome2) {
-            if(genome1.getFitness() > genome2.getFitness()) return 1;
-            else if(genome1.getFitness() < genome2.getFitness()) return -1;
+            if (genome1.getFitness() > genome2.getFitness()) return 1;
+            else if (genome1.getFitness() < genome2.getFitness()) return -1;
             return 0;
         }
     }
