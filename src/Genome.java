@@ -9,7 +9,7 @@ public class Genome
 {
     private int id;
     private Random random;
-    private List<Gene> genome;
+    private String genome = "";
     private float fitness;
 
     /**
@@ -18,10 +18,10 @@ public class Genome
     Genome()
     {
         this.id = -1;
-        genome = new ArrayList<>();
+        genome = "";
         this.random = new Random();
         this.fitness = 0;
-        genome.add(new Gene(1,0,0,0,1));
+        genome = "010000000001";//mov 0 1
 //        generateGenome(-1);
     }
 
@@ -33,7 +33,6 @@ public class Genome
     Genome(Random random, int id)
     {
         this.id = id;
-        genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
         generateGenome(-1);
@@ -48,7 +47,6 @@ public class Genome
     Genome(Random random, int id, int length)
     {
         this.id = id;
-        genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
         generateGenome(length);
@@ -66,11 +64,7 @@ public class Genome
 
     String getGenome()
     {
-        String string = "";
-        for (Gene g:genome) {
-            string += g.toString() + "\n";
-        }
-        return string;
+        return genome;
     }
 
     void setFitness(float fitness)
@@ -91,62 +85,25 @@ public class Genome
     {
         int size = (length == -1)?Constants.DEFAULT_LENGTH:random.nextInt(length)+1;
         for (int i = 0; i < size; i++) {
-            genome.add(new Gene(size));
+            genome+=generateGene(size);
         }
     }
 
     void printGenome()
     {
         System.out.println("Genome ID: "+this.id);
-        for (Gene g:genome) {
-            System.out.println(g.toString());
+        for (int i = 0; i < genome.length()-12; i+=12) {
+            System.out.println(genome.substring(i,i+12));
         }
     }
-
-    public class Gene{
-        private int[] gene;
-
-        Gene(int length)
-        {
-            generateGene(length);
-        }
-
-        //generate a gene with initial conditions
-        Gene(int instruction, int mode1, int param1, int mode2, int param2)
-        {
-            gene = new int[]{instruction,mode1,param1,mode2,param2};
-        }
-
-        void generateGene(int length)
-        {
-            int instruction = random.nextInt(Constants.INSTRUCTION.values().length-1);
-            int mode1 = random.nextInt(Constants.Amodes.length);
-            int param1 = random.nextInt(length - (-length) + 1) + length;
-            int mode2 = random.nextInt(Constants.Bmodes.length);
-            int param2 = random.nextInt(length - (-length) + 1) + length;
-            gene = new int[]{instruction,mode1,param1,mode2,param2};
-        }
-
-        public int[] getGene(){
-            return gene;
-        }
-
-        public String toString()
-        {
-            String result = "";
-            if(Constants.INSTRUCTION.values()[gene[0]].argNum > 0)
-            {
-                result += Constants.INSTRUCTION.values()[gene[0]] + " ";
-                if (Constants.Amodes[gene[1]] == ' ') result += gene[2];
-                else result += Constants.Amodes[gene[1]] + gene[2];
-            }
-            if(Constants.INSTRUCTION.values()[gene[0]].argNum > 1)
-            {
-                if(Constants.Amodes[gene[3]] == ' ') result += ", "+gene[4];
-                else result += ", "+Constants.Bmodes[gene[3]]+gene[4];
-            }
-            return result;
-        }
+    private String generateGene(int length)
+    {
+        int instruction = random.nextInt(Constants.INSTRUCTION.values().length-1);
+        int mode1 = random.nextInt(Constants.Amodes.length);
+        int param1 = random.nextInt(length - (-length) + 1) + length;
+        int mode2 = random.nextInt(Constants.Bmodes.length);
+        int param2 = random.nextInt(length - (-length) + 1) + length;
+        return String.format("%02d%02d%03d%02d%03d",instruction,mode1,param1,mode2,param2);
     }
 
 }
