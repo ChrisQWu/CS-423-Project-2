@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -7,53 +8,61 @@ import java.io.InputStreamReader;
  */
 public class CommandLine
 {
-    static ProcessBuilder builder = new ProcessBuilder(
-        "cmd.exe", "/c", "./pmars warrior.red");
+    private static final String Command ="./pmars ./Warriors_Folder/warrior.red";   //Bash Command
+    private static final String scores = "scores ";
 
     /**
-     * Code from http://stackoverflow.com/questions/15464111/run-cmd-commands-through-java
+     * Code from http://stackoverflow.com/questions/26697916/running-a-bash-command-in-different-directory-from-a-java-program
      *
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception
     {
-        ProcessBuilder builder = new ProcessBuilder(
-            "cmd.exe", "/c", "cd \"C:\\Program Files\\Microsoft SQL Server\" && dir");
-        builder.redirectErrorStream(true);
-        Process p = builder.start();
+        String Command ="./pmars ./Warriors_Folder/warrior.red";   //Bash Command
+        // create a process and execute
+        Process p = Runtime.getRuntime().exec(Command, null, new File("."));
         BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String line;
-        while (true)
+        while ((line = r.readLine()) != null)
         {
-            line = r.readLine();
-            if (line == null)
-            {
-                break;
-            }
             System.out.println(line);
+            int index = line.indexOf("scores ");
+            System.out.println("index: "+index);
+            if(index != -1)
+            {
+                System.out.println(line.substring(index+7));
+            }
         }
     }
 
+    /**
+     *  Calls pmars and get the warrior's fitness score
+     * @return fitness score of warrior.red
+     */
     public static int fitness()
     {
-        builder.redirectErrorStream(true);
-        try
-        {
-            Process p = builder.start();
+        String line;
+        int score=-1;
+        try {
+            // create a process and execute
+            Process p = Runtime.getRuntime().exec(Command, null, new File("."));
             BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-            while ((line = r.readLine()) != null)
-            {
-                System.out.println(line);
+            while ((line = r.readLine()) != null) {
+//                System.out.println(line);
+                score = line.indexOf(scores);
+//                System.out.println("index: " + score);
+                if (score != -1) {
+//                    System.out.println(line.substring(score + 7));
+                    score = Integer.getInteger(line.substring(score + 7));
+                    break;
+                }
             }
-            p.destroy();
         }
-        catch (IOException e)
-        {
+        catch (IOException e){
             e.printStackTrace();
         }
 
-        return 0;
+        return score;
     }
 }

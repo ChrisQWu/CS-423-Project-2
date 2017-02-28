@@ -60,6 +60,17 @@ public class Population {
                 System.out.println("Invalid Selection Mode");
                 break;
         }
+        switch (crossover_mode)
+        {
+            case NO_CROSSOVER:
+                break;
+            case ONE_POINT_CROSSOVER:
+                break;
+            case UNIFORM_CROSSOVER:
+                break;
+            default:
+                break;
+        }
     }
 
     /**
