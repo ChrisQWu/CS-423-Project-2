@@ -1,3 +1,7 @@
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -6,7 +10,7 @@ import java.util.Random;
 public class Genome {
     private int id;
     private Random random;
-    private String genome = "";
+    private List<int[]> genome;
     private float fitness;
 
     /**
@@ -14,10 +18,10 @@ public class Genome {
      */
     Genome() {
         this.id = -1;
-        genome = "";
+        genome = new ArrayList<>();
         this.random = new Random();
         this.fitness = 0;
-        genome = "010000000001";//mov 0 1
+        genome.add(new int[]{1,0,0,0,1});
 //        generateGenome(-1);
     }
 
@@ -56,19 +60,19 @@ public class Genome {
         return id;
     }
 
-    String getGenomeAsString() {
+    List<int[]> getGenome() {
         return genome;
     }
 
     String getGenomeAsCommand() {
         String cmd = "";
-        for (int i = 0; i < genome.length(); i += 12) {
-            int instruction = Integer.parseInt(genome.substring(i, i+2));
-            int mode1 = Integer.parseInt(genome.substring(i+2, i+4));
-            int param1 = Integer.parseInt(genome.substring(i+4, i+7));
-            int mode2 = Integer.parseInt(genome.substring(i+7, i+9));
-            int param2 = Integer.parseInt(genome.substring(i+9, i+12));
-            cmd+=Constants.INSTRUCTION.values()[instruction]+" "+Constants.Amodes[mode1]+param1+", "+Constants.Bmodes[mode2]+param2+"\n";
+        for (int[] i:genome) {
+            int instruction = i[0];
+            int mode1 = i[1];
+            int param1 = i[2];
+            int mode2 = i[3];
+            int param2 = i[4];
+            cmd += Constants.INSTRUCTION.values()[instruction]+" "+Constants.Amodes[mode1]+param1+", "+Constants.Bmodes[mode2]+param2+"\n";
         }
         return cmd;
     }
@@ -89,7 +93,7 @@ public class Genome {
     void generateGenome(int length) {
         int size = (length == -1) ? Constants.DEFAULT_LENGTH : random.nextInt(length) + 1;
         for (int i = 0; i < size; i++) {
-            genome += generateGene(size);
+            genome.add(generateGene(size));
         }
     }
 
@@ -98,13 +102,13 @@ public class Genome {
         System.out.println(getGenomeAsCommand());
     }
 
-    private String generateGene(int length) {
+    private int[] generateGene(int length) {
         int instruction = random.nextInt(Constants.INSTRUCTION.values().length - 1);
         int mode1 = random.nextInt(Constants.Amodes.length);
         int param1 = random.nextInt(2*length) - length;
         int mode2 = random.nextInt(Constants.Bmodes.length);
         int param2 = random.nextInt(2*length) - length;
-        return String.format("%02d%02d%03d%02d%03d", instruction, mode1, param1, mode2, param2);
+        return new int[]{instruction,mode1,param1,mode2,param2};
     }
 
 }
