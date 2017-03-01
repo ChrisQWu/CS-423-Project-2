@@ -6,7 +6,7 @@ import java.io.*;
  */
 public class Warrior {
 
-    private static final String FILENAME = "./Warriors_Folder/warrior.red";
+    private static final String FILENAME = "Warriors_Folder/WARRIOR";
     private static final String OPENING = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
@@ -16,21 +16,21 @@ public class Warrior {
     public static void main(String[] args) throws Exception
     {
         Genome genome = new Genome();
-        makeWarrior(genome);
+        makeWarrior(genome, 1);
     }
 
     /**
      * Takes a genome and prints it to a .red file to be used for pmars
      * @param genome prints out its genes
      */
-    public static void makeWarrior(Genome genome) {
+    public static void makeWarrior(Genome genome, int id) {
 
         BufferedWriter bw = null;
         FileWriter fw = null;
 
         try {
 
-            fw = new FileWriter(FILENAME,false);
+            fw = new FileWriter(FILENAME + id + ".RED",false);
             bw = new BufferedWriter(fw);
             String content = genome.getGenomeAsCommand();
             bw.write(OPENING);

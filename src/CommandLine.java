@@ -8,7 +8,8 @@ import java.io.InputStreamReader;
  */
 public class CommandLine
 {
-    private static final String Command ="./pmars ./Warriors_Folder/warrior.red";   //Bash Command
+    private static final String CommandStart ="./pmars ./Warriors_Folder/WARRIOR";
+    private static final String CommandEnd = ".RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";//Bash Command
     private static final String scores = "scores ";
 
     /**
@@ -19,7 +20,7 @@ public class CommandLine
      */
     public static void main(String[] args) throws Exception
     {
-        String Command ="./pmars ./Warriors_Folder/warrior.red";   //Bash Command
+        String Command ="./pmars ./Warriors_Folder/WARRIOR0.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";   //Bash Command
         // create a process and execute
         Process p = Runtime.getRuntime().exec(Command, null, new File("."));
         BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -40,13 +41,13 @@ public class CommandLine
      *  Calls pmars and get the warrior's fitness score
      * @return fitness score of warrior.red
      */
-    public static float fitness()
+    public static float fitness(int id)
     {
         String line;
         float score=-1;
         try {
             // create a process and execute
-            Process p = Runtime.getRuntime().exec(Command, null, new File("."));
+            Process p = Runtime.getRuntime().exec(CommandStart + id + CommandEnd  , null, new File("."));
             BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
             while ((line = r.readLine()) != null) {
 //                System.out.println(line);

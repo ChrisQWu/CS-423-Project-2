@@ -32,8 +32,8 @@ public class Population {
     private void generatePopulation() {
         for (int i = 0; i < POPULATION_SIZE; i++) {
             Genome genome = new Genome(random, i);
-            Warrior.makeWarrior(genome);
-            float fitness = CommandLine.fitness();
+            Warrior.makeWarrior(genome, i);
+            float fitness = CommandLine.fitness(i);
             if (fitness > 1) {
                 System.out.println("Fitness: " + fitness);
                 genome.printGenome();
@@ -41,6 +41,8 @@ public class Population {
             genome.setFitness(fitness);
             currentpopulation.add(genome);
         }
+
+        
     }
 
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
@@ -168,8 +170,8 @@ public class Population {
      */
     private void evaluatePopulation() {
         for (Genome g : currentpopulation) {
-            Warrior.makeWarrior(g);
-            float fitness = CommandLine.fitness();
+            Warrior.makeWarrior(g, g.getId());
+            float fitness = CommandLine.fitness(g.getId());
             System.out.println("id: " + g.getId() + " fitness: " + fitness);
             g.setFitness(fitness);
         }
