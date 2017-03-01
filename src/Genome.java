@@ -64,6 +64,11 @@ public class Genome {
         return genome;
     }
 
+    int getSize()
+    {
+        return genome.size();
+    }
+
     String getGenomeAsCommand() {
         String cmd = "";
         for (int[] gene:genome) {
