@@ -31,7 +31,7 @@ public class Constants
             EMPTY_CHAR,
 //            '<',        // < indirect with predecrement
             EMPTY_CHAR,
-//            '<',        // > indirect with postdecrement
+//            '>',        // > indirect with postdecrement
             EMPTY_CHAR,
             EMPTY_CHAR,
             EMPTY_CHAR,};
@@ -44,9 +44,9 @@ public class Constants
         MUL("MUL",2),           // multiply (multiplies one number with another)
         DIV("DIV",2),           // divide (divides one number with another)
         MOD("MOD",2),           // modulus (divides one number with another and gives the remainder)
-        JMP("JMP",2),           // jump (continues execution from another address)
-        JMZ("JMZ",2),           // jump if zero (continues execution from another address)
-        JMN("JMN",2),           // jump if not zero (tests a number and jumps if it isn't 0)
+        JMP("JMP",1),           // jump (continues execution from another address)
+        JMZ("JMZ",1),           // jump if zero (continues execution from another address)
+        JMN("JMN",1),           // jump if not zero (tests a number and jumps if it isn't 0)
         DJN("DJN",2),           // decrement and jump if not zero (decrements a number by one and jumps unless the result is 0)
         SPL("SPL",2),           // split (starts an execution thread at another address)
         CMP("CMP",2),           // compare (same as SEQ)
