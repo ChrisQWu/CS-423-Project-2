@@ -21,7 +21,7 @@ public class Genome {
         genome = new ArrayList<>();
         this.random = new Random();
         this.fitness = 0;
-        genome.add(new int[]{1,0,0,0,1});
+        genome.add(new int[]{1, 0, 0, 0, 1});
 //        generateGenome(-1);
     }
 
@@ -64,36 +64,57 @@ public class Genome {
         return genome;
     }
 
-    int getSize()
-    {
+    int getSize() {
         return genome.size();
     }
 
     String getGenomeAsCommand() {
         String cmd = "";
-        for (int[] gene:genome) {
+        for (int[] gene : genome) {
             int instruction = gene[0];
             int mode1 = gene[1];
             int param1 = gene[2];
             int mode2 = gene[3];
             int param2 = gene[4];
-            cmd += Constants.INSTRUCTION.values()[instruction]+" "+Constants.Amodes[mode1]+param1+", "+Constants.Bmodes[mode2]+param2+"\n";
+            cmd += Constants.INSTRUCTION.values()[instruction] + " " + Constants.Amodes[mode1] + param1 + ", " + Constants.Bmodes[mode2] + param2 + "\n";
         }
         return cmd;
     }
 
-    List<int[]> getSubGenome(int beginIdx, int endIdx)
-    {
-        if(beginIdx<0 || endIdx > genome.size()) return null;
-        return genome.subList(beginIdx,endIdx);
+    List<int[]> getSubGenome(int beginIdx, int endIdx) {
+        if (beginIdx < 0 || endIdx > genome.size()) return null;
+        return genome.subList(beginIdx, endIdx);
     }
 
-    void mutate(double mutationRate)
-    {
-        for (int[] gene:genome) {
-            double mutate = random.nextDouble()*mutationRate;
-
+    void mutateGenome(double mutationRate) {
+        double typeOfMutation = random.nextDouble();
+        if (genome.size() > 1) {
+            if (typeOfMutation <= 1 / 3.0) {
+                removeGenes();
+            } else if (typeOfMutation <= 2 / 3.0) {
+                addGenes();
+            } else {
+                changeGenes();
+            }
+        } else {
+            if (typeOfMutation <= 1 / 2.0) {
+                addGenes();
+            } else {
+                changeGenes();
+            }
         }
+    }
+
+    void removeGenes() {
+        genome.remove(random.nextInt(genome.size()));
+    }
+
+    void addGenes() {
+        genome.add(random.nextInt(genome.size()), generateGene(genome.size()));
+    }
+
+    void changeGenes() {
+
     }
 
     void setFitness(float fitness) {
@@ -124,10 +145,10 @@ public class Genome {
     private int[] generateGene(int length) {
         int instruction = random.nextInt(Constants.INSTRUCTION.values().length - 1);
         int mode1 = random.nextInt(Constants.Amodes.length);
-        int param1 = random.nextInt(2*length) - length;
+        int param1 = random.nextInt(2 * length) - length;
         int mode2 = random.nextInt(Constants.Bmodes.length);
-        int param2 = random.nextInt(2*length) - length;
-        return new int[]{instruction,mode1,param1,mode2,param2};
+        int param2 = random.nextInt(2 * length) - length;
+        return new int[]{instruction, mode1, param1, mode2, param2};
     }
 
 }
