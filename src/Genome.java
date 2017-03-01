@@ -33,6 +33,7 @@ public class Genome {
      */
     Genome(Random random, int id) {
         this.id = id;
+        genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
         generateGenome(-1);
@@ -47,6 +48,7 @@ public class Genome {
      */
     Genome(Random random, int id, int length) {
         this.id = id;
+        genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
         generateGenome(length);
