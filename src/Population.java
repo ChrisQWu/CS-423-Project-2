@@ -9,14 +9,18 @@ public class Population {
     private final Random random = new Random();
     private PriorityQueue<Genome> currentpopulation;
     private Comparator<Genome> fitnessComparator;
+    private double crossoverRate;
+    private double mutatationRate;
 
     Population() {
         this.POPULATION_SIZE = 1000;
-        new Population(POPULATION_SIZE);
+        new Population(POPULATION_SIZE, 0.1, 0.001);
     }
 
-    Population(int POPULATION_SIZE) {
+    Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
         this.POPULATION_SIZE = POPULATION_SIZE;
+        this.crossoverRate = crossoverRate;
+        this.mutatationRate = mutatationRate;
         fitnessComparator = new FitnessComparator();
         currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
         generatePopulation();
@@ -65,6 +69,7 @@ public class Population {
             default:
                 break;
         }
+        mutatePopulation();
     }
 
     /**
@@ -95,7 +100,8 @@ public class Population {
         for (int i = 0; i < POPULATION_SIZE; i++) {
             float rand = random.nextFloat()*fitness;
             for (Genome g:currentpopulation) {
-                if(g.getFitness() < rand){
+                rand -= g.getFitness();
+                if(rand <= 0){
                     winners.add(g);
                     break;
                 }
@@ -108,6 +114,15 @@ public class Population {
 
     private void selectTournament() {
 
+    }
+
+
+
+    private void mutatePopulation()
+    {
+        for (Genome g:currentpopulation) {
+
+        }
     }
 
     /**

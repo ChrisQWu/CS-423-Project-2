@@ -66,15 +66,29 @@ public class Genome {
 
     String getGenomeAsCommand() {
         String cmd = "";
-        for (int[] i:genome) {
-            int instruction = i[0];
-            int mode1 = i[1];
-            int param1 = i[2];
-            int mode2 = i[3];
-            int param2 = i[4];
+        for (int[] gene:genome) {
+            int instruction = gene[0];
+            int mode1 = gene[1];
+            int param1 = gene[2];
+            int mode2 = gene[3];
+            int param2 = gene[4];
             cmd += Constants.INSTRUCTION.values()[instruction]+" "+Constants.Amodes[mode1]+param1+", "+Constants.Bmodes[mode2]+param2+"\n";
         }
         return cmd;
+    }
+
+    List<int[]> getSubGenome(int beginIdx, int endIdx)
+    {
+        if(beginIdx<0 || endIdx > genome.size()) return null;
+        return genome.subList(beginIdx,endIdx);
+    }
+
+    void mutate(double mutationRate)
+    {
+        for (int[] gene:genome) {
+            double mutate = random.nextDouble()*mutationRate;
+
+        }
     }
 
     void setFitness(float fitness) {
