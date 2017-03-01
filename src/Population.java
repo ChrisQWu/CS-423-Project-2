@@ -63,13 +63,52 @@ public class Population {
             case NO_CROSSOVER:
                 break;
             case ONE_POINT_CROSSOVER:
+                onePointCrossover();
                 break;
             case UNIFORM_CROSSOVER:
+                uniformCrossover();
                 break;
             default:
                 break;
         }
-        mutatePopulation();
+    }
+
+    private void onePointCrossover() {
+        List<Genome> producedTop = new ArrayList<>();
+        int length;
+        List<int[]> g1, g2;
+        Genome child1, child2;
+        //Combines the genomes based on one-point crossover
+        for (int i = 0; i < currentpopulation.size(); i += 2) {
+            child1 = currentpopulation.poll();
+            child2 = currentpopulation.poll();
+            g1 = child1.getGenome();
+            g2 = child2.getGenome();
+            length = g1.size();
+            if (g2.size() < length) length = g2.size();
+            for (int j = 0; j < length; j++) {
+                //If the random is within 1 = crossover rate it undergoes crossover
+                if (random.nextDouble() > (1.0 - crossoverRate)) {
+                    //switches the commands after the crossover point
+                    for (int k = length - j; k < length; k++) {
+                        int[] holder1, holder2;
+                        holder1 = g1.get(k);
+                        holder2 = g2.get(k);
+                        g1.set(k, holder2);
+                        g2.set(k, holder1);
+                    }
+                    break;
+                }
+            }
+            producedTop.add(child1);
+            producedTop.add(child2);
+        }
+        //Adds the children if they underwent crossover or not
+        currentpopulation.addAll(producedTop);
+    }
+
+    private void uniformCrossover() {
+
     }
 
     /**
@@ -115,7 +154,6 @@ public class Population {
     private void selectTournament() {
 
     }
-
 
 
     private void mutatePopulation()
