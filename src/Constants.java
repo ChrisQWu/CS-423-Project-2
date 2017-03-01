@@ -31,7 +31,7 @@ public class Constants
             EMPTY_CHAR,
 //            '<',        // < indirect with predecrement
             EMPTY_CHAR,
-//            '<',        // > indirect with postdecrement
+//            '>',        // > indirect with postdecrement
             EMPTY_CHAR,
             EMPTY_CHAR,
             EMPTY_CHAR,};
