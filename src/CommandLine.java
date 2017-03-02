@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 public class CommandLine
 {
     private static final String CommandStart ="./pmars ./Warriors_Folder/WARRIOR";
-    private static final String CommandEnd = ".RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";//Bash Command
+    private static final String File = "./Wariors_Folder/WARRIOR";
     private static final String scores = "scores ";
 
     /**
@@ -47,14 +47,14 @@ public class CommandLine
         float score=-1;
         try {
             // create a process and execute
-            Process p = Runtime.getRuntime().exec(CommandStart + id + CommandEnd  , null, new File("."));
+            Process p = Runtime.getRuntime().exec(CommandStart + id + ".RED", null, new File("."));
             BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
             while ((line = r.readLine()) != null) {
 //                System.out.println(line);
                 score = line.indexOf(scores);
 //                System.out.println("index: " + score);
                 if (score != -1) {
-//                    System.out.println(line.substring(score + 7));
+                    //System.out.println(line.substring((int)score + 7));
                     score = Float.parseFloat(line.substring((int)score + 7));
                     break;
                 }

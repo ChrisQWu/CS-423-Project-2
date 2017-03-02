@@ -14,7 +14,7 @@ public class Population {
 
     Population() {
         this.POPULATION_SIZE = 1000;
-        new Population(POPULATION_SIZE, 0.1, 0.001);
+        new Population(POPULATION_SIZE, 0.2, 0.01);
     }
 
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
@@ -24,6 +24,7 @@ public class Population {
         fitnessComparator = new FitnessComparator();
         currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
         generatePopulation();
+        runGeneticAlgorithm(100, false);
     }
 
     /**
@@ -42,11 +43,41 @@ public class Population {
             currentpopulation.add(genome);
         }
 
-        
+    }
+
+    /**
+     * This will implement the genetic algorithm by running iterations over time using selection,
+     * crossovers, and mutations
+     *
+     * @param iterations number of iterations
+     */
+    private void runGeneticAlgorithm(int iterations, boolean showTopThree)
+    {
+        for(int i = 0; i < iterations; i++)
+        {
+            generateNewPopulation(Constants.SELECTION_MODE.RANDOM,
+                                  Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                                  Constants.MUTATION_MODE.MUTATION);
+        }
+
+        if(showTopThree)
+        {
+            Genome g1 = currentpopulation.poll();
+            Genome g2 = currentpopulation.poll();
+            Genome g3 = currentpopulation.poll();
+
+            System.out.println("Fitness" + g1.getFitness());
+            g1.printGenome();
+            System.out.println("Fitness" + g2.getFitness());
+            g2.printGenome();
+            System.out.println("Fitness" + g3.getFitness());
+            g3.printGenome();
+        }
     }
 
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
-                                       Constants.CROSSOVER_MODE crossover_mode) {
+                                       Constants.CROSSOVER_MODE crossover_mode,
+                                       Constants.MUTATION_MODE mutation_mode) {
         switch (selection_mode) {
             case RANDOM:
                 selectRandom();
@@ -73,15 +104,27 @@ public class Population {
             default:
                 break;
         }
+        switch (mutation_mode){
+            case MUTATION:
+                mutatePopulation();
+                break;
+            case NO_MUTATION:
+                break;
+            default:
+                break;
+        }
+
+        evaluatePopulation();
     }
 
     private void onePointCrossover() {
         List<Genome> producedTop = new ArrayList<>();
-        int length;
+        int length, populationSize;
         List<int[]> g1, g2;
         Genome child1, child2;
+        populationSize = currentpopulation.size();
         //Combines the genomes based on one-point crossover
-        for (int i = 0; i < currentpopulation.size(); i += 2) {
+        for (int i = 0; i < populationSize; i += 2) {
             child1 = currentpopulation.poll();
             child2 = currentpopulation.poll();
             g1 = child1.getGenome();
@@ -91,6 +134,7 @@ public class Population {
             for (int j = 0; j < length; j++) {
                 //If the random is within 1 = crossover rate it undergoes crossover
                 if (random.nextDouble() > (1.0 - crossoverRate)) {
+                    //System.out.println("Crossover:" + child1.getId() + "," + child2.getId());
                     //switches the commands after the crossover point
                     for (int k = length - j; k < length; k++) {
                         int[] holder1, holder2;
@@ -118,10 +162,17 @@ public class Population {
      */
     private void selectRandom() {
         List<Genome> topPercent = new ArrayList<>();
-        int top = POPULATION_SIZE - (int) (POPULATION_SIZE * (0.75));
+        int populationSize = currentpopulation.size();
+        int top = populationSize - (int) (populationSize * (0.75));
         for (int i = 0; i < top; i++) {
             Genome g = currentpopulation.poll();
             topPercent.add(g);//save the good ones
+        }
+        //Deletes the warriors from warrior_folder
+        populationSize = currentpopulation.size();
+        for(int i = 0; i < populationSize; i++)
+        {
+            Warrior.deleteWarrior(currentpopulation.poll().getId());
         }
         currentpopulation.clear();//remove all of the lower fit genomes
         currentpopulation.addAll(topPercent);//put in the fit genomes back
@@ -160,9 +211,21 @@ public class Population {
 
     private void mutatePopulation()
     {
-        for (Genome g:currentpopulation) {
-
+        List<Genome> holder = new ArrayList<>();
+        int populationSize = currentpopulation.size();
+        for(int j = 0; j < populationSize; j++)
+        {
+            Double r = random.nextDouble();
+            Genome g = currentpopulation.poll();
+            if(r > 1.0 - mutatationRate)
+            {
+                //System.out.println("Mutating" + g.getId());
+                g.mutateGenome();
+            }
+            holder.add(g);
         }
+        currentpopulation.clear();
+        currentpopulation.addAll(holder);
     }
 
     /**
@@ -172,7 +235,7 @@ public class Population {
         for (Genome g : currentpopulation) {
             Warrior.makeWarrior(g, g.getId());
             float fitness = CommandLine.fitness(g.getId());
-            System.out.println("id: " + g.getId() + " fitness: " + fitness);
+            //System.out.println("id: " + g.getId() + " fitness: " + fitness);
             g.setFitness(fitness);
         }
     }

@@ -88,7 +88,7 @@ public class Genome {
         return genome.subList(beginIdx, endIdx);
     }
 
-    void mutateGenome(double mutationRate) {
+    void mutateGenome() {
         double typeOfMutation = random.nextDouble();
         if (genome.size() > 1) {
             if (typeOfMutation <= 1 / 3.0) {

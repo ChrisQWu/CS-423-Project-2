@@ -77,6 +77,11 @@ public class Constants
         }
     }
 
+    public enum MUTATION_MODE{
+        MUTATION,
+        NO_MUTATION
+    }
+
     public enum SELECTION_MODE{
         ROULETTE,       //
         TOURNAMENT,     //
