@@ -123,45 +123,50 @@ public class Population {
     }
 
     private void onePointCrossover() {
-        List<Genome> producedTop = new ArrayList<>();
-        int length, populationSize;
-        List<int[]> g1, g2;
-        Genome child1, child2;
-        populationSize = currentpopulation.size();
-        //Combines the genomes based on one-point crossover
-        for (int i = 0; i < populationSize; i += 2) {
-            child1 = currentpopulation.poll();
-            child2 = currentpopulation.poll();
-            g1 = child1.getGenome();
-            g2 = child2.getGenome();
-            length = g1.size();
-            if (g2.size() < length) length = g2.size();
-            for (int j = 0; j < length; j++) {
-                //If the random is within 1 - crossover rate it undergoes crossover
-                if (random.nextDouble() > (1.0 - crossoverRate)) {
-                    //System.out.println("Crossover:" + child1.getId() + "," + child2.getId());
-                    //switches the commands after the crossover point
-                    if(g1.size() == 1 && g2.size() == 1)
-                    {
-                        g1.add(g2.get(0));
-                        g2.add(g1.get(0));
+        int populationSize = currentpopulation.size();
+        if(populationSize > 1) {
+            List<Genome> producedTop = new ArrayList<>();
+            int length;
+            List<int[]> g1, g2;
+            Genome child1, child2;
+
+            //Combines the genomes based on one-point crossover
+            for (int i = 0; i < populationSize; i += 2) {
+                child1 = currentpopulation.poll();
+                child2 = currentpopulation.poll();
+                g1 = child1.getGenome();
+                g2 = child2.getGenome();
+                length = g1.size();
+                if (g2.size() < length) length = g2.size();
+                for (int j = 0; j < length; j++) {
+                    //If the random is within 1 - crossover rate it undergoes crossover
+                    if (random.nextDouble() > (1.0 - crossoverRate)) {
+                        //System.out.println("Crossover:" + child1.getId() + "," + child2.getId());
+                        //switches the commands after the crossover point
+                        if (g1.size() == 1 && g2.size() == 1) {
+                            g1.add(g2.get(0));
+                            g2.add(g1.get(0));
+                            break;
+                        }
+                        for (int k = length - j; k < length; k++) {
+                            int[] holder1, holder2;
+                            holder1 = g1.get(k);
+                            holder2 = g2.get(k);
+                            g1.set(k, holder2);
+                            g2.set(k, holder1);
+                        }
                         break;
                     }
-                    for (int k = length - j; k < length; k++) {
-                        int[] holder1, holder2;
-                        holder1 = g1.get(k);
-                        holder2 = g2.get(k);
-                        g1.set(k, holder2);
-                        g2.set(k, holder1);
-                    }
-                    break;
                 }
+                producedTop.add(child1);
+                producedTop.add(child2);
             }
-            producedTop.add(child1);
-            producedTop.add(child2);
+            //Adds the children if they underwent crossover or not
+            currentpopulation.addAll(producedTop);
         }
-        //Adds the children if they underwent crossover or not
-        currentpopulation.addAll(producedTop);
+        else{
+            System.out.println("Not enough to crossover");
+        }
     }
 
     private void uniformCrossover() {
