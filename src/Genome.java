@@ -21,8 +21,7 @@ public class Genome {
         genome = new ArrayList<>();
         this.random = new Random();
         this.fitness = 0;
-        genome.add(new int[]{1, 0, 0, 0, 1});
-//        generateGenome(-1);
+        genome.add(new int[]{1, 0, 0, 0, 1});//generates a genome with MOV 0 1
     }
 
     /**
@@ -36,7 +35,7 @@ public class Genome {
         genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
-        generateGenome(-1);
+        generateGenome(-1);//default genome generation
     }
 
     /**
@@ -51,7 +50,7 @@ public class Genome {
         genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
-        generateGenome(length);
+        generateGenome(length);//genome with a cap
     }
 
     void setId(int id) {
@@ -89,6 +88,9 @@ public class Genome {
         return genome.subList(beginIdx, endIdx);
     }
 
+    /**
+     * Uniform genome modification
+     */
     void mutateGenome() {
         double typeOfMutation = random.nextDouble();
         if (genome.size() > 1) {
@@ -99,7 +101,7 @@ public class Genome {
             } else {
                 changeGenes();
             }
-        } else {
+        } else {//if there is only 1 genome, don't allow removal
             if (typeOfMutation <= 1 / 2.0) {
                 addGenes();
             } else {
@@ -108,16 +110,31 @@ public class Genome {
         }
     }
 
+    /**
+     * Randomly remove 1 genome
+     */
     void removeGenes() {
         genome.remove(random.nextInt(genome.size()));
     }
 
+    /**
+     * randomly insert a new genome
+     */
     void addGenes() {
         genome.add(random.nextInt(genome.size()), generateGene(genome.size()));
     }
 
+    /**
+     * randomly get a gene from a genome and replace it with new values
+     */
     void changeGenes() {
-
+        int length = genome.size();
+        int instruction = random.nextInt(Constants.INSTRUCTION.values().length - 1);
+        int mode1 = random.nextInt(Constants.Amodes.length);
+        int param1 = random.nextInt(2 * length) - length;
+        int mode2 = random.nextInt(Constants.Bmodes.length);
+        int param2 = random.nextInt(2 * length) - length;
+        genome.set(random.nextInt(genome.size()),new int[]{instruction,mode1,param1,mode2,param2});
     }
 
     void setFitness(float fitness) {
@@ -140,11 +157,19 @@ public class Genome {
         }
     }
 
+    /**
+     * Print the Genome id and as a command
+     */
     void printGenome() {
         System.out.println("Genome ID: " + this.id);
         System.out.println(getGenomeAsCommand());
     }
 
+    /**
+     * Randomly generate a gene represented as {instruction number, A address mode, param1, B address mode, param 2}
+     * @param length bound for the gene
+     * @return an int representation of a gene
+     */
     private int[] generateGene(int length) {
         int instruction = random.nextInt(Constants.INSTRUCTION.values().length - 1);
         int mode1 = random.nextInt(Constants.Amodes.length);

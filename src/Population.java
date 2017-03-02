@@ -8,6 +8,7 @@ public class Population {
     private final int POPULATION_SIZE;
     private final Random random = new Random();
     private PriorityQueue<Genome> currentpopulation;
+    private List<Genome> elites = new ArrayList<>();
     private Comparator<Genome> fitnessComparator;
     private double crossoverRate;
     private double mutatationRate;
@@ -70,6 +71,7 @@ public class Population {
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
                                        Constants.CROSSOVER_MODE crossover_mode,
                                        Constants.MUTATION_MODE mutation_mode) {
+        elitism();
         switch (selection_mode) {
             case RANDOM:
                 selectRandom();
@@ -84,6 +86,8 @@ public class Population {
                 System.out.println("Invalid Selection Mode");
                 break;
         }
+        currentpopulation.addAll(elites);
+        elites.clear();
         switch (crossover_mode) {
             case NO_CROSSOVER:
                 break;
@@ -107,6 +111,15 @@ public class Population {
         }
 
         evaluatePopulation();
+    }
+
+
+    private void elitism()
+    {
+        int topPercent = (int)(currentpopulation.size()*Constants.ELITISM);
+        for (int i = 0; i < topPercent; i++) {
+            elites.add(currentpopulation.poll());
+        }
     }
 
     private void onePointCrossover() {
