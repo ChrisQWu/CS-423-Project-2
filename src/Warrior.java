@@ -20,6 +20,26 @@ public class Warrior {
     }
 
     /**
+     * Will be used to deleted the redcode warriors from the Warriors_folder as they
+     * are removed through evolution.
+     *
+     * @param id id of the warrior
+     */
+    public static void deleteWarrior(int id)
+    {
+        File f = new File("FILENAME" + id + ".RED");
+        if(f.exists())
+        {
+            //System.out.println("exists");
+        }
+        if(f.delete()){
+            //System.out.println("Deleted" + id);
+        }else {
+            //System.out.println("Not Deleted");
+        }
+    }
+
+    /**
      * Takes a genome and prints it to a .red file to be used for pmars
      * @param genome prints out its genes
      */
