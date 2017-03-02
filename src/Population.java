@@ -24,7 +24,7 @@ public class Population {
         fitnessComparator = new FitnessComparator();
         currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
         generatePopulation();
-        runGeneticAlgorithm(100, false);
+        runGeneticAlgorithm();
     }
 
     /**
@@ -48,31 +48,23 @@ public class Population {
     /**
      * This will implement the genetic algorithm by running iterations over time using selection,
      * crossovers, and mutations
-     *
-     * @param iterations number of iterations
+
      */
-    private void runGeneticAlgorithm(int iterations, boolean showTopThree)
+    private void runGeneticAlgorithm()
     {
-        for(int i = 0; i < iterations; i++)
+        while(currentpopulation.size() > 2)
         {
             generateNewPopulation(Constants.SELECTION_MODE.RANDOM,
                                   Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                                   Constants.MUTATION_MODE.MUTATION);
         }
 
-        if(showTopThree)
-        {
-            Genome g1 = currentpopulation.poll();
-            Genome g2 = currentpopulation.poll();
-            Genome g3 = currentpopulation.poll();
-
-            System.out.println("Fitness" + g1.getFitness());
-            g1.printGenome();
-            System.out.println("Fitness" + g2.getFitness());
-            g2.printGenome();
-            System.out.println("Fitness" + g3.getFitness());
-            g3.printGenome();
-        }
+        Genome g1 = currentpopulation.poll();
+        Genome g2 = currentpopulation.poll();
+        System.out.println("Fitness" + g1.getFitness());
+        g1.printGenome();
+        System.out.println("Fitness" + g2.getFitness());
+        g2.printGenome();
     }
 
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
@@ -132,10 +124,16 @@ public class Population {
             length = g1.size();
             if (g2.size() < length) length = g2.size();
             for (int j = 0; j < length; j++) {
-                //If the random is within 1 = crossover rate it undergoes crossover
+                //If the random is within 1 - crossover rate it undergoes crossover
                 if (random.nextDouble() > (1.0 - crossoverRate)) {
                     //System.out.println("Crossover:" + child1.getId() + "," + child2.getId());
                     //switches the commands after the crossover point
+                    if(g1.size() == 1 && g2.size() == 1)
+                    {
+                        g1.add(g2.get(0));
+                        g2.add(g1.get(0));
+                        break;
+                    }
                     for (int k = length - j; k < length; k++) {
                         int[] holder1, holder2;
                         holder1 = g1.get(k);
@@ -204,8 +202,14 @@ public class Population {
 
     }
 
+    //THis will include crossover for now but can be absracted later
     private void selectTournament() {
+        int populationSize = currentpopulation.size();
 
+        for(int i = 0; i < populationSize/2; i+=2)
+        {
+
+        }
     }
 
 

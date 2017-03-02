@@ -62,6 +62,7 @@ public class Genome {
         return id;
     }
 
+
     List<int[]> getGenome() {
         return genome;
     }
