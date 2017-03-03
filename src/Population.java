@@ -34,8 +34,8 @@ public class Population {
     private void generatePopulation() {
         for (int i = 0; i < POPULATION_SIZE; i++) {
             Genome genome = new Genome(random, i);
-            Warrior.makeWarrior(genome, i);
-            float fitness = CommandLine.fitness(i);
+            Warrior.makeWarrior(genome);
+            float fitness = CommandLine.fitness();
             if (fitness > 1) {
                 System.out.println("Fitness: " + fitness);
                 genome.printGenome();
@@ -56,8 +56,8 @@ public class Population {
         while(currentpopulation.size() > 2)
         {
             generateNewPopulation(Constants.SELECTION_MODE.RANDOM,
-                                  Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                                  Constants.MUTATION_MODE.MUTATION);
+                    Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                    Constants.MUTATION_MODE.MUTATION);
         }
 
         Genome g1 = currentpopulation.poll();
@@ -179,12 +179,6 @@ public class Population {
             Genome g = currentpopulation.poll();
             topPercent.add(g);//save the good ones
         }
-        //Deletes the warriors from warrior_folder
-        populationSize = currentpopulation.size();
-        for(int i = 0; i < populationSize; i++)
-        {
-            Warrior.deleteWarrior(currentpopulation.poll().getId());
-        }
         currentpopulation.clear();//remove all of the lower fit genomes
         currentpopulation.addAll(topPercent);//put in the fit genomes back
         for (int i = top; i < POPULATION_SIZE; i++) {
@@ -250,8 +244,8 @@ public class Population {
      */
     private void evaluatePopulation() {
         for (Genome g : currentpopulation) {
-            Warrior.makeWarrior(g, g.getId());
-            float fitness = CommandLine.fitness(g.getId());
+            Warrior.makeWarrior(g);
+            float fitness = CommandLine.fitness();
             //System.out.println("id: " + g.getId() + " fitness: " + fitness);
             g.setFitness(fitness);
         }
