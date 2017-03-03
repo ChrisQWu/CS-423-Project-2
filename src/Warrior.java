@@ -6,7 +6,7 @@ import java.io.*;
  */
 public class Warrior {
 
-    private static final String FILENAME = "Warriors_Folder/WARRIOR";
+    private static final String FILENAME = "Warriors_Folder/WARRIOR.RED";
     private static final String OPENING = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
@@ -16,41 +16,21 @@ public class Warrior {
     public static void main(String[] args) throws Exception
     {
         Genome genome = new Genome();
-        makeWarrior(genome, 1);
-    }
-
-    /**
-     * Will be used to deleted the redcode warriors from the Warriors_folder as they
-     * are removed through evolution.
-     *
-     * @param id id of the warrior
-     */
-    public static void deleteWarrior(int id)
-    {
-        File f = new File("FILENAME" + id + ".RED");
-        if(f.exists())
-        {
-            //System.out.println("exists");
-        }
-        if(f.delete()){
-            //System.out.println("Deleted" + id);
-        }else {
-            //System.out.println("Not Deleted");
-        }
+        makeWarrior(genome);
     }
 
     /**
      * Takes a genome and prints it to a .red file to be used for pmars
      * @param genome prints out its genes
      */
-    public static void makeWarrior(Genome genome, int id) {
+    public static void makeWarrior(Genome genome) {
 
         BufferedWriter bw = null;
         FileWriter fw = null;
 
         try {
 
-            fw = new FileWriter(FILENAME + id + ".RED",false);
+            fw = new FileWriter(FILENAME ,false);
             bw = new BufferedWriter(fw);
             String content = genome.getGenomeAsCommand();
             bw.write(OPENING);

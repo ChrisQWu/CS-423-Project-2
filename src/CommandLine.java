@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
  */
 public class CommandLine
 {
-    private static final String CommandStart ="./pmars ./Warriors_Folder/WARRIOR";
+    private static final String Command ="./pmars ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED";
     private static final String File = "./Wariors_Folder/WARRIOR";
     private static final String scores = "scores ";
 
@@ -20,7 +20,7 @@ public class CommandLine
      */
     public static void main(String[] args) throws Exception
     {
-        String Command ="./pmars ./Warriors_Folder/WARRIOR0.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";   //Bash Command
+        String Command ="./pmars ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";   //Bash Command
         // create a process and execute
         Process p = Runtime.getRuntime().exec(Command, null, new File("."));
         BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -41,24 +41,27 @@ public class CommandLine
      *  Calls pmars and get the warrior's fitness score
      * @return fitness score of warrior.red
      */
-    public static float fitness(int id)
+    public static float fitness()
     {
         String line;
         float score=-1;
         try {
-            // create a process and execute
-            Process p = Runtime.getRuntime().exec(CommandStart + id + ".RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED" , null, new File("."));
-            BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            while ((line = r.readLine()) != null) {
+            for(int i = 0; i < 10; i++) {
+                // create a process and execute
+                Process p = Runtime.getRuntime().exec(Command, null, new File("."));
+                BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                while ((line = r.readLine()) != null) {
 //                System.out.println(line);
-                score = line.indexOf(scores);
+                    score += line.indexOf(scores);
 //                System.out.println("index: " + score);
-                if (score != -1) {
-                    //System.out.println(line.substring((int)score + 7));
-                    score = Float.parseFloat(line.substring((int)score + 7));
-                    break;
+                    if (score != -1) {
+                        //System.out.println(line.substring((int)score + 7));
+                        score = Float.parseFloat(line.substring((int) score + 7));
+                        break;
+                    }
                 }
             }
+            score /= 10;
         }
         catch (IOException e){
             e.printStackTrace();

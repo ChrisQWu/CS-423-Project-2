@@ -66,6 +66,8 @@ public class Genome {
         return genome;
     }
 
+    void setGenome(List<int[]>  g) { genome = g; }
+
     int getSize() {
         return genome.size();
     }
