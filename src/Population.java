@@ -15,8 +15,7 @@ public class Population {
     private Comparator<Genome> fitnessComparator;
     private double crossoverRate;
     private double mutatationRate;
-    private int currentId;
-    private int crossOversForIteration;
+    private List<Genome> toRemove = new ArrayList<>();
     private Constants.SELECTION_MODE selection_mode;
     private Constants.CROSSOVER_MODE crossover_mode;
     private Constants.MUTATION_MODE mutation_mode;
@@ -45,7 +44,6 @@ public class Population {
         this.POPULATION_SIZE = POPULATION_SIZE;
         this.crossoverRate = crossoverRate;
         this.mutatationRate = mutatationRate;
-        this.currentId = POPULATION_SIZE;
         this.selection_mode = selection_mode;
         this.crossover_mode = crossover_mode;
         this.mutation_mode = mutation_mode;
@@ -82,9 +80,9 @@ public class Population {
     {
         for(int i = 0; i < iterations; i++)
         {
-            generateNewPopulation(selection_mode,
-                    crossover_mode,
-                    mutation_mode);
+            generateNewPopulation(Constants.SELECTION_MODE.ROULETTE,
+                    Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                    Constants.MUTATION_MODE.MUTATION);
         }
 
         evaluatePopulation();
@@ -109,9 +107,8 @@ public class Population {
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
                                        Constants.CROSSOVER_MODE crossover_mode,
                                        Constants.MUTATION_MODE mutation_mode) {
-        crossOversForIteration = 0;
         List<Genome> selected = new ArrayList<>();
-        elitism();
+        List<Genome> toAdd = new ArrayList<>();
 
         switch (selection_mode) {
             case RANDOM:
@@ -128,21 +125,21 @@ public class Population {
                 break;
         }
 
-        selected.addAll(elites);
-
         switch (crossover_mode) {
             case NO_CROSSOVER:
                 break;
             case ONE_POINT_CROSSOVER:
-                onePointCrossover(selected);
+                toAdd = onePointCrossover(selected);
                 break;
             case UNIFORM_CROSSOVER:
-                uniformCrossover(selected);
+                toAdd = uniformCrossover(selected);
                 break;
             default:
                 System.out.println("Invalid Crossover Mode");
                 break;
         }
+
+        elitism();
 
         switch (mutation_mode){
             case MUTATION:
@@ -157,26 +154,16 @@ public class Population {
 
         currentpopulation.addAll(elites);
         elites.clear();
+        removeParents();
+        toRemove.clear();
+        currentpopulation.addAll(toAdd);
         System.out.println("Current Population: " + currentpopulation.size());
         evaluatePopulation();
-        //removeWorst(crossOversForIteration);
     }
 
-    private void removeWorst(int numToRemove)
+    private void removeParents()
     {
-        System.out.println("Removing: " + numToRemove);
-        int i = 0;
-        List<Genome> toRemove = new ArrayList<>();
-
-        for(Genome g : currentpopulation)
-        {
-            if(i >= POPULATION_SIZE - numToRemove)
-            {
-                toRemove.add(g);
-            }
-            i++;
-        }
-
+        System.out.println("toRemove:" + toRemove.size());
         while(toRemove.size() > 0)
         {
             currentpopulation.remove(toRemove.remove(0));
@@ -191,39 +178,29 @@ public class Population {
         }
     }
 
-    private void onePointCrossover(List<Genome> selection) {
+    private List<Genome> onePointCrossover(List<Genome> selection) {
+        List<Genome> toAdd = new ArrayList<>();
         int length, selectionSize;
-        boolean odd = false;
         List<int[]> g1, g2;
-        Genome child1 = null, child2 = null;
         selectionSize = selection.size();
+        Genome child1 = null, child2 = null;
 
         if(selectionSize % 2 != 0)
         {
-            odd = true;
+            toAdd.add(selection.remove(selectionSize - 1));
+            selectionSize--;
         }
 
-        if(selectionSize == 1)
-        {
-            return;
-        }
-
+        toRemove.addAll(selection);
         System.out.println("Selection Size:" + selectionSize);
 
         //Combines the genomes based on one-point crossover
         for(int i = 0; i < selectionSize; i+=2)
         {
-            if(odd && i >= selectionSize - 2)
-            {
-                child2 = selection.remove(0);
-            }
-            else
-            {
-                child1 = selection.remove(0);
-                child2 = selection.remove(0);
-            }
-
-            crossOversForIteration++;
+            child1 = selection.remove(0);
+            child2 = selection.remove(0);
+            child1.setFitness(0);
+            child2.setFitness(0);
             g1 = child1.getGenome();
             g2 = child2.getGenome();
 
@@ -253,14 +230,17 @@ public class Population {
             {
                 child2.setGenome(g2);
             }
-            currentpopulation.add(child1);
-            currentpopulation.add(child2);
+            toAdd.add(child1);
+            toAdd.add(child2);
         }
 
+        return toAdd;
     }
 
-    private void uniformCrossover(List<Genome> selected) {
+    private List<Genome> uniformCrossover(List<Genome> selected) {
+        List<Genome> toAdd = new ArrayList<>();
 
+        return toAdd;
     }
 
     //Random chance of a genome getting chosen for crossover, probably wont use.

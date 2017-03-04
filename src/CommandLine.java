@@ -15,8 +15,8 @@ public class CommandLine
     /**
      * Code from http://stackoverflow.com/questions/26697916/running-a-bash-command-in-different-directory-from-a-java-program
      *
-     * @param args
-     * @throws Exception
+     * @param args aguments
+     * @throws Exception IOException
      */
     public static void main(String[] args) throws Exception
     {
@@ -44,7 +44,7 @@ public class CommandLine
     public static float fitness()
     {
         String line;
-        float score=-1, totalScore=0;
+        float score=-1;
         try {
                 // create a process and execute
                 Process p = Runtime.getRuntime().exec(Command, null, new File("."));
