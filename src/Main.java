@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Created by thebaker on 2/24/17.
@@ -12,16 +15,38 @@ public class Main {
 
     public Main()
     {
-        new Population();
+        (new Population()).start();
 
     }
 
+    /**
+     * Sets up the islands and evenly distributes the total population across each island.
+     * Then runs each island for 10 iterations.
+     * Then takes the all the islands, and redistributes the population back on the islands.
+     * For now the redistribution will be the first island with all of the best, the second island with the next
+     *  interval best, and etc.
+     */
     private void island()
     {
-        int population_Size = 100;
-        Population[] islands = new Population[3];
-        for (Population p:islands) {
+        int island_number = 10;
+        int total_population = 1000;
+        int population_size = total_population/island_number;
+        Population[] islands = new Population[island_number];
 
+        for (Population p:islands){//initialize all islands with their own population objects
+            p = new Population(population_size, 0.5, 0.0001,
+            Constants.SELECTION_MODE.ROULETTE,
+            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+            Constants.MUTATION_MODE.MUTATION);
+            p.start(10);
         }
+
+        PriorityQueue<Genome> seeding = new PriorityQueue<>(total_population,new FitnessComparator());
+
+        for (Population p:islands) {
+            seeding.addAll(p.getCurrentPopulationAndEmpty());//beginning of the migration
+        }
+
+
     }
 }
