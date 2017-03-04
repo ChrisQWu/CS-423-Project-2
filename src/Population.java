@@ -9,7 +9,6 @@ public class Population {
     private final Random random = new Random();
     private PriorityQueue<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
-    private Comparator<Genome> fitnessComparator;
     private double crossoverRate;
     private double mutatationRate;
     private List<Genome> toRemove = new ArrayList<>();
@@ -43,8 +42,7 @@ public class Population {
         this.selection_mode = selection_mode;
         this.crossover_mode = crossover_mode;
         this.mutation_mode = mutation_mode;
-        fitnessComparator = new FitnessComparator();
-        currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
+        currentpopulation = new PriorityQueue<>(POPULATION_SIZE, new FitnessComparator());
     }
 
     public void start() {
