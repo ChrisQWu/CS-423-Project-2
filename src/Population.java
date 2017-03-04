@@ -50,7 +50,7 @@ public class Population {
         fitnessComparator = new FitnessComparator();
         currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
         generatePopulation();
-        runGeneticAlgorithm(10);
+        runGeneticAlgorithm(100);
     }
 
     /**
@@ -69,6 +69,16 @@ public class Population {
             currentpopulation.add(genome);
         }
 
+    }
+
+    public void start() {
+        generatePopulation();
+        runGeneticAlgorithm(100);
+    }
+
+    public void start(int iterations) {
+        generatePopulation();
+        runGeneticAlgorithm(iterations);
     }
 
     /**
@@ -317,7 +327,7 @@ public class Population {
             }
             holder.add(g);
         }
-        System.out.println("Number of Genomes Mutated: " + numberMutated);
+        //System.out.println("Number of Genomes Mutated: " + numberMutated);
         currentpopulation.clear();
         currentpopulation.addAll(holder);
     }
@@ -341,13 +351,20 @@ public class Population {
         }
     }
 
-    protected class FitnessComparator implements Comparator<Genome> {
-        @Override
-        public int compare(Genome genome1, Genome genome2) {
-            if (genome1.getFitness() < genome2.getFitness()) return 1;
-            else if (genome1.getFitness() > genome2.getFitness()) return -1;
-            return 0;
+    /**
+     * @return Empties the queue to a list and returns the list
+     */
+    public Collection<Genome> getCurrentPopulationAndEmpty() {
+        List<Genome> population = new ArrayList<>();
+        int size = currentpopulation.size();
+        for (int i = 0; i < size; i++) {
+            population.add(currentpopulation.poll());
         }
+        return population;
+    }
+
+    public void setCurrentPopulation(Collection<Genome> currentPopulation) {
+        this.currentpopulation.addAll(currentPopulation);
     }
 
 }
