@@ -12,7 +12,6 @@ public class Population {
     private final Random random = new Random();
     private PriorityQueue<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
-    private Comparator<Genome> fitnessComparator;
     private double crossoverRate;
     private double mutatationRate;
     private List<Genome> toRemove = new ArrayList<>();
@@ -21,16 +20,14 @@ public class Population {
     private Constants.MUTATION_MODE mutation_mode;
 
     Population() {
-        this.POPULATION_SIZE = 1000;
-        new Population(this.POPULATION_SIZE, 0.5, 0.01,
+        this(1000, 0.5, 0.01,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
     }
 
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
-        this.POPULATION_SIZE = POPULATION_SIZE;
-        new Population(POPULATION_SIZE, crossoverRate, mutatationRate,
+        this(POPULATION_SIZE, crossoverRate, mutatationRate,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
@@ -47,10 +44,7 @@ public class Population {
         this.selection_mode = selection_mode;
         this.crossover_mode = crossover_mode;
         this.mutation_mode = mutation_mode;
-        fitnessComparator = new FitnessComparator();
-        currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
-        generatePopulation();
-        runGeneticAlgorithm(100);
+        currentpopulation = new PriorityQueue<>(POPULATION_SIZE, new FitnessComparator());
     }
 
     /**
@@ -88,9 +82,9 @@ public class Population {
      */
     private void runGeneticAlgorithm(int iterations)
     {
+        System.out.println("iteration: " + iterations);
         for(int i = 0; i < iterations; i++)
         {
-            System.out.println("iteration: " + iterations);
             generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
         }
 

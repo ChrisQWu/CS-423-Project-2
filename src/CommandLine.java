@@ -9,8 +9,9 @@ import java.io.InputStreamReader;
 public class CommandLine
 {
     private static final String Command ="./pmars ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED";
+//    private static final String Command ="./pmars ./Warriors_Folder/WARRIOR.RED";
     private static final String File = "./Wariors_Folder/WARRIOR";
-    private static final String scores = "scores ";
+    private static final String scores = ":  Handsome Jack by :  Team 12 scores ";
 
     /**
      * Code from http://stackoverflow.com/questions/26697916/running-a-bash-command-in-different-directory-from-a-java-program
@@ -20,20 +21,27 @@ public class CommandLine
      */
     public static void main(String[] args) throws Exception
     {
-        String Command ="./pmars -r 5 ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";   //Bash Command
-        // create a process and execute
-        Process p = Runtime.getRuntime().exec(Command, null, new File("."));
-        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String line;
-        while ((line = r.readLine()) != null)
-        {
-            System.out.println(line);
-            int index = line.indexOf("scores ");
-            System.out.println("index: "+index);
-            if(index != -1)
-            {
-                System.out.println(line.substring(index+7));
+        float score=-1;
+        try {
+            // create a process and execute
+            Process p = Runtime.getRuntime().exec(Command, null, new File("."));
+            BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            while ((line = r.readLine()) != null) {
+                System.out.println(line);
+
+                score = line.indexOf(scores);
+//                System.out.println("index: " + score);
+                if (score != -1) {
+                    //System.out.println(line.substring((int)score + 7));
+                    score = Float.parseFloat(line.substring(scores.length()));
+                    System.out.println(score);
+                    break;
+                }
             }
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -51,11 +59,12 @@ public class CommandLine
                 BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while ((line = r.readLine()) != null) {
 //                System.out.println(line);
+
                     score = line.indexOf(scores);
 //                System.out.println("index: " + score);
                     if (score != -1) {
                         //System.out.println(line.substring((int)score + 7));
-                        score = Float.parseFloat(line.substring((int) score + 7));
+                        score = Float.parseFloat(line.substring(scores.length()));
                         break;
                     }
                 }

@@ -13,7 +13,8 @@ public class Main {
     }
 
     public Main() {
-        (new Population()).start();
+        Population population = new Population();
+        population.start();
 
     }
 
