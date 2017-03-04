@@ -20,7 +20,7 @@ public class CommandLine
      */
     public static void main(String[] args) throws Exception
     {
-        String Command ="./pmars ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";   //Bash Command
+        String Command ="./pmars -r 5 ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/CANNON.RED";   //Bash Command
         // create a process and execute
         Process p = Runtime.getRuntime().exec(Command, null, new File("."));
         BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -44,15 +44,14 @@ public class CommandLine
     public static float fitness()
     {
         String line;
-        float score=-1;
+        float score=-1, totalScore=0;
         try {
-            for(int i = 0; i < 10; i++) {
                 // create a process and execute
                 Process p = Runtime.getRuntime().exec(Command, null, new File("."));
                 BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while ((line = r.readLine()) != null) {
 //                System.out.println(line);
-                    score += line.indexOf(scores);
+                    score = line.indexOf(scores);
 //                System.out.println("index: " + score);
                     if (score != -1) {
                         //System.out.println(line.substring((int)score + 7));
@@ -60,8 +59,6 @@ public class CommandLine
                         break;
                     }
                 }
-            }
-            score /= 10;
         }
         catch (IOException e){
             e.printStackTrace();
