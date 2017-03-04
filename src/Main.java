@@ -39,7 +39,7 @@ public class Main {
             p.start(10);
         }
 
-        PriorityQueue<Genome> seeding = new PriorityQueue<>(total_population, new FitnessComparator());
+        PopulationQueue<Genome> seeding = new PopulationQueue<>();
 
         for (Population p : islands) {
             seeding.addAll(p.getCurrentPopulationAndEmpty());//beginning of the migration

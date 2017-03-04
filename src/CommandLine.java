@@ -10,7 +10,7 @@ public class CommandLine
 {
     private static final String Command ="./pmars ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED";
 //    private static final String Command ="./pmars ./Warriors_Folder/WARRIOR.RED";
-    private static final String File = "./Wariors_Folder/WARRIOR";
+//    private static final String File = "./Wariors_Folder/WARRIOR";
     private static final String scores = ":  Handsome Jack by :  Team 12 scores ";
 
     /**

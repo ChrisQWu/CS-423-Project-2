@@ -10,7 +10,7 @@ import java.util.*;
 public class Population {
     private final int POPULATION_SIZE;
     private final Random random = new Random();
-    private PriorityQueue<Genome> currentpopulation;
+    private PopulationQueue<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
     private double crossoverRate;
     private double mutatationRate;
@@ -44,7 +44,7 @@ public class Population {
         this.selection_mode = selection_mode;
         this.crossover_mode = crossover_mode;
         this.mutation_mode = mutation_mode;
-        currentpopulation = new PriorityQueue<>(POPULATION_SIZE, new FitnessComparator());
+        currentpopulation = new PopulationQueue<>();
     }
 
     /**
