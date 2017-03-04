@@ -4,7 +4,6 @@
  *  Entry point for the program. It's main use at the moment is to test out GA
  */
 public class Main {
-    private Population population;
 
     public static void main(String [] args)
     {
@@ -13,7 +12,16 @@ public class Main {
 
     public Main()
     {
-        population = new Population();
+        new Population();
 
+    }
+
+    private void island()
+    {
+        int population_Size = 100;
+        Population[] islands = new Population[3];
+        for (Population p:islands) {
+
+        }
     }
 }

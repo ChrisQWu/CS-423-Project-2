@@ -1,5 +1,6 @@
 
 import com.sun.org.apache.bcel.internal.generic.POP;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.util.*;
 
@@ -16,17 +17,38 @@ public class Population {
     private double mutatationRate;
     private int currentId;
     private int crossOversForIteration;
+    private Constants.SELECTION_MODE selection_mode;
+    private Constants.CROSSOVER_MODE crossover_mode;
+    private Constants.MUTATION_MODE mutation_mode;
 
     Population() {
         this.POPULATION_SIZE = 1000;
-        new Population(POPULATION_SIZE, 0.5, 0.01);
+        new Population(this.POPULATION_SIZE, 0.5, 0.01,
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION);
     }
 
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
         this.POPULATION_SIZE = POPULATION_SIZE;
+        new Population(POPULATION_SIZE, crossoverRate, mutatationRate,
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION);
+    }
+
+    Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate,
+               Constants.SELECTION_MODE selection_mode,
+               Constants.CROSSOVER_MODE crossover_mode,
+               Constants.MUTATION_MODE mutation_mode)
+    {
+        this.POPULATION_SIZE = POPULATION_SIZE;
         this.crossoverRate = crossoverRate;
         this.mutatationRate = mutatationRate;
         this.currentId = POPULATION_SIZE;
+        this.selection_mode = selection_mode;
+        this.crossover_mode = crossover_mode;
+        this.mutation_mode = mutation_mode;
         fitnessComparator = new FitnessComparator();
         currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
         generatePopulation();
@@ -60,9 +82,9 @@ public class Population {
     {
         for(int i = 0; i < iterations; i++)
         {
-            generateNewPopulation(Constants.SELECTION_MODE.ROULETTE,
-                    Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                    Constants.MUTATION_MODE.MUTATION);
+            generateNewPopulation(selection_mode,
+                    crossover_mode,
+                    mutation_mode);
         }
 
         evaluatePopulation();
