@@ -22,7 +22,7 @@ public class Population {
 
     Population() {
         this.POPULATION_SIZE = 1000;
-        new Population(this.POPULATION_SIZE, 0.5, 0.01,
+        new Population(this.POPULATION_SIZE, 0.5, 0.02,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
@@ -50,7 +50,7 @@ public class Population {
         fitnessComparator = new FitnessComparator();
         currentpopulation = new PriorityQueue<>(POPULATION_SIZE, fitnessComparator);
         generatePopulation();
-        runGeneticAlgorithm(10);
+        runGeneticAlgorithm(100);
     }
 
     /**
@@ -80,18 +80,11 @@ public class Population {
     {
         for(int i = 0; i < iterations; i++)
         {
-            generateNewPopulation(Constants.SELECTION_MODE.ROULETTE,
-                    Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                    Constants.MUTATION_MODE.MUTATION);
+            System.out.println("Iteration: " + iterations);
+            generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
         }
 
-        evaluatePopulation();
-        Genome g1 = currentpopulation.poll();
-        Genome g2 = currentpopulation.poll();
-        System.out.println("Fitness" + g1.getFitness());
-        g1.printGenome();
-        System.out.println("Fitness" + g2.getFitness());
-        g2.printGenome();
+        //Will reavaluate the population and print all genomes with a fitness of > 0
 
         int i = 0;
         for(Genome g : currentpopulation)
@@ -99,7 +92,7 @@ public class Population {
             i++;
             if(g.getFitness() > 0)
             {
-                System.out.println(i + " fitness:" + g.getFitness());
+                System.out.println(i + " id: " + g.getId() +  " fitness:" + g.getFitness());
             }
         }
     }
@@ -107,8 +100,8 @@ public class Population {
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
                                        Constants.CROSSOVER_MODE crossover_mode,
                                        Constants.MUTATION_MODE mutation_mode) {
-        List<Genome> selected = new ArrayList<>();
-        List<Genome> toAdd = new ArrayList<>();
+        List<Genome> selected = new ArrayList<>(); //selected for crossover
+        List<Genome> toAdd = new ArrayList<>(); //toAdd used in crossover, to store children
 
         switch (selection_mode) {
             case RANDOM:
@@ -139,6 +132,7 @@ public class Population {
                 break;
         }
 
+        //saves the elites from mutation
         elitism();
 
         switch (mutation_mode){
@@ -152,18 +146,20 @@ public class Population {
                 break;
         }
 
+        //adds the elites, removes the parens, then adds the children and reavaulates the pop
         currentpopulation.addAll(elites);
         elites.clear();
         removeParents();
         toRemove.clear();
         currentpopulation.addAll(toAdd);
-        System.out.println("Current Population: " + currentpopulation.size());
+        //System.out.println("Current Population: " + currentpopulation.size());
         evaluatePopulation();
     }
 
+    //Removes the parents, genomes that are in the list toRemove
     private void removeParents()
     {
-        System.out.println("toRemove:" + toRemove.size());
+        //System.out.println("toRemove:" + toRemove.size());
         while(toRemove.size() > 0)
         {
             currentpopulation.remove(toRemove.remove(0));
@@ -178,6 +174,13 @@ public class Population {
         }
     }
 
+    /**
+     * implements one point crossover, will add the parents to a list to be removed then use crossover to create
+     * the children.
+     *
+     * @param selection list of genomes for crossover
+     * @return returns a list of children to be added
+     */
     private List<Genome> onePointCrossover(List<Genome> selection) {
         List<Genome> toAdd = new ArrayList<>();
         int length, selectionSize;
@@ -185,14 +188,16 @@ public class Population {
         selectionSize = selection.size();
         Genome child1 = null, child2 = null;
 
+        //If the selection list is odd, remove the last genome and reduce size by 1
         if(selectionSize % 2 != 0)
         {
             toAdd.add(selection.remove(selectionSize - 1));
             selectionSize--;
         }
 
+        //Adds the parents to the toRemove list to be removed laster
         toRemove.addAll(selection);
-        System.out.println("Selection Size:" + selectionSize);
+        //System.out.println("Selection Size:" + selectionSize);
 
         //Combines the genomes based on one-point crossover
         for(int i = 0; i < selectionSize; i+=2)
@@ -204,6 +209,7 @@ public class Population {
             g1 = child1.getGenome();
             g2 = child2.getGenome();
 
+            //Goes through the shortest length to not cause conflicts
             length = g1.size();
             if(g2.size() < length) length = g2.size();
 
