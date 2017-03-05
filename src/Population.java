@@ -10,6 +10,7 @@ public class Population {
     private ArrayList<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
     private double crossoverRate;
+    private int currentId;
     private double mutatationRate;
     private List<Genome> toRemove = new ArrayList<>();
     private Constants.SELECTION_MODE selection_mode;
@@ -42,6 +43,7 @@ public class Population {
         this.crossover_mode = crossover_mode;
         this.mutation_mode = mutation_mode;
         currentpopulation = new ArrayList<>();
+        currentId = POPULATION_SIZE;
     }
 
     /**
@@ -64,7 +66,16 @@ public class Population {
 
     public void start() {
         generatePopulation();
-        runGeneticAlgorithm(100);
+        runGeneticAlgorithm(10);
+        int i = 0;
+        for(Genome g : currentpopulation)
+        {
+            i++;
+            if(g.getFitness() > 0)
+            {
+                System.out.println(i + " fitness:" + g.getFitness());
+            }
+        }
     }
 
     public void start(int iterations) {
@@ -84,18 +95,6 @@ public class Population {
         {
             generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
         }
-
-        evaluatePopulation();
-
-        int i = 0;
-        for(Genome g : currentpopulation)
-        {
-            i++;
-            if(g.getFitness() > 0)
-            {
-                System.out.println(i + " fitness:" + g.getFitness());
-            }
-        }
     }
 
     private void generateNewPopulation(Constants.SELECTION_MODE selection_mode,
@@ -103,6 +102,7 @@ public class Population {
                                        Constants.MUTATION_MODE mutation_mode) {
         List<Genome> selected = new ArrayList<>();
         List<Genome> toAdd = new ArrayList<>();
+        elitism();
 
         switch (selection_mode) {
             case RANDOM:
@@ -132,8 +132,6 @@ public class Population {
                 System.out.println("Invalid Crossover Mode");
                 break;
         }
-
-        elitism();
 
         switch (mutation_mode){
             case MUTATION:
@@ -194,7 +192,6 @@ public class Population {
 
         //Adds the parents to the toRemove list to be removed laster
         toRemove.addAll(selection);
-        //System.out.println("Selection Size:" + selectionSize);
 
         //Combines the genomes based on one-point crossover
         for(int i = 0; i < selectionSize; i+=2)
@@ -235,6 +232,56 @@ public class Population {
             }
             toAdd.add(child1);
             toAdd.add(child2);
+        }
+
+        //This code is what I added and the bug happens
+        for(int i = 0; i < 10; i+=2)
+        {
+            child1 = elites.get(i);
+            child2 = elites.get(i+1);
+            child1.setFitness(0);
+            child2.setFitness(0);
+            currentId++;
+            child1.setId(currentId);
+            currentId++;
+            child2.setId(currentId);
+            g1 = child1.getGenome();
+            g2 = child2.getGenome();
+
+            //Goes through the shortest length to not cause conflicts
+            length = g1.size();
+            if(g2.size() < length) length = g2.size();
+
+            if(g1.size() == 1 && g2.size() == 1)
+            {
+                g1.add(g2.get(0));
+                g2.add(g1.get(0));
+            }
+            else
+            {
+                for (int j = length / 2; j < length; j++) {
+                    int[] holder1;
+                    holder1 = g1.get(j);
+                    g1.set(j, g2.get(j));
+                    g2.set(j, holder1);
+                }
+            }
+            if(g1 != null)
+            {
+                child1.setGenome(g1);
+            }
+
+            if(g2 != null)
+            {
+                child2.setGenome(g2);
+            }
+            toAdd.add(child1);
+            toAdd.add(child2);
+        }
+
+        int pop = currentpopulation.size();
+        for (int i = pop; i < pop-10; i--) {
+            currentpopulation.remove(i);
         }
 
         return toAdd;
