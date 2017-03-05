@@ -95,7 +95,6 @@ public class Population {
                                        Constants.MUTATION_MODE mutation_mode) {
         List<Genome> selected = new ArrayList<>();
         List<Genome> toAdd = new ArrayList<>();
-        elitism();
 
         switch (selection_mode) {
             case RANDOM:
@@ -126,6 +125,8 @@ public class Population {
                 break;
         }
 
+        currentpopulation.removeAll(elites);
+
         switch (mutation_mode) {
             case MUTATION:
                 mutatePopulation();
@@ -150,7 +151,6 @@ public class Population {
     private void elitism() {
         int topPercent = (int) (POPULATION_SIZE * Constants.ELITISM);
         elites.addAll(currentpopulation.subList(0, topPercent));
-        currentpopulation.removeAll(currentpopulation.subList(0, topPercent));
     }
 
     /**
@@ -204,54 +204,8 @@ public class Population {
             toAdd.add(child1);
             toAdd.add(child2);
         }
-        int count = 0;
 
-        //Still having problems with this, and I have no idea why
-        /*for (int j = 0; j < 10; j += 2) {
-            child1 = elites.get(j);
-            child2 = elites.get(j + 1);
-            child1.setFitness(0);
-            child2.setFitness(0);
-            currentId++;
-            child1.setId(currentId);
-            currentId++;
-            child2.setId(currentId);
-            g1 = child1.getGenome();
-            g2 = child2.getGenome();
-
-            //Goes through the shortest length to not cause conflicts
-            length = g1.size()<g2.size()?g1.size():g2.size();
-
-            if (g1.size() == 1 && g2.size() == 1) {
-                g1.add(g2.get(0));
-                g2.add(g1.get(0));
-            } else {
-                for (int k = length / 2; k < length; k++) {
-                    int[] holder1;
-                    holder1 = g1.get(k);
-                    g1.set(k, g2.get(k));
-                    g2.set(k, holder1);
-                }
-            }
-            if (g1 != null && !g1.isEmpty()) {
-                child1.setGenome(g1);
-                count++;
-            }
-
-            if (g2 != null && !g2.isEmpty()) {
-                child2.setGenome(g2);
-                count++;
-            }
-
-            toAdd.add(child1);
-            toAdd.add(child2);
-
-        }
-
-        int pop = currentpopulation.size();
-        currentpopulation.removeAll(currentpopulation.subList(pop-count,pop));*/
-
-        System.out.println("adding:" + toAdd.size() + ", elite children:" + count);
+        System.out.println("adding:" + toAdd.size());
 
         return toAdd;
     }
@@ -273,7 +227,18 @@ public class Population {
         }
 
         //Removes the parents of the soon to be children
-        currentpopulation.removeAll(winners);
+        for(Genome g : winners)
+        {
+            if(!elites.contains(g))
+            {
+                currentpopulation.remove(g);
+            }
+            else
+            {
+                int size = currentpopulation.size();
+                currentpopulation.remove(size - 1);
+            }
+        }
 
         return winners;
     }
@@ -283,9 +248,11 @@ public class Population {
         double totalFitness = 0;
         List<Genome> winners = new ArrayList<>();
 
-        for (Genome g : currentpopulation) {//gets total fitness of the population
+        for (Genome g : currentpopulation)
+        {//gets total fitness of the population
             totalFitness += g.getFitness();
         }
+
         System.out.println("total Fitness:" + totalFitness);
 
         if(totalFitness > 0) {
@@ -303,7 +270,18 @@ public class Population {
             }
 
             //Removes the parents of the soon to be children
-            currentpopulation.removeAll(winners);
+            for(Genome g : winners)
+            {
+                if(!elites.contains(g))
+                {
+                    currentpopulation.remove(g);
+                }
+                else
+                {
+                    int size = currentpopulation.size();
+                    currentpopulation.remove(size - 1);
+                }
+            }
 
         }
         else
