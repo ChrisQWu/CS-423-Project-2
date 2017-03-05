@@ -265,24 +265,15 @@ public class Population {
     //Random chance of a genome getting chosen for crossover, probably wont use.
     private List<Genome> selectRandom() {
         List<Genome> winners = new ArrayList<>();
-        int numRemoved = 0;
-        List<Integer> indexToRemove = new ArrayList<>();
-        int index = 0;
 
         for (Genome g : currentpopulation) {
             if (random.nextDouble() > 0.99) {
                 winners.add(g);
-                indexToRemove.add(index);
             }
-            index++;
         }
 
         //Removes the parents of the soon to be children
-        for(int i : indexToRemove)
-        {
-            currentpopulation.remove(i - numRemoved);
-            numRemoved++;
-        }
+        currentpopulation.removeAll(winners);
 
         return winners;
     }
@@ -290,8 +281,6 @@ public class Population {
     //This gives each genome the probability of fitness/totalfitness of being chosen for crossover.
     private List<Genome> selectRoulette() {
         double totalFitness = 0;
-        int index = 0, numRemoved = 0;
-        List<Integer> indexToRemove = new ArrayList<>();
         List<Genome> winners = new ArrayList<>();
 
         for (Genome g : currentpopulation) {//gets total fitness of the population
@@ -305,24 +294,16 @@ public class Population {
                     double prob = g.getFitness() / totalFitness;
                     if (random.nextDouble() < prob) {
                         winners.add(g);
-                        indexToRemove.add(index);
                     }
                 } else {
                     if (random.nextDouble() > 0.99) {
                         winners.add(g);
-                        indexToRemove.add(index);
                     }
                 }
-                index++;
             }
 
             //Removes the parents of the soon to be children
-            for(int i : indexToRemove)
-            {
-                currentpopulation.remove(i - numRemoved);
-                numRemoved++;
-            }
-            System.out.println("removed:" + numRemoved);
+            currentpopulation.removeAll(winners);
 
         }
         else
