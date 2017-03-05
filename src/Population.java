@@ -204,7 +204,9 @@ public class Population {
             toAdd.add(child1);
             toAdd.add(child2);
         }
+        int count = 0;
 
+        //Still having problems with this, and I have no idea why
         /*for (int j = 0; j < 10; j += 2) {
             child1 = elites.get(j);
             child2 = elites.get(j + 1);
@@ -233,20 +235,23 @@ public class Population {
             }
             if (g1 != null && !g1.isEmpty()) {
                 child1.setGenome(g1);
+                count++;
             }
 
             if (g2 != null && !g2.isEmpty()) {
                 child2.setGenome(g2);
+                count++;
             }
 
             toAdd.add(child1);
             toAdd.add(child2);
+
         }
 
         int pop = currentpopulation.size();
-        currentpopulation.removeAll(currentpopulation.subList(pop-10,pop));*/
+        currentpopulation.removeAll(currentpopulation.subList(pop-count,pop));*/
 
-        System.out.println("adding:" + toAdd.size());
+        System.out.println("adding:" + toAdd.size() + ", elite children:" + count);
 
         return toAdd;
     }
@@ -265,7 +270,7 @@ public class Population {
         int index = 0;
 
         for (Genome g : currentpopulation) {
-            if (random.nextDouble() > 0.85) {
+            if (random.nextDouble() > 0.99) {
                 winners.add(g);
                 indexToRemove.add(index);
             }
@@ -292,6 +297,7 @@ public class Population {
         for (Genome g : currentpopulation) {//gets total fitness of the population
             totalFitness += g.getFitness();
         }
+        System.out.println("total Fitness:" + totalFitness);
 
         if(totalFitness > 0) {
             for (Genome g : currentpopulation) {
