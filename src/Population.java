@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 /**
@@ -34,8 +33,7 @@ public class Population {
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate,
                Constants.SELECTION_MODE selection_mode,
                Constants.CROSSOVER_MODE crossover_mode,
-               Constants.MUTATION_MODE mutation_mode)
-    {
+               Constants.MUTATION_MODE mutation_mode) {
         this.POPULATION_SIZE = POPULATION_SIZE;
         this.crossoverRate = crossoverRate;
         this.mutatationRate = mutatationRate;
@@ -61,18 +59,16 @@ public class Population {
             genome.setFitness(fitness);
             currentpopulation.add(genome);
         }
-        Collections.sort(currentpopulation,new FitnessComparator());
+        Collections.sort(currentpopulation, new FitnessComparator());
     }
 
     public void start() {
         generatePopulation();
         runGeneticAlgorithm(10);
         int i = 0;
-        for(Genome g : currentpopulation)
-        {
+        for (Genome g : currentpopulation) {
             i++;
-            if(g.getFitness() > 0)
-            {
+            if (g.getFitness() > 0) {
                 System.out.println(i + " fitness:" + g.getFitness());
             }
         }
@@ -86,13 +82,10 @@ public class Population {
     /**
      * This will implement the genetic algorithm by running iterations over time using selection,
      * crossovers, and mutations
-
      */
-    private void runGeneticAlgorithm(int iterations)
-    {
+    private void runGeneticAlgorithm(int iterations) {
         System.out.println("iteration: " + iterations);
-        for(int i = 0; i < iterations; i++)
-        {
+        for (int i = 0; i < iterations; i++) {
             generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
         }
     }
@@ -133,9 +126,9 @@ public class Population {
                 break;
         }
 
-        switch (mutation_mode){
+        switch (mutation_mode) {
             case MUTATION:
-                mutatePopulation();
+                toAdd.addAll(mutatePopulation());
                 break;
             case NO_MUTATION:
                 break;
@@ -144,29 +137,30 @@ public class Population {
                 break;
         }
 
+        currentpopulation.clear();//just to make sure none survive
+
         currentpopulation.addAll(elites);
         elites.clear();
-        removeParents();
+
+
+        removeParents();//removes elements in toRemove
         toRemove.clear();
+
         currentpopulation.addAll(toAdd);
+        Collections.sort(currentpopulation, new FitnessComparator());
         //System.out.println("Current Population: " + currentpopulation.size());
         evaluatePopulation();
     }
 
-    private void removeParents()
-    {
+    private void removeParents() {
         //System.out.println("toRemove:" + toRemove.size());
-        while(toRemove.size() > 0)
-        {
-            currentpopulation.remove(toRemove.remove(0));
-        }
+        currentpopulation.removeAll(toRemove);
     }
 
-    private void elitism()
-    {
-        int topPercent = (int)(POPULATION_SIZE*Constants.ELITISM);
-        elites.addAll(currentpopulation.subList(0,topPercent));
-        currentpopulation.removeAll(currentpopulation.subList(0,topPercent));
+    private void elitism() {
+        int topPercent = (int) (POPULATION_SIZE * Constants.ELITISM);
+        elites.addAll(currentpopulation.subList(0, topPercent));
+        currentpopulation.removeAll(currentpopulation.subList(0, topPercent));
     }
 
     /**
@@ -178,24 +172,21 @@ public class Population {
      */
     private List<Genome> onePointCrossover(List<Genome> selection) {
         List<Genome> toAdd = new ArrayList<>();
-        int length, selectionSize;
+        int length, selectionSize = selection.size();
         List<int[]> g1, g2;
-        selectionSize = selection.size();
-        Genome child1 = null, child2 = null;
+        Genome child1, child2;
 
         //If the selection list is odd, remove the last genome and reduce size by 1
-        if(selectionSize % 2 != 0)
-        {
+        if (selectionSize % 2 != 0) {
             toAdd.add(selection.remove(selectionSize - 1));
             selectionSize--;
         }
 
-        //Adds the parents to the toRemove list to be removed laster
+        //Adds the parents to the toRemove list to be removed later
         toRemove.addAll(selection);
 
         //Combines the genomes based on one-point crossover
-        for(int i = 0; i < selectionSize; i+=2)
-        {
+        for (int i = 0; i < selectionSize; i += 2) {
             child1 = selection.remove(0);
             child2 = selection.remove(0);
             child1.setFitness(0);
@@ -204,30 +195,24 @@ public class Population {
             g2 = child2.getGenome();
 
             //Goes through the shortest length to not cause conflicts
-            length = g1.size();
-            if(g2.size() < length) length = g2.size();
+            length = g1.size()<g2.size()?g1.size():g2.size();
+//            if (g2.size() < length) length = g2.size();
 
-            if(g1.size() == 1 && g2.size() == 1)
-            {
+            if (g1.size() == 1 && g2.size() == 1) {
                 g1.add(g2.get(0));
                 g2.add(g1.get(0));
-            }
-            else
-            {
+            } else {
                 for (int j = length / 2; j < length; j++) {
-                    int[] holder1;
-                    holder1 = g1.get(j);
+                    int[] holder1 = g1.get(j);
                     g1.set(j, g2.get(j));
                     g2.set(j, holder1);
                 }
             }
-            if(g1 != null)
-            {
+            if (g1 != null && !g1.isEmpty()) {
                 child1.setGenome(g1);
             }
 
-            if(g2 != null)
-            {
+            if (g2 != null && !g2.isEmpty()) {
                 child2.setGenome(g2);
             }
             toAdd.add(child1);
@@ -235,54 +220,50 @@ public class Population {
         }
 
         //This code is what I added and the bug happens
-        for(int i = 0; i < 10; i+=2)
-        {
-            child1 = elites.get(i);
-            child2 = elites.get(i+1);
-            child1.setFitness(0);
-            child2.setFitness(0);
-            currentId++;
-            child1.setId(currentId);
-            currentId++;
-            child2.setId(currentId);
-            g1 = child1.getGenome();
-            g2 = child2.getGenome();
+//        for (int i = 0; i < 10; i += 2) {
+//            child1 = elites.get(i);
+//            child2 = elites.get(i + 1);
+//            child1.setFitness(0);
+//            child2.setFitness(0);
+//            currentId++;
+//            child1.setId(currentId);
+//            currentId++;
+//            child2.setId(currentId);
+//            g1 = child1.getGenome();
+//            g2 = child2.getGenome();
+//
+//            //Goes through the shortest length to not cause conflicts
+//            length = g1.size();
+//            if (g2.size() < length) length = g2.size();
+//
+//            if (g1.size() == 1 && g2.size() == 1) {
+//                g1.add(g2.get(0));
+//                g2.add(g1.get(0));
+//            } else {
+//                for (int j = length / 2; j < length; j++) {
+//                    int[] holder1;
+//                    holder1 = g1.get(j);
+//                    g1.set(j, g2.get(j));
+//                    g2.set(j, holder1);
+//                }
+//            }
+//            if (g1 != null) {
+//                child1.setGenome(g1);
+//            }
+//
+//            if (g2 != null) {
+//                child2.setGenome(g2);
+//            }
+//            toAdd.add(child1);
+//            toAdd.add(child2);
+//        }
 
-            //Goes through the shortest length to not cause conflicts
-            length = g1.size();
-            if(g2.size() < length) length = g2.size();
-
-            if(g1.size() == 1 && g2.size() == 1)
-            {
-                g1.add(g2.get(0));
-                g2.add(g1.get(0));
-            }
-            else
-            {
-                for (int j = length / 2; j < length; j++) {
-                    int[] holder1;
-                    holder1 = g1.get(j);
-                    g1.set(j, g2.get(j));
-                    g2.set(j, holder1);
-                }
-            }
-            if(g1 != null)
-            {
-                child1.setGenome(g1);
-            }
-
-            if(g2 != null)
-            {
-                child2.setGenome(g2);
-            }
-            toAdd.add(child1);
-            toAdd.add(child2);
-        }
-
+//        int pop = currentpopulation.size();
+//        for (int i = pop - 10; i < pop; i++) {
+//            currentpopulation.remove(i);
+//        }
         int pop = currentpopulation.size();
-        for (int i = pop; i < pop-10; i--) {
-            currentpopulation.remove(i);
-        }
+        currentpopulation.removeAll(currentpopulation.subList(pop-10,pop));
 
         return toAdd;
     }
@@ -296,10 +277,8 @@ public class Population {
     //Random chance of a genome getting chosen for crossover, probably wont use.
     private List<Genome> selectRandom() {
         List<Genome> winners = new ArrayList<>();
-        for(Genome g : currentpopulation)
-        {
-            if(random.nextDouble() > 0.85)
-            {
+        for (Genome g : currentpopulation) {
+            if (random.nextDouble() > 0.85) {
                 winners.add(g);
             }
         }
@@ -310,29 +289,31 @@ public class Population {
     private List<Genome> selectRoulette() {
         double totalFitness = 0;
         List<Genome> winners = new ArrayList<>();
-        for (Genome g : currentpopulation) {
-            totalFitness+=g.getFitness();
+        for (Genome g : currentpopulation) {//gets total fitness of the population
+            totalFitness += g.getFitness();
         }
 
-        for (Genome g : currentpopulation) {
-            if(g.getFitness() > 0) {
-                double prob = g.getFitness() / totalFitness;
-                if (random.nextDouble() < prob) {
-                    winners.add(g);
+        if(totalFitness > 0) {
+            for (Genome g : currentpopulation) {
+                if (g.getFitness() > 0) {
+                    double prob = g.getFitness() / totalFitness;
+                    if (random.nextDouble() < prob) {
+                        winners.add(g);
+                    }
+                } else {
+                    if (random.nextDouble() > 0.99) {
+                        winners.add(g);
+                    }
                 }
             }
-            else
-            {
-                if(random.nextDouble() > 0.99)
-                {
-                    winners.add(g);
-                }
+
+            for (Genome g : winners) {
+                currentpopulation.remove(g);
             }
         }
-
-        for(Genome g : winners)
-        {
-            currentpopulation.remove(g);
+        else
+        {//might as well do random picking if there are no good genomes
+            winners = selectRandom();
         }
 
         return winners;
@@ -347,26 +328,20 @@ public class Population {
     }
 
 
-    private void mutatePopulation()
-    {
+    private List<Genome> mutatePopulation() {
         int numberMutated = 0;
         List<Genome> holder = new ArrayList<>();
         int populationSize = currentpopulation.size();
-        for(int j = 0; j < populationSize; j++)
-        {
+        for (int j = 0; j < populationSize; j++) {
             Double r = random.nextDouble();
-            Genome g = currentpopulation.get(0);
-            currentpopulation.remove(0);
-            if(r > 1.0 - mutatationRate)
-            {
+            Genome g = currentpopulation.remove(0);
+            if (r > 1.0 - mutatationRate) {
                 numberMutated++;
                 g.mutateGenome();
             }
             holder.add(g);
         }
-        //System.out.println("Number of Genomes Mutated: " + numberMutated);
-        currentpopulation.clear();
-        currentpopulation.addAll(holder);
+        return holder;
     }
 
     /**
@@ -375,7 +350,7 @@ public class Population {
     private void evaluatePopulation() {
         List<Genome> holder = new ArrayList<>();
 
-        for(int i = 0; i < POPULATION_SIZE; i++) {
+        for (int i = 0; i < POPULATION_SIZE; i++) {
             Genome g = currentpopulation.get(0);
             currentpopulation.remove(0);
             Warrior.makeWarrior(g);
@@ -383,23 +358,18 @@ public class Population {
             g.setFitness(fitness);
             holder.add(g);
         }
-        while(holder.size() > 0)
-        {
+        while (holder.size() > 0) {
             currentpopulation.add(holder.remove(0));
         }
     }
 
     /**
-     * @return Empties the queue to a list and returns the list
+     * @return Empties the population to a list and returns that list
      */
     public List<Genome> getCurrentPopulationAndEmpty() {
         List<Genome> population = new ArrayList<>();
-        int size = currentpopulation.size();
-        for (int i = 0; i < size; i++) {
-            population.add(currentpopulation.get(0));
-            currentpopulation.remove(0);
-        }
-
+        population.addAll(currentpopulation);
+        currentpopulation.clear();
         return population;
     }
 
@@ -407,12 +377,12 @@ public class Population {
         this.currentpopulation.addAll(currentPopulation);
     }
 
-    class FitnessComparator implements Comparator<Genome>{
+    class FitnessComparator implements Comparator<Genome> {
 
         @Override
         public int compare(Genome o1, Genome o2) {
-            if(o1.getFitness() < o2.getFitness())return 1;
-            else if(o1.getFitness() > o2.getFitness()) return -1;
+            if (o1.getFitness() < o2.getFitness()) return 1;
+            else if (o1.getFitness() > o2.getFitness()) return -1;
             else return 0;
         }
     }
