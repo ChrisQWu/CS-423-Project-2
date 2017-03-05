@@ -1,7 +1,4 @@
 
-import com.sun.org.apache.bcel.internal.generic.POP;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-
 import java.util.*;
 
 /**
@@ -10,7 +7,7 @@ import java.util.*;
 public class Population {
     private final int POPULATION_SIZE;
     private final Random random = new Random();
-    private PopulationQueue<Genome> currentpopulation;
+    private ArrayList<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
     private double crossoverRate;
     private double mutatationRate;
@@ -44,7 +41,7 @@ public class Population {
         this.selection_mode = selection_mode;
         this.crossover_mode = crossover_mode;
         this.mutation_mode = mutation_mode;
-        currentpopulation = new PopulationQueue<>();
+        currentpopulation = new ArrayList<>();
     }
 
     /**
@@ -62,7 +59,7 @@ public class Population {
             genome.setFitness(fitness);
             currentpopulation.add(genome);
         }
-
+        Collections.sort(currentpopulation,new FitnessComparator());
     }
 
     public void start() {
@@ -170,9 +167,8 @@ public class Population {
     private void elitism()
     {
         int topPercent = (int)(POPULATION_SIZE*Constants.ELITISM);
-        for (int i = 0; i < topPercent; i++) {
-            elites.add(currentpopulation.poll());
-        }
+        elites.addAll(currentpopulation.subList(0,topPercent));
+        currentpopulation.removeAll(currentpopulation.subList(0,topPercent));
     }
 
     /**
@@ -260,7 +256,6 @@ public class Population {
                 winners.add(g);
             }
         }
-
         return winners;
     }
 
@@ -313,7 +308,8 @@ public class Population {
         for(int j = 0; j < populationSize; j++)
         {
             Double r = random.nextDouble();
-            Genome g = currentpopulation.poll();
+            Genome g = currentpopulation.get(0);
+            currentpopulation.remove(0);
             if(r > 1.0 - mutatationRate)
             {
                 numberMutated++;
@@ -333,7 +329,8 @@ public class Population {
         List<Genome> holder = new ArrayList<>();
 
         for(int i = 0; i < POPULATION_SIZE; i++) {
-            Genome g = currentpopulation.poll();
+            Genome g = currentpopulation.get(0);
+            currentpopulation.remove(0);
             Warrior.makeWarrior(g);
             float fitness = CommandLine.fitness();
             g.setFitness(fitness);
@@ -348,12 +345,14 @@ public class Population {
     /**
      * @return Empties the queue to a list and returns the list
      */
-    public Collection<Genome> getCurrentPopulationAndEmpty() {
+    public List<Genome> getCurrentPopulationAndEmpty() {
         List<Genome> population = new ArrayList<>();
         int size = currentpopulation.size();
         for (int i = 0; i < size; i++) {
-            population.add(currentpopulation.poll());
+            population.add(currentpopulation.get(0));
+            currentpopulation.remove(0);
         }
+
         return population;
     }
 
@@ -361,4 +360,13 @@ public class Population {
         this.currentpopulation.addAll(currentPopulation);
     }
 
+    class FitnessComparator implements Comparator<Genome>{
+
+        @Override
+        public int compare(Genome o1, Genome o2) {
+            if(o1.getFitness() < o2.getFitness())return 1;
+            else if(o1.getFitness() > o2.getFitness()) return -1;
+            else return 0;
+        }
+    }
 }
