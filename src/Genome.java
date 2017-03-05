@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Created by c on 2/23/2017.
  */
-public class Genome {
+public class Genome implements Comparable<Genome> {
     private int id;
     private Random random;
     private List<int[]> genome;
@@ -51,6 +51,13 @@ public class Genome {
         this.random = random;
         this.fitness = 0;
         generateGenome(length);//genome with a cap
+    }
+
+    public int compareTo(Genome genome2)
+    {
+        if (this.getFitness() < genome2.getFitness()) return 1;
+        else if (this.getFitness() > genome2.getFitness()) return -1;
+        return 0;
     }
 
     void setId(int id) {
