@@ -39,7 +39,7 @@ public class Main {
             p.start(10);
         }
 
-        PopulationQueue<Genome> seeding = new PopulationQueue<>();
+        List<Genome> seeding = new ArrayList<>();
 
         for (Population p : islands) {
             seeding.addAll(p.getCurrentPopulationAndEmpty());//beginning of the migration
@@ -48,7 +48,8 @@ public class Main {
         List<Genome> seed = new ArrayList<>();
         for (int i = 0; i < island_number; i++) {//migrate intervals to each islands
             for (int j = 0; j < population_size; j++) {
-                seed.add(seeding.poll());
+                seed.add(seeding.get(0));
+                seeding.remove(0);
             }
             islands[i].setCurrentPopulation(seed);
             seed.clear();
@@ -56,7 +57,6 @@ public class Main {
 
         for (Population p : islands) {//now that the islands are ready, run ga on each
             p.start(990);
-
         }
     }
 }

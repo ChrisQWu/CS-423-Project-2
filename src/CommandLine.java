@@ -55,7 +55,7 @@ public class CommandLine
         float score=-1;
         try {
                 // create a process and execute
-                Process p = Runtime.getRuntime().exec(Command, null, new File("."));
+                Process p = Runtime.getRuntime().exec(Command, null, new File("./"));
                 BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while ((line = r.readLine()) != null) {
 //                System.out.println(line);
