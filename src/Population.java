@@ -403,6 +403,7 @@ public class Population
             {
                 warriors.add(currentpopulation.get(index));
             }
+            if(index > POPULATION_SIZE) index = 0;
             index++;
         }
 
