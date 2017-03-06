@@ -403,8 +403,8 @@ public class Population
             {
                 warriors.add(currentpopulation.get(index));
             }
-            if(index > POPULATION_SIZE) index = 0;
             index++;
+            if(index >= POPULATION_SIZE) index = 0;
         }
 
         return warriors;
@@ -441,7 +441,6 @@ public class Population
                         e.printStackTrace();
                     }
                 }
-                System.out.println("size of losers" + losers.size());
                 round.removeAll(losers);//remove losers for next generation
                 losers.clear();//clear the list
             }
@@ -477,7 +476,7 @@ public class Population
             }
         }
 
-        System.out.println("Removed:" + removed);
+        System.out.println("Removed:" + removed + " winners size:" + winners.size());
 
         return winners;
     }
