@@ -6,7 +6,7 @@ import java.util.*;
  */
 public class Population
 {
-    private final int POPULATION_SIZE;
+    private final double POPULATION_SIZE;
     private final Random random = new Random();
     private ArrayList<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
@@ -20,7 +20,7 @@ public class Population
 
     Population()
     {
-        this(10000, 0.5, 0.01,
+        this(1000, 0.5, 0.02,
             Constants.SELECTION_MODE.TOURNAMENT,
             Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
             Constants.MUTATION_MODE.MUTATION);
@@ -29,7 +29,7 @@ public class Population
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate)
     {
         this(POPULATION_SIZE, crossoverRate, mutatationRate,
-            Constants.SELECTION_MODE.ROULETTE,
+            Constants.SELECTION_MODE.TOURNAMENT,
             Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
             Constants.MUTATION_MODE.MUTATION);
     }
@@ -62,7 +62,6 @@ public class Population
             if (fitness > 1)
             {
                 System.out.println("Fitness: " + fitness);
-                genome.printGenome();
             }
             genome.setFitness(fitness);
             currentpopulation.add(genome);
@@ -73,7 +72,7 @@ public class Population
     public void start()
     {
         generatePopulation();
-        runGeneticAlgorithm(1000);
+        runGeneticAlgorithm(50);
         int i = 0;
         for (Genome g : currentpopulation)
         {
@@ -395,7 +394,7 @@ public class Population
     private List<Genome> getRandomForTournament(int numberOfGenomes)
     {
         List<Genome> warriors = new ArrayList<>();
-        double perc = POPULATION_SIZE / numberOfGenomes;
+        double perc = numberOfGenomes/POPULATION_SIZE;
         int index = 0;
 
         while (warriors.size() < numberOfGenomes)
@@ -420,7 +419,7 @@ public class Population
 
         for (int j = 0; j < 20; j++)
         {
-            round = getRandomForTournament(POPULATION_SIZE / 4);
+            round = getRandomForTournament(125);
 
             while (!round.isEmpty() && (size = round.size()) != 1)
             {
@@ -441,12 +440,15 @@ public class Population
                         e.printStackTrace();
                     }
                 }
+                System.out.println("size of losers" + losers.size());
                 round.removeAll(losers);//remove losers for next generation
                 losers.clear();//clear the list
             }
             winners.addAll(round);
             round.clear();
         }
+
+        int removed = 0;
 
         //Removes the parents of the soon to be children
         for (Genome g : winners)
@@ -457,19 +459,24 @@ public class Population
                 if (currentpopulation.contains(g))
                 {
                     currentpopulation.remove(g);
+                    removed++;
                 }
                 else
                 {
                     pop = currentpopulation.size();
                     currentpopulation.remove(pop - 1);
+                    removed++;
                 }
             }
             else
             {
                 pop = currentpopulation.size();
                 currentpopulation.remove(pop - 1);
+                removed++;
             }
         }
+
+        System.out.println("Removed:" + removed);
 
         return winners;
     }
