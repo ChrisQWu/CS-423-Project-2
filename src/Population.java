@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -182,7 +183,7 @@ public class Population {
             g2 = child2.getGenome();
 
             //Goes through the shortest length to not cause conflicts
-            length = g1.size()<g2.size()?g1.size():g2.size();
+            length = g1.size() < g2.size() ? g1.size() : g2.size();
 
             if (g1.size() == 1 && g2.size() == 1) {
                 g1.add(g2.get(0));
@@ -227,14 +228,10 @@ public class Population {
         }
 
         //Removes the parents of the soon to be children
-        for(Genome g : winners)
-        {
-            if(!elites.contains(g))
-            {
+        for (Genome g : winners) {
+            if (!elites.contains(g)) {
                 currentpopulation.remove(g);
-            }
-            else
-            {
+            } else {
                 int size = currentpopulation.size();
                 currentpopulation.remove(size - 1);
             }
@@ -248,14 +245,13 @@ public class Population {
         double totalFitness = 0;
         List<Genome> winners = new ArrayList<>();
 
-        for (Genome g : currentpopulation)
-        {//gets total fitness of the population
+        for (Genome g : currentpopulation) {//gets total fitness of the population
             totalFitness += g.getFitness();
         }
 
         System.out.println("total Fitness:" + totalFitness);
 
-        if(totalFitness > 0) {
+        if (totalFitness > 0) {
             for (Genome g : currentpopulation) {
                 if (g.getFitness() > 0) {
                     double prob = g.getFitness() / totalFitness;
@@ -270,22 +266,16 @@ public class Population {
             }
 
             //Removes the parents of the soon to be children
-            for(Genome g : winners)
-            {
-                if(!elites.contains(g))
-                {
+            for (Genome g : winners) {
+                if (!elites.contains(g)) {
                     currentpopulation.remove(g);
-                }
-                else
-                {
+                } else {
                     int size = currentpopulation.size();
                     currentpopulation.remove(size - 1);
                 }
             }
 
-        }
-        else
-        {//might as well do random picking if there are no good genomes
+        } else {//might as well do random picking if there are no good genomes
             winners = selectRandom();
         }
 
@@ -295,8 +285,29 @@ public class Population {
     //A tournament is ran, and the winners will be use in crossovers.
     private List<Genome> selectTournament() {
         List<Genome> winners = new ArrayList<>();
-
-
+        List<Genome> round = new ArrayList<>();
+        List<Genome> losers = new ArrayList<>();
+        System.out.println("Tournament selection. current: "+currentpopulation.size());
+        for (int j = 0; j < 500; j++) {
+            round.addAll(currentpopulation);//everyone is a winner
+            Collections.shuffle(round);
+            while (!round.isEmpty() && round.size()%2==0) {
+                for (int i = 0; i < round.size(); i += 2) {
+                    Genome g1 = round.get(i), g2 = round.get(i + 1);
+                    try {
+                        Warrior.makeWarrior(g1, g2);
+                        losers.add(CommandLine.tournament() ? g2 : g1);//add the winners of the round
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                round.removeAll(losers);//remove losers for next generation
+                losers.clear();//clear the list
+            }
+            winners.addAll(round);
+            round.clear();
+        }
+        System.out.println("Winners: "+winners.size());
         return winners;
     }
 
@@ -349,5 +360,14 @@ public class Population {
             else if (o1.getFitness() > o2.getFitness()) return -1;
             else return 0;
         }
+    }
+
+    public static void main(String[] args) {
+        Population population = new Population(1000, 0.5,0.01,
+        Constants.SELECTION_MODE.TOURNAMENT,
+        Constants.CROSSOVER_MODE.NO_CROSSOVER,
+        Constants.MUTATION_MODE.NO_MUTATION);
+        population.start();
+
     }
 }
