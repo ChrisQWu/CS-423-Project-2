@@ -6,6 +6,7 @@ public class Constants
 {
     public final static int DEFAULT_LENGTH = 1;
     private final static char EMPTY_CHAR = ' ';
+    public static boolean bound = true;
     public final static double ELITISM = 0.001;//top X percent of the population automatically kept
     public static char[] Amodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
@@ -42,12 +43,12 @@ public class Constants
         MOV("MOV",2),           // move (copies data from one address to another)
         ADD("ADD",2),           // add (adds one number to another)
         SUB("SUB",2),           // subtract (subtracts one number from another)
-        MUL("MUL",2),           // multiply (multiplies one number with another)
-        DIV("DIV",2),           // divide (divides one number with another)
-        MOD("MOD",2),           // modulus (divides one number with another and gives the remainder)
         JMP("JMP",1),           // jump (continues execution from another address)
         JMZ("JMZ",1),           // jump if zero (continues execution from another address)
         JMN("JMN",1),           // jump if not zero (tests a number and jumps if it isn't 0)
+        MUL("MUL",2),           // multiply (multiplies one number with another)
+        DIV("DIV",2),           // divide (divides one number with another)
+        MOD("MOD",2),           // modulus (divides one number with another and gives the remainder)
         DJN("DJN",2),           // decrement and jump if not zero (decrements a number by one and jumps unless the result is 0)
         SPL("SPL",2),           // split (starts an execution thread at another address)
         CMP("CMP",2),           // compare (same as SEQ)

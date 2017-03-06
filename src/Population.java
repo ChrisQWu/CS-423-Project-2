@@ -91,6 +91,7 @@ public class Population {
     private void runGeneticAlgorithm(int iterations) {
         for (int i = 0; i < iterations; i++) {
             System.out.println("iteration: " + i);
+            if(i>iterations/10) Constants.bound = false;//unbound the genome generation after some number of iterations
             generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
         }
     }
