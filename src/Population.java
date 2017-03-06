@@ -18,7 +18,7 @@ public class Population {
     private Constants.MUTATION_MODE mutation_mode;
 
     Population() {
-        this(10000, 0.5, 0.01,
+        this(2000, 0.5, 0.01,
                 Constants.SELECTION_MODE.TOURNAMENT,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
@@ -53,10 +53,10 @@ public class Population {
             Genome genome = new Genome(random, i);
             Warrior.makeWarrior(genome);
             float fitness = CommandLine.fitness();
-            if (fitness > 1) {
-                System.out.println("Fitness: " + fitness);
-                genome.printGenome();
-            }
+ //           if (fitness > 1) {
+ //               System.out.println("Fitness: " + fitness);
+ //               genome.printGenome();
+ //           }
             genome.setFitness(fitness);
             currentpopulation.add(genome);
         }
@@ -65,7 +65,7 @@ public class Population {
 
     public void start() {
         generatePopulation();
-        runGeneticAlgorithm(1000);
+        runGeneticAlgorithm(50);
         int i = 0;
         for (Genome g : currentpopulation) {
             i++;
@@ -337,7 +337,7 @@ public class Population {
     private List<Genome> getRandomForTournament(int numberOfGenomes)
     {
         List<Genome> warriors = new ArrayList<>();
-        double perc = POPULATION_SIZE/numberOfGenomes;
+        double perc = numberOfGenomes/POPULATION_SIZE;
         int index = 0;
 
         while(warriors.size() < numberOfGenomes)
@@ -346,6 +346,7 @@ public class Population {
             {
                 warriors.add(currentpopulation.get(index));
             }
+            if(index > currentpopulation.size()) index = 0;
             index++;
         }
 
@@ -359,7 +360,7 @@ public class Population {
         List<Genome> losers = new ArrayList<>();
         int size;
 
-        for (int j = 0; j < 20; j++) {
+        for (int j = 0; j < 40; j++) {
             round = getRandomForTournament(POPULATION_SIZE/4);
 
             while (!round.isEmpty() && (size = round.size()) != 1) {
