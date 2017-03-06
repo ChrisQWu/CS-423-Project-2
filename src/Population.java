@@ -59,7 +59,7 @@ public class Population
             Genome genome = new Genome(random, i);
             Warrior.makeWarrior(genome);
             float fitness = CommandLine.fitness();
-            if (fitness > 1)
+            if (Constants.DEBUG && fitness > 1)
             {
                 System.out.println("Fitness: " + fitness);
             }
@@ -77,7 +77,7 @@ public class Population
         for (Genome g : currentpopulation)
         {
             i++;
-            if (g.getFitness() > 0)
+            if (Constants.DEBUG && g.getFitness() > 0)
             {
                 System.out.println(i + " fitness:" + g.getFitness());
             }
@@ -133,7 +133,7 @@ public class Population
                 selected = selectTournament();
                 break;
             default:
-                System.out.println("Invalid Selection Mode");
+                if(Constants.DEBUG) System.out.println("Invalid Selection Mode");
                 break;
         }
 
@@ -148,7 +148,7 @@ public class Population
                 toAdd = uniformCrossover(selected);
                 break;
             default:
-                System.out.println("Invalid Crossover Mode");
+                if(Constants.DEBUG) System.out.println("Invalid Crossover Mode");
                 break;
         }
 
@@ -162,7 +162,7 @@ public class Population
             case NO_MUTATION:
                 break;
             default:
-                System.out.println("Invalid Mutation");
+                if(Constants.DEBUG) System.out.println("Invalid Mutation");
                 break;
         }
 
@@ -171,7 +171,7 @@ public class Population
 
         currentpopulation.addAll(toAdd);
 
-        System.out.println("Current Population: " + currentpopulation.size());
+        if(Constants.DEBUG) System.out.println("Current Population: " + currentpopulation.size());
         evaluatePopulation();
     }
 
@@ -481,7 +481,7 @@ public class Population
             }
         }
 
-        System.out.println("Removed:" + removed + " winners size:" + winners.size());
+        if(Constants.DEBUG) System.out.println("Removed:" + removed + " winners size:" + winners.size());
 
         return winners;
     }
