@@ -3,6 +3,7 @@ import java.util.*;
 
 /**
  * Created by thebaker on 2/24/17.
+ *
  */
 public class Population
 {
@@ -332,11 +333,11 @@ public class Population
 
     //Random chance of a genome getting chosen for crossover, probably wont use.
     private List<Genome> selectRandom()
-    {
+    {//TODO: rewrite this to take upper 50% and replace it
         List<Genome> winners = new ArrayList<>();
         while (winners.size() < 40)
         {
-            for (Genome g : currentpopulation)
+            for (Genome g : currentpopulation.subList(currentpopulation.size()/2,currentpopulation.size()-1))
             {
                 if (!elites.contains(g) && random.nextDouble() > 0.98)
                 {

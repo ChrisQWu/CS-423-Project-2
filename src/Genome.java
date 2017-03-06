@@ -33,7 +33,7 @@ public class Genome {
         genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
-        generateGenome(-1);//default genome generation
+        generateGenome(10);//default genome generation
     }
 
     /**
