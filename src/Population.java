@@ -275,22 +275,27 @@ public class Population {
     //Random chance of a genome getting chosen for crossover, probably wont use.
     private List<Genome> selectRandom() {
         List<Genome> winners = new ArrayList<>();
-
-        for (Genome g : currentpopulation) {
-            if (random.nextDouble() > 0.98) {
-                winners.add(g);
+        while (winners.size()<40)
+        {
+            for (Genome g : currentpopulation)
+            {
+                if (random.nextDouble() > 0.98 && !elites.contains(g))
+                {
+                    winners.add(g);
+                    if(winners.size()==40) break;
+                }
             }
         }
-
-        //Removes the parents of the soon to be children
-        for (Genome g : winners) {
-            if (!elites.contains(g)) {
-                currentpopulation.remove(g);
-            } else {
-                int size = currentpopulation.size();
-                currentpopulation.remove(size - 1);
-            }
-        }
+        currentpopulation.removeAll(winners);
+//        //Removes the parents of the soon to be children
+//        for (Genome g : winners) {
+//            if (!elites.contains(g)) {
+//                currentpopulation.remove(g);
+//            } else {
+//                int size = currentpopulation.size();
+//                currentpopulation.remove(size - 1);
+//            }
+//        }
 
         return winners;
     }
