@@ -72,7 +72,7 @@ public class Population
     public void start()
     {
         generatePopulation();
-        runGeneticAlgorithm(50);
+        runGeneticAlgorithm(25);
         int i = 0;
         for (Genome g : currentpopulation)
         {
@@ -120,6 +120,7 @@ public class Population
         List<Genome> selected = new ArrayList<>();
         List<Genome> toAdd = new ArrayList<>();
         elitism();
+        System.out.println("elites size:"  + elites.size());
 
         switch (selection_mode)
         {
@@ -208,6 +209,8 @@ public class Population
         {
             child1 = selection.remove(0);
             child2 = selection.remove(0);
+            child1.setId(currentId++);
+            child2.setId(currentId++);
             child1.setFitness(0);
             child2.setFitness(0);
             g1 = child1.getGenome();
@@ -271,6 +274,8 @@ public class Population
         {
             child1 = selection.remove(0);
             child2 = selection.remove(0);
+            child1.setId(currentId++);
+            child2.setId(currentId++);
             child1.setFitness(0);
             child2.setFitness(0);
             g1 = child1.getGenome();

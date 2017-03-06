@@ -7,8 +7,8 @@ public class Constants
     public final static int DEFAULT_LENGTH = 1;
     private final static char EMPTY_CHAR = ' ';
     public static boolean bound = true;
-    public static final boolean DEBUG = false;
-    public final static double ELITISM = 0.001;//top X percent of the population automatically kept
+    public static final boolean DEBUG = true;
+    public final static double ELITISM = 0.01;//top X percent of the population automatically kept
 
     //these values will be set when Population evaluates their population and compares to the absolute best
     public static double BEST_FITNESS = 0.0;
