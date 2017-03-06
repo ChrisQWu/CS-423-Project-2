@@ -9,6 +9,9 @@ public class Warrior {
     private static final String FILENAME = "Warriors_Folder/WARRIOR.RED";
     private static final String COMP_1 = "Warriors_Folder/Competitor_1.RED";
     private static final String COMP_2 = "Warriors_Folder/Competitor_2.RED";
+    private static final String TOP_1 = "Top_Warriors/Warrior_1.RED";
+    private static final String TOP_2 = "Top_Warriors/Warrior_2.RED";
+
     private static final String OPENING = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
@@ -78,21 +81,33 @@ public class Warrior {
      * @param genome2
      * @throws IOException
      */
-    public static void makeWarrior(Genome genome1, Genome genome2) throws IOException {
+    public static void makeWarrior(Genome genome1, Genome genome2, boolean forTopWarriors) throws IOException {
 
         BufferedWriter bw = null;
         FileWriter fw = null;
 
         try {
 
-            fw = new FileWriter(COMP_1, false);
+            if(!forTopWarriors) {
+                fw = new FileWriter(COMP_1, false);
+            }
+            else
+            {
+                fw = new FileWriter(TOP_1, false);
+            }
             bw = new BufferedWriter(fw);
             String content = genome1.getGenomeAsCommand();
             bw.write(competitor1);
             bw.write(content);
             bw.write(CLOSING);
 
-            fw = new FileWriter(COMP_2, false);
+            if(!forTopWarriors) {
+                fw = new FileWriter(COMP_2, false);
+            }
+            else
+            {
+                fw = new FileWriter(TOP_2, false);
+            }
             bw = new BufferedWriter(fw);
             content = genome2.getGenomeAsCommand();
             bw.write(competitor2);

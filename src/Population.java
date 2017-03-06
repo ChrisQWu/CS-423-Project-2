@@ -105,6 +105,11 @@ public class Population
             System.out.println("iteration: " + i);
             if (i > iterations / 10) Constants.bound = false;//unbound the genome generation after some number of iterations
             generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
+            try {
+                Warrior.makeWarrior(currentpopulation.get(0), currentpopulation.get(1), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -391,7 +396,7 @@ public class Population
         return winners;
     }
 
-    private List<Genome> getRandomForTournament(int numberOfGenomes)
+    private List<Genome> getRandomForTournament(double numberOfGenomes)
     {
         List<Genome> warriors = new ArrayList<>();
         double perc = numberOfGenomes/POPULATION_SIZE;
@@ -404,7 +409,7 @@ public class Population
                 warriors.add(currentpopulation.get(index));
             }
             index++;
-            if(index >= POPULATION_SIZE) index = 0;
+            if(index >= currentpopulation.size()) index = 0;
         }
 
         return warriors;
@@ -420,7 +425,7 @@ public class Population
 
         for (int j = 0; j < 20; j++)
         {
-            round = getRandomForTournament(125);
+            round = getRandomForTournament(POPULATION_SIZE / 8);
 
             while (!round.isEmpty() && (size = round.size()) != 1)
             {
@@ -433,7 +438,7 @@ public class Population
                     Genome g1 = round.get(i), g2 = round.get(i + 1);
                     try
                     {
-                        Warrior.makeWarrior(g1, g2);
+                        Warrior.makeWarrior(g1, g2, false);
                         losers.add(CommandLine.tournament() ? g2 : g1);//add the winners of the round
                     }
                     catch (IOException e)
