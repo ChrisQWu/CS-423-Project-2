@@ -20,14 +20,14 @@ public class Population {
     Population() {
         this(1000, 0.5, 0.01,
                 Constants.SELECTION_MODE.ROULETTE,
-                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
     }
 
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
         this(POPULATION_SIZE, crossoverRate, mutatationRate,
                 Constants.SELECTION_MODE.ROULETTE,
-                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
     }
 
@@ -211,8 +211,61 @@ public class Population {
         return toAdd;
     }
 
-    private List<Genome> uniformCrossover(List<Genome> selected) {
+    /**
+     * Implements uniform crossover using the crossover rate of the population
+     *
+     * @param selection list of selected parents
+     * @return list of children to add to population
+     */
+    private List<Genome> uniformCrossover(List<Genome> selection) {
         List<Genome> toAdd = new ArrayList<>();
+        int length, selectionSize = selection.size();
+        List<int[]> g1, g2;
+        Genome child1, child2;
+
+        //If the selection list is odd, remove the last genome and reduce size by 1
+        if (selectionSize % 2 != 0) {
+            toAdd.add(selection.remove(selectionSize - 1));
+            selectionSize--;
+        }
+
+        //Combines the genomes based on one-point crossover
+        for (int i = 0; i < selectionSize; i += 2) {
+            child1 = selection.remove(0);
+            child2 = selection.remove(0);
+            child1.setFitness(0);
+            child2.setFitness(0);
+            g1 = child1.getGenome();
+            g2 = child2.getGenome();
+
+            //Goes through the shortest length to not cause conflicts
+            length = g1.size() < g2.size() ? g1.size() : g2.size();
+
+            if (g1.size() == 1 && g2.size() == 1) {
+                g1.add(g2.get(0));
+                g2.add(g1.get(0));
+            } else {
+                for (int j = 0; j < length; j++) {
+                    if(random.nextDouble() < crossoverRate)
+                    {
+                        int[] holder1 = g1.get(j);
+                        g1.set(j, g2.get(j));
+                        g2.set(j, holder1);
+                    }
+                }
+            }
+            if (g1 != null && !g1.isEmpty()) {
+                child1.setGenome(g1);
+            }
+
+            if (g2 != null && !g2.isEmpty()) {
+                child2.setGenome(g2);
+            }
+            toAdd.add(child1);
+            toAdd.add(child2);
+        }
+
+        System.out.println("adding:" + toAdd.size());
 
         return toAdd;
     }
@@ -249,7 +302,7 @@ public class Population {
             totalFitness += g.getFitness();
         }
 
-        System.out.println("total Fitness:" + totalFitness);
+        System.out.println("total fitness:" + totalFitness);
 
         if (totalFitness > 0) {
             for (Genome g : currentpopulation) {
