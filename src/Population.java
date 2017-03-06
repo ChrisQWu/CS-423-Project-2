@@ -13,14 +13,13 @@ public class Population
     private double crossoverRate;
     private int currentId;
     private double mutatationRate;
-    private List<Genome> toRemove = new ArrayList<>();
     private Constants.SELECTION_MODE selection_mode;
     private Constants.CROSSOVER_MODE crossover_mode;
     private Constants.MUTATION_MODE mutation_mode;
 
     Population()
     {
-        this(1000, 0.5, 0.02,
+        this(2000, 0.5, 0.02,
             Constants.SELECTION_MODE.TOURNAMENT,
             Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
             Constants.MUTATION_MODE.MUTATION);
@@ -72,7 +71,7 @@ public class Population
     public void start()
     {
         generatePopulation();
-        runGeneticAlgorithm(25);
+        runGeneticAlgorithm(400);
         int i = 0;
         for (Genome g : currentpopulation)
         {
@@ -120,7 +119,7 @@ public class Population
         List<Genome> selected = new ArrayList<>();
         List<Genome> toAdd = new ArrayList<>();
         elitism();
-        System.out.println("elites size:"  + elites.size());
+        System.out.println("elites size:" + elites.size());
 
         switch (selection_mode)
         {
@@ -153,7 +152,9 @@ public class Population
                 break;
         }
 
-        currentpopulation.removeAll(elites);
+        currentpopulation.clear();
+        currentpopulation.addAll(toAdd);
+        currentpopulation.addAll(elites);
 
         switch (mutation_mode)
         {
@@ -167,10 +168,7 @@ public class Population
                 break;
         }
 
-        currentpopulation.addAll(elites);
-        elites.clear();
 
-        currentpopulation.addAll(toAdd);
 
         if(Constants.DEBUG) System.out.println("Current Population: " + currentpopulation.size());
         evaluatePopulation();
@@ -179,6 +177,7 @@ public class Population
 
     private void elitism()
     {
+        elites.clear();
         int topPercent = (int) (POPULATION_SIZE * Constants.ELITISM);
         elites.addAll(currentpopulation.subList(0, topPercent));
     }
@@ -205,10 +204,10 @@ public class Population
         }
 
         //Combines the genomes based on one-point crossover
-        for (int i = 0; i < selectionSize; i += 2)
+        while(toAdd.size() < POPULATION_SIZE - elites.size())
         {
-            child1 = selection.remove(0);
-            child2 = selection.remove(0);
+            child1 = selection.get(random.nextInt((int)(POPULATION_SIZE-elites.size())/2));
+            child2 = selection.get(random.nextInt((int)(POPULATION_SIZE-elites.size())/2));
             child1.setId(currentId++);
             child2.setId(currentId++);
             child1.setFitness(0);
@@ -226,7 +225,7 @@ public class Population
             }
             else
             {
-                for (int j = length / 2; j < length; j++)
+                for (int j = (int) (length * crossoverRate); j < length; j++)
                 {
                     int[] holder1 = g1.get(j);
                     g1.set(j, g2.get(j));
@@ -244,6 +243,13 @@ public class Population
             }
             toAdd.add(child1);
             toAdd.add(child2);
+        }
+        if(toAdd.size() != POPULATION_SIZE - elites.size())
+        {
+            while(toAdd.size() != POPULATION_SIZE - elites.size())
+            {
+                toAdd.remove(random.nextInt(toAdd.size()));
+            }
         }
 
         return toAdd;
@@ -270,10 +276,10 @@ public class Population
         }
 
         //Combines the genomes based on one-point crossover
-        for (int i = 0; i < selectionSize; i += 2)
+        while(toAdd.size() < POPULATION_SIZE - elites.size())
         {
-            child1 = selection.remove(0);
-            child2 = selection.remove(0);
+            child1 = selection.get(random.nextInt((int) (POPULATION_SIZE-elites.size())/2));
+            child2 = selection.get(random.nextInt((int) (POPULATION_SIZE-elites.size())/2));
             child1.setId(currentId++);
             child2.setId(currentId++);
             child1.setFitness(0);
@@ -312,6 +318,13 @@ public class Population
             }
             toAdd.add(child1);
             toAdd.add(child2);
+        }
+        if(toAdd.size() != POPULATION_SIZE - elites.size())
+        {
+            while(toAdd.size() != POPULATION_SIZE - elites.size())
+            {
+                toAdd.remove(random.nextInt(toAdd.size()));
+            }
         }
 
         return toAdd;
@@ -428,7 +441,7 @@ public class Population
         List<Genome> losers = new ArrayList<>();
         int size;
 
-        for (int j = 0; j < 20; j++)
+        for (int j = 0; j < 40; j++)
         {
             round = getRandomForTournament(POPULATION_SIZE / 8);
 
@@ -494,14 +507,14 @@ public class Population
 
     private void mutatePopulation()
     {
-        int populationSize = currentpopulation.size();
-
         for (Genome g : currentpopulation)
         {
-            Double r = random.nextDouble();
-            if (r > 1.0 - mutatationRate)
+            if(!elites.contains(g))
             {
-                g.mutateGenome();
+                Double r = random.nextDouble();
+                if (r > 1.0 - mutatationRate) {
+                    g.mutateGenome();
+                }
             }
         }
     }
