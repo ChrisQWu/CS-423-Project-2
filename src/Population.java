@@ -18,7 +18,7 @@ public class Population {
     private Constants.MUTATION_MODE mutation_mode;
 
     Population() {
-        this(1000, 0.5, 0.005,
+        this(10000, 0.5, 0.01,
                 Constants.SELECTION_MODE.TOURNAMENT,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
@@ -26,7 +26,7 @@ public class Population {
 
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
         this(POPULATION_SIZE, crossoverRate, mutatationRate,
-                Constants.SELECTION_MODE.TOURNAMENT,
+                Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
     }
@@ -65,12 +65,16 @@ public class Population {
 
     public void start() {
         generatePopulation();
-        runGeneticAlgorithm(10);
+        runGeneticAlgorithm(1000);
         int i = 0;
         for (Genome g : currentpopulation) {
             i++;
             if (g.getFitness() > 0) {
                 System.out.println(i + " fitness:" + g.getFitness());
+            }
+            if (i < 10 )
+            {
+                g.printGenome();
             }
         }
     }
@@ -272,7 +276,7 @@ public class Population {
         List<Genome> winners = new ArrayList<>();
 
         for (Genome g : currentpopulation) {
-            if (random.nextDouble() > 0.99) {
+            if (random.nextDouble() > 0.98) {
                 winners.add(g);
             }
         }
@@ -299,8 +303,6 @@ public class Population {
             totalFitness += g.getFitness();
         }
 
-        System.out.println("total fitness:" + totalFitness);
-
         if (totalFitness > 0) {
             for (Genome g : currentpopulation) {
                 if (g.getFitness() > 0) {
@@ -309,7 +311,7 @@ public class Population {
                         winners.add(g);
                     }
                 } else {
-                    if (random.nextDouble() > 0.99) {
+                    if (random.nextDouble() > 0.95) {
                         winners.add(g);
                     }
                 }
@@ -332,24 +334,39 @@ public class Population {
         return winners;
     }
 
+    private List<Genome> getRandomForTournament(int numberOfGenomes)
+    {
+        List<Genome> warriors = new ArrayList<>();
+        double perc = POPULATION_SIZE/numberOfGenomes;
+        int index = 0;
+
+        while(warriors.size() < numberOfGenomes)
+        {
+            if(random.nextDouble() < perc)
+            {
+                warriors.add(currentpopulation.get(index));
+            }
+            index++;
+        }
+
+        return warriors;
+    }
+
     //A tournament is ran, and the winners will be use in crossovers.
     private List<Genome> selectTournament() {
         List<Genome> winners = new ArrayList<>();
-        List<Genome> round = new ArrayList<>();
+        List<Genome> round;
         List<Genome> losers = new ArrayList<>();
-        int k = 0;
-        while(round.size() < 250)
-        {
-            if(random.nextDouble() > 0.25)
-            {
-                round.add(currentpopulation.get(k));
-            }
-            if(k > POPULATION_SIZE) k = 0;
-            k++;
-        }
+        int size;
 
-        for (int j = 0; j < 10; j++) {
-            while (!round.isEmpty() && round.size()%2==0) {
+        for (int j = 0; j < 20; j++) {
+            round = getRandomForTournament(POPULATION_SIZE/4);
+
+            while (!round.isEmpty() && (size = round.size()) != 1) {
+                if(size % 2 != 0)
+                {
+                    round.remove(size - 1);
+                }
                 for (int i = 0; i < round.size(); i += 2) {
                     Genome g1 = round.get(i), g2 = round.get(i + 1);
                     try {
@@ -365,15 +382,22 @@ public class Population {
             winners.addAll(round);
             round.clear();
         }
-        System.out.println("Winners: "+ winners.size());
 
         //Removes the parents of the soon to be children
         for (Genome g : winners) {
+            int pop;
             if (!elites.contains(g)) {
-                currentpopulation.remove(g);
+                if(currentpopulation.contains(g)) {
+                    currentpopulation.remove(g);
+                }
+                else
+                {
+                    pop = currentpopulation.size();
+                    currentpopulation.remove(pop - 1);
+                }
             } else {
-                int size = currentpopulation.size();
-                currentpopulation.remove(size - 1);
+                pop = currentpopulation.size();
+                currentpopulation.remove(pop - 1);
             }
         }
 

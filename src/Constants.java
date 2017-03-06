@@ -6,7 +6,7 @@ public class Constants
 {
     public final static int DEFAULT_LENGTH = 1;
     private final static char EMPTY_CHAR = ' ';
-    public final static double ELITISM = 0.005;//top X percent of the population automatically kept
+    public final static double ELITISM = 0.001;//top X percent of the population automatically kept
     public static char[] Amodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
 //            '#',        // # immediate
