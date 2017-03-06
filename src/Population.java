@@ -91,11 +91,7 @@ public class Population {
             if (i > iterations / 10)
                 Constants.bound = false;//unbound the genome generation after some number of iterations
             generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
-            try {
-                Warrior.makeWarrior(currentpopulation.get(0), currentpopulation.get(1), true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            evaluatePopulation(i);
         }
     }
 
@@ -153,7 +149,6 @@ public class Population {
 
 
         if (Constants.DEBUG) System.out.println("Current Population: " + currentpopulation.size());
-        evaluatePopulation();
     }
 
 
@@ -291,11 +286,11 @@ public class Population {
     //Random chance of a genome getting chosen for crossover, probably wont use.
     private List<Genome> selectRandom() {
         List<Genome> winners = new ArrayList<>();
-        while (winners.size() < POPULATION_SIZE/2 - elites.size()) {
+        while (winners.size() < POPULATION_SIZE / 2 - elites.size()) {
             for (Genome g : currentpopulation) {
                 if (random.nextDouble() > 0.90) {
                     winners.add(g);
-                    if (winners.size() == POPULATION_SIZE/2 - elites.size()) break;
+                    if (winners.size() == POPULATION_SIZE / 2 - elites.size()) break;
                 }
             }
         }
@@ -376,34 +371,41 @@ public class Population {
     //A tournament is ran, and the winners will be use in crossovers.
     private List<Genome> selectTournament() {
         List<Genome> winners = new ArrayList<>();
-        List<Genome> round;
-        List<Genome> losers = new ArrayList<>();
-        int size;
-
-        for (int j = 0; j < 40; j++) {
-            round = getRandomForTournament(POPULATION_SIZE / 2);
-
-            while (!round.isEmpty() && (size = round.size()) != 1) {
-                if (size % 2 != 0) {
-                    round.remove(size - 1);
-                }
-                for (int i = 0; i < round.size(); i += 2) {
-                    Genome g1 = round.get(i), g2 = round.get(i + 1);
-                    try {
-                        Warrior.makeWarrior(g1, g2, false);
-                        losers.add(CommandLine.tournament() ? g2 : g1);//add the winners of the round
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                round.removeAll(losers);//remove losers for next generation
-                losers.clear();//clear the list
+        while (winners.size() < POPULATION_SIZE / 2 - elites.size()) {
+            Genome g1 = currentpopulation.get(random.nextInt(currentpopulation.size())),
+                    g2 = currentpopulation.get(random.nextInt(currentpopulation.size())),
+                    g3 = currentpopulation.get(random.nextInt(currentpopulation.size())),
+                    g4 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+            while (true) {
+                if (!elites.contains(g1)) g1 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+                if (!elites.contains(g2)) g2 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+                if (!elites.contains(g3)) g3 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+                if (!elites.contains(g4)) g4 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+                if (!elites.contains(g1) && !elites.contains(g2) && !elites.contains(g3) && !elites.contains(g4)) break;
             }
-            winners.addAll(round);
-            round.clear();
+            try {
+                Warrior.makeWarrior(g1, g2, g3, g4);
+                short round_winner = CommandLine.tournament();
+                switch (round_winner) {
+                    case 1:
+                        winners.add(g1);
+                        break;
+                    case 2:
+                        winners.add(g2);
+                        break;
+                    case 3:
+                        winners.add(g3);
+                        break;
+                    case 4:
+                        winners.add(g4);
+                        break;
+                    default:
+                        break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        int removed = 0;
 
         //Removes the parents of the soon to be children
         /*for (Genome g : winners) {
@@ -424,8 +426,6 @@ public class Population {
             }
         }*/
 
-        if (Constants.DEBUG) System.out.println("Removed:" + removed + " winners size:" + winners.size());
-
         return winners;
     }
 
@@ -444,7 +444,8 @@ public class Population {
     /**
      * Evaluates each genome in the current population
      */
-    private void evaluatePopulation() {
+    //TODO: Make BEST, AVG, and WORST warrior for this generation, and compare to the absolute best
+    private void evaluatePopulation(int generation) {
         int pop = currentpopulation.size();
 
         for (int i = 0; i < pop; i++) {

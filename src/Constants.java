@@ -105,4 +105,37 @@ public class Constants
         ONE_POINT_CROSSOVER
     }
 
+    public static final String FILENAME = "Warriors_Folder/WARRIOR.RED";
+    public static final String COMP_1 = "Warriors_Folder/Competitor_1.RED";
+    public static final String COMP_2 = "Warriors_Folder/Competitor_2.RED";
+    public static final String COMP_3 = "Warriors_Folder/Competitor_3.RED";
+    public static final String COMP_4 = "Warriors_Folder/Competitor_4.RED";
+    public static final String BEST_WARRIOR = "Top_Warriors/BEST_Warrior_";
+    public static final String AVG_WARRIOR = "Top_Warriors/AVG_Warrior_";
+    public static final String WORST_WARRIOR = "Top_Warriors/WORST_Warrior_";
+
+    public static final String OPENING = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String COMPETITOR_1 = "; redcode\n" +
+            "; name :  competitor 1\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String COMPETITOR_2 = "; redcode\n" +
+            "; name :  competitor 2\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String COMPETITOR_3 = "; redcode\n" +
+            "; name :  competitor 3\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String COMPETITOR_4 = "; redcode\n" +
+            "; name :  competitor 4\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+
+    public static final String CLOSING = "end";
+    public static final String ext = ".RED";
+
 }
