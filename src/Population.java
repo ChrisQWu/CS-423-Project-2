@@ -18,15 +18,15 @@ public class Population {
     private Constants.MUTATION_MODE mutation_mode;
 
     Population() {
-        this(1000, 0.5, 0.01,
-                Constants.SELECTION_MODE.ROULETTE,
+        this(1000, 0.5, 0.005,
+                Constants.SELECTION_MODE.TOURNAMENT,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
     }
 
     Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
         this(POPULATION_SIZE, crossoverRate, mutatationRate,
-                Constants.SELECTION_MODE.ROULETTE,
+                Constants.SELECTION_MODE.TOURNAMENT,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
     }
@@ -96,6 +96,7 @@ public class Population {
                                        Constants.MUTATION_MODE mutation_mode) {
         List<Genome> selected = new ArrayList<>();
         List<Genome> toAdd = new ArrayList<>();
+        elitism();
 
         switch (selection_mode) {
             case RANDOM:
@@ -206,8 +207,6 @@ public class Population {
             toAdd.add(child2);
         }
 
-        System.out.println("adding:" + toAdd.size());
-
         return toAdd;
     }
 
@@ -264,8 +263,6 @@ public class Population {
             toAdd.add(child1);
             toAdd.add(child2);
         }
-
-        System.out.println("adding:" + toAdd.size());
 
         return toAdd;
     }
@@ -340,10 +337,18 @@ public class Population {
         List<Genome> winners = new ArrayList<>();
         List<Genome> round = new ArrayList<>();
         List<Genome> losers = new ArrayList<>();
-        System.out.println("Tournament selection. current: "+currentpopulation.size());
-        for (int j = 0; j < 500; j++) {
-            round.addAll(currentpopulation);//everyone is a winner
-            Collections.shuffle(round);
+        int k = 0;
+        while(round.size() < 250)
+        {
+            if(random.nextDouble() > 0.25)
+            {
+                round.add(currentpopulation.get(k));
+            }
+            if(k > POPULATION_SIZE) k = 0;
+            k++;
+        }
+
+        for (int j = 0; j < 10; j++) {
             while (!round.isEmpty() && round.size()%2==0) {
                 for (int i = 0; i < round.size(); i += 2) {
                     Genome g1 = round.get(i), g2 = round.get(i + 1);
@@ -360,7 +365,18 @@ public class Population {
             winners.addAll(round);
             round.clear();
         }
-        System.out.println("Winners: "+winners.size());
+        System.out.println("Winners: "+ winners.size());
+
+        //Removes the parents of the soon to be children
+        for (Genome g : winners) {
+            if (!elites.contains(g)) {
+                currentpopulation.remove(g);
+            } else {
+                int size = currentpopulation.size();
+                currentpopulation.remove(size - 1);
+            }
+        }
+
         return winners;
     }
 
