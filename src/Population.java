@@ -173,8 +173,8 @@ public class Population {
 
         //Combines the genomes based on one-point crossover
         while (toAdd.size() < POPULATION_SIZE - elites.size()) {
-            child1 = selection.get(random.nextInt((int) POPULATION_SIZE / 2 - elites.size()));
-            child2 = selection.get(random.nextInt((int) POPULATION_SIZE / 2 - elites.size()));
+            child1 = selection.get(random.nextInt((int) POPULATION_SIZE / 2 - elites.size()-1));
+            child2 = selection.get(random.nextInt((int) POPULATION_SIZE / 2 - elites.size()-1));
             child1.setId(currentId++);
             child2.setId(currentId++);
             child1.setFitness(0);

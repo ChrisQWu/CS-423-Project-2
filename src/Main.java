@@ -21,23 +21,7 @@ public class Main {
         elitism();
     }
 
-    /**
-     * Sets up the islands and evenly distributes the total population across each island.
-     * Then runs each island for 10 iterations.
-     * Then takes the all the islands, and redistributes the population back on the islands.
-     * For now the redistribution will be the first island with all of the best, the second island with the next
-     * interval best, and etc.
-     */
 
-    /* TODO:1) run every selection type with crossover and mutation constant
-            2) Every crossover with selection and mutation constant
-            3) different mutation rates
-            4) different crossover rates
-            5) Island GA
-            6) different elitism values (0% or 2%) (OPTIONAL)
-            7) Record best/worst/avg warrior as .RED and for a csv for the fitness values PER generation
-                Add to constants for the filename used for them, and add folders for each step
-    */
 
     /**
      * Run GA with varied selections
@@ -115,7 +99,13 @@ public class Main {
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
     }
-
+    /**
+     * Sets up the islands and evenly distributes the total population across each island.
+     * Then runs each island for 10 iterations.
+     * Then takes the all the islands, and redistributes the population back on the islands.
+     * For now the redistribution will be the first island with all of the best, the second island with the next
+     * interval best, and etc.
+     */
     private void island() {
         Constants.folder = "Island";
 
