@@ -15,16 +15,10 @@ public class Population {
     private Constants.SELECTION_MODE selection_mode;
     private Constants.CROSSOVER_MODE crossover_mode;
     private Constants.MUTATION_MODE mutation_mode;
+    private FitnessComparator fitnessComparator = new FitnessComparator();
 
     Population() {
         this(2000, 0.5, 0.02,
-                Constants.SELECTION_MODE.ROULETTE,
-                Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
-    }
-
-    Population(int POPULATION_SIZE, double crossoverRate, double mutatationRate) {
-        this(POPULATION_SIZE, crossoverRate, mutatationRate,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
@@ -350,24 +344,6 @@ public class Population {
         return winners;
     }
 
-    private List<Genome> getRandomForTournament(double numberOfGenomes) {
-        List<Genome> warriors = new ArrayList<>();
-        double perc = numberOfGenomes / POPULATION_SIZE;
-        int index = 0;
-
-        while (warriors.size() < numberOfGenomes) {
-            if (random.nextDouble() < perc) {
-                warriors.add(currentpopulation.get(index));
-            }
-            index++;
-            if (index >= currentpopulation.size()) index = 0;
-        }
-
-        return warriors;
-    }
-
-    //TODO: make tournament take 4 genomes and fight, take winner, and do this until POPULATION_SIZE/2
-
     //A tournament is ran, and the winners will be use in crossovers.
     private List<Genome> selectTournament() {
         List<Genome> winners = new ArrayList<>();
@@ -444,17 +420,36 @@ public class Population {
     /**
      * Evaluates each genome in the current population
      */
-    //TODO: Make BEST, AVG, and WORST warrior for this generation, and compare to the absolute best
     private void evaluatePopulation(int generation) {
         int pop = currentpopulation.size();
-
+        Genome best = null, worst = null;
         for (int i = 0; i < pop; i++) {
             Genome g = currentpopulation.get(i);
             Warrior.makeWarrior(g);
             float fitness = CommandLine.fitness();
             g.setFitness(fitness);
+            if (best == null && worst == null) {
+                best = g;
+                worst = g;
+            }
+            if (best.getFitness() < g.getFitness()) best = g;
+            if (worst.getFitness() > g.getFitness()) worst = g;
         }
-        Collections.sort(currentpopulation, new FitnessComparator());
+        try {
+            Warrior.makeWarrior(best, worst, generation);//save the best of this generation
+            if (best.getFitness() > Constants.BEST_FITNESS) {
+                Constants.BEST_FITNESS = best.getFitness();
+                Warrior.makeBest(best);
+            }
+            if (worst.getFitness() < Constants.WORST_FITNESS) {
+                Constants.WORST_FITNESS = worst.getFitness();
+                Warrior.makeWorst(worst);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Collections.sort(currentpopulation, fitnessComparator);
     }
 
     /**

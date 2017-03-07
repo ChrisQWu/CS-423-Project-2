@@ -10,12 +10,6 @@ public class Constants
     public static final boolean DEBUG = true;
     public final static double ELITISM = 0.01;//top X percent of the population automatically kept
 
-    //these values will be set when Population evaluates their population and compares to the absolute best
-    public static double BEST_FITNESS = 0.0;
-    public static double WORST_FITNESS = 100.0;
-    public static double MEAN_FITNESS = 50.0;
-
-
 
     public static char[] Amodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
@@ -105,19 +99,45 @@ public class Constants
         ONE_POINT_CROSSOVER
     }
 
-    public static final String FILENAME = "Warriors_Folder/WARRIOR.RED";
-    public static final String COMP_1 = "Warriors_Folder/Competitor_1.RED";
-    public static final String COMP_2 = "Warriors_Folder/Competitor_2.RED";
-    public static final String COMP_3 = "Warriors_Folder/Competitor_3.RED";
-    public static final String COMP_4 = "Warriors_Folder/Competitor_4.RED";
-    public static final String BEST_WARRIOR = "Top_Warriors/BEST_Warrior_";
-    public static final String AVG_WARRIOR = "Top_Warriors/AVG_Warrior_";
-    public static final String WORST_WARRIOR = "Top_Warriors/WORST_Warrior_";
+    public static final String CLOSING = "end";
+    public static final String ext = ".RED";
 
+    public static final String FILENAME = "Warriors_Folder/WARRIOR"+ext;
     public static final String OPENING = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+
+    public static final String BEST_WARRIOR = "Top_Warriors/BEST_Warrior_";
+    public static final String WORST_WARRIOR = "Top_Warriors/WORST_Warrior_";
+    public static final String BEST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String WORST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+
+    //these values will be set when Population evaluates their population and compares to the absolute best
+    public static String type = "";//this value is set by Main to let users know what type of code was ran
+    public static double BEST_FITNESS = 0.0;
+    public static double WORST_FITNESS = 100.0;
+    public static final String ABS_BEST_WARRIOR = "Top_Warriors/ABS_BEST_Warrior"+type+ext;
+    public static final String ABS_WORST_WARRIOR = "Top_Warriors/ABS_WORST_Warrior"+type+ext;
+    public static final String ABS_BEST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String ABS_WORST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+
+    public static final String COMP_1 = "Warriors_Folder/Competitor_1"+ext;
+    public static final String COMP_2 = "Warriors_Folder/Competitor_2"+ext;
+    public static final String COMP_3 = "Warriors_Folder/Competitor_3"+ext;
+    public static final String COMP_4 = "Warriors_Folder/Competitor_4"+ext;
     public static final String COMPETITOR_1 = "; redcode\n" +
             "; name :  competitor 1\n" +
             "; author :  Team 12\n" +
@@ -134,8 +154,4 @@ public class Constants
             "; name :  competitor 4\n" +
             "; author :  Team 12\n" +
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
-
-    public static final String CLOSING = "end";
-    public static final String ext = ".RED";
-
 }
