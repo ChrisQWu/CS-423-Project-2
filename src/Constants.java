@@ -110,8 +110,8 @@ public class Constants
             "; author :  Team 12\n" +
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
 
-    public static final String BEST_WARRIOR = folder+"/BEST_Warrior_"+type;
-    public static final String WORST_WARRIOR = folder+"/WORST_Warrior_"+type;
+    public static final String BEST_WARRIOR = "Top_Warriors/BEST_Warrior_"+type+"_";
+    public static final String WORST_WARRIOR = "Top_Warriors/WORST_Warrior_"+type+"_";
     public static final String BEST = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
