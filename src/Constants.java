@@ -8,7 +8,7 @@ public class Constants
     private final static char EMPTY_CHAR = ' ';
     public static boolean bound = true;
     public static final boolean DEBUG = true;
-    public final static double ELITISM = 0.01;//top X percent of the population automatically kept
+    public static double ELITISM = 0.01;//top X percent of the population automatically kept
 
 
     public static char[] Amodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
@@ -101,15 +101,17 @@ public class Constants
 
     public static final String CLOSING = "end";
     public static final String ext = ".RED";
+    public static String type = "";//this value is set by Main to let users know what type of code was ran
+    public static String folder = "";//this value will change the folder being used
 
-    public static final String FILENAME = "Warriors_Folder/WARRIOR"+ext;
+    public static final String FILENAME = folder+"/WARRIOR"+ext;
     public static final String OPENING = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
 
-    public static final String BEST_WARRIOR = "Top_Warriors/BEST_Warrior_";
-    public static final String WORST_WARRIOR = "Top_Warriors/WORST_Warrior_";
+    public static final String BEST_WARRIOR = folder+"/BEST_Warrior_"+type;
+    public static final String WORST_WARRIOR = folder+"/WORST_Warrior_"+type;
     public static final String BEST = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
@@ -120,7 +122,6 @@ public class Constants
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
 
     //these values will be set when Population evaluates their population and compares to the absolute best
-    public static String type = "";//this value is set by Main to let users know what type of code was ran
     public static double BEST_FITNESS = 0.0;
     public static double WORST_FITNESS = 100.0;
     public static final String ABS_BEST_WARRIOR = "Top_Warriors/ABS_BEST_Warrior"+type+ext;

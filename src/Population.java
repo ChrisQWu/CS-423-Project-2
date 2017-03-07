@@ -466,15 +466,7 @@ public class Population {
         this.currentpopulation.addAll(currentPopulation);
     }
 
-    class FitnessComparator implements Comparator<Genome> {
 
-        @Override
-        public int compare(Genome o1, Genome o2) {
-            if (o1.getFitness() < o2.getFitness()) return 1;
-            else if (o1.getFitness() > o2.getFitness()) return -1;
-            else return 0;
-        }
-    }
 
     public static void main(String[] args) {
         Population population = new Population(1000, 0.5, 0.01,
