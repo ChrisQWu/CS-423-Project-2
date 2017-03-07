@@ -160,7 +160,7 @@ public class Warrior {
         FileWriter fw = null;
 
         try {
-
+            System.out.println("folder: "+Constants.folder);
             fw = new FileWriter(Constants.BEST_WARRIOR+iterations+Constants.ext, false);
             bw = new BufferedWriter(fw);
             String content = genome1.getGenomeAsCommand();
