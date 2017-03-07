@@ -13,28 +13,15 @@ public class Main {
     }
 
     public Main() {
-        Population population = new Population();
-        population.start();
-
+        varySelection();
+        varyCrossover();
+        varyMutationRate();
+        varyCrossoverRate();
+        island();
+        elitism();
     }
 
-    /**
-     * Sets up the islands and evenly distributes the total population across each island.
-     * Then runs each island for 10 iterations.
-     * Then takes the all the islands, and redistributes the population back on the islands.
-     * For now the redistribution will be the first island with all of the best, the second island with the next
-     * interval best, and etc.
-     */
 
-    /* TODO:1) run every selection type with crossover and mutation constant
-            2) Every crossover with selection and mutation constant
-            3) different mutation rates
-            4) different crossover rates
-            5) Island GA
-            6) different elitism values (0% or 2%) (OPTIONAL)
-            7) Record best/worst/avg warrior as .RED and for a csv for the fitness values PER generation
-                Add to constants for the filename used for them, and add folders for each step
-    */
 
     /**
      * Run GA with varied selections
@@ -44,20 +31,20 @@ public class Main {
         Constants.folder = "Selection";
         Constants.type = "Random_OnePoint_Mutation";
 
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.RANDOM,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_OnePoint_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Tournament_OnePoint_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.TOURNAMENT,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
     private void varyCrossover()
@@ -65,20 +52,20 @@ public class Main {
         Constants.folder = "Crossover";
 
         Constants.type = "Roulette_OnePoint_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Uniform_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_No_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.NO_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
     private void varyMutationRate()
@@ -86,15 +73,15 @@ public class Main {
         Constants.folder = "Mutation_Rate";
 
         Constants.type = "Roulette_OnePoint_Zero";
-        new Population(1000, 0.5, 0,
+        (new Population(1000, 0.5, 0,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Uniform_NonZero";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
     private void varyCrossoverRate()
@@ -102,17 +89,23 @@ public class Main {
         Constants.folder = "Crossover_Rate";
 
         Constants.type = "Roulette_Half_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Quarter_Mutation";
-        new Population(1000, 0.25, 0.0001,
+        (new Population(1000, 0.25, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
-
+    /**
+     * Sets up the islands and evenly distributes the total population across each island.
+     * Then runs each island for 10 iterations.
+     * Then takes the all the islands, and redistributes the population back on the islands.
+     * For now the redistribution will be the first island with all of the best, the second island with the next
+     * interval best, and etc.
+     */
     private void island() {
         Constants.folder = "Island";
 
