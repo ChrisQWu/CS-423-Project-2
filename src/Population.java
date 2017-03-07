@@ -352,13 +352,13 @@ public class Population {
                     g2 = currentpopulation.get(random.nextInt(currentpopulation.size())),
                     g3 = currentpopulation.get(random.nextInt(currentpopulation.size())),
                     g4 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-            while (true) {
-                if (!elites.contains(g1)) g1 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-                if (!elites.contains(g2)) g2 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-                if (!elites.contains(g3)) g3 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-                if (!elites.contains(g4)) g4 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-                if (!elites.contains(g1) && !elites.contains(g2) && !elites.contains(g3) && !elites.contains(g4)) break;
-            }
+//            while (true) {
+//                if (!elites.contains(g1)) g1 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+//                if (!elites.contains(g2)) g2 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+//                if (!elites.contains(g3)) g3 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+//                if (!elites.contains(g4)) g4 = currentpopulation.get(random.nextInt(currentpopulation.size()));
+//                if (!elites.contains(g1) && !elites.contains(g2) && !elites.contains(g3) && !elites.contains(g4)) break;
+//            }
             try {
                 Warrior.makeWarrior(g1, g2, g3, g4);
                 short round_winner = CommandLine.tournament();
