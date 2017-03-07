@@ -129,7 +129,7 @@ public class Population {
         currentpopulation.clear();
         currentpopulation.addAll(toAdd);
         currentpopulation.addAll(elites);
-
+        if (Constants.DEBUG) System.out.println("Current Population: " + currentpopulation.size());
         switch (mutation_mode) {
             case MUTATION:
                 mutatePopulation();
@@ -142,7 +142,7 @@ public class Population {
         }
 
 
-        if (Constants.DEBUG) System.out.println("Current Population: " + currentpopulation.size());
+
     }
 
 

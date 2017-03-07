@@ -31,20 +31,20 @@ public class Main {
         Constants.folder = "Selection";
         Constants.type = "Random_OnePoint_Mutation";
 
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.RANDOM,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_OnePoint_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Tournament_OnePoint_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.TOURNAMENT,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
     private void varyCrossover()
@@ -52,20 +52,20 @@ public class Main {
         Constants.folder = "Crossover";
 
         Constants.type = "Roulette_OnePoint_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Uniform_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_No_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.NO_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
     private void varyMutationRate()
@@ -73,15 +73,15 @@ public class Main {
         Constants.folder = "Mutation_Rate";
 
         Constants.type = "Roulette_OnePoint_Zero";
-        new Population(1000, 0.5, 0,
+        (new Population(1000, 0.5, 0,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Uniform_NonZero";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
     private void varyCrossoverRate()
@@ -89,15 +89,15 @@ public class Main {
         Constants.folder = "Crossover_Rate";
 
         Constants.type = "Roulette_Half_Mutation";
-        new Population(1000, 0.5, 0.0001,
+        (new Population(1000, 0.5, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Quarter_Mutation";
-        new Population(1000, 0.25, 0.0001,
+        (new Population(1000, 0.25, 0.0001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
     /**
      * Sets up the islands and evenly distributes the total population across each island.
