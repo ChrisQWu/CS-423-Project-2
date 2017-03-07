@@ -104,7 +104,7 @@ public class Constants
     public static String type = "";//this value is set by Main to let users know what type of code was ran
     public static String folder = "";//this value will change the folder being used
 
-    public static final String FILENAME = folder+"/WARRIOR"+ext;
+    public static final String FILENAME = "Warriors_Folder/WARRIOR"+ext;
     public static final String OPENING = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
