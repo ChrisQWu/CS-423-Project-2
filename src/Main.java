@@ -13,9 +13,12 @@ public class Main {
     }
 
     public Main() {
-        Population population = new Population();
-        population.start();
-
+        varySelection();
+        varyCrossover();
+        varyMutationRate();
+        varyCrossoverRate();
+        island();
+        elitism();
     }
 
     /**
