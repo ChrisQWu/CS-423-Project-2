@@ -12,7 +12,7 @@ public class Recorder {
 
         try {
 
-            fw = new FileWriter(Constants.type+".csv", true);
+            fw = new FileWriter(Constants.folder+"/"+Constants.type+".csv", true);
             bw = new BufferedWriter(fw);
             String content = Constants.folder+"/BEST_Warrior_"+Constants.type+","+bestFitness+","
                     +Constants.folder+"/WORST_Warrior_"+Constants.type+","+worstFitness+","+"\n";
