@@ -8,12 +8,7 @@ import java.io.InputStreamReader;
  */
 public class CommandLine {
     private static final String Command = "./pmars -r 10 ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED";
-    private static final String Tournament = "./pmars -r 10 ./Warriors_Folder/Competitor_1.RED ./Warriors_Folder/Competitor_2.RED";
-    //    private static final String Command ="./pmars ./Warriors_Folder/WARRIOR.RED";
-//    private static final String File = "./Wariors_Folder/WARRIOR";
     private static final String scores = ":  Handsome Jack by :  Team 12 scores ";
-    private static final String competitorOne = ":  competitor 1 by :  Team 12 scores ";
-    private static final String competitorTwo = ":  competitor 2 by :  Team 12 scores ";
 
     /**
      * Code from http://stackoverflow.com/questions/26697916/running-a-bash-command-in-different-directory-from-a-java-program
@@ -75,10 +70,18 @@ public class CommandLine {
         return score;
     }
 
-    public static boolean tournament() {
+    private static final String Tournament = "./pmars -r 10 ./"+Constants.COMP_1+" ./"+Constants.COMP_2+" ./"+Constants.COMP_3+" ./"+Constants.COMP_4;
+    private static final String competitorOne = ":  competitor 1 by :  Team 12 scores ";
+    private static final String competitorTwo = ":  competitor 2 by :  Team 12 scores ";
+    private static final String competitorThree = ":  competitor 3 by :  Team 12 scores ";
+    private static final String competitorFour = ":  competitor 4 by :  Team 12 scores ";
+
+    public static short tournament() {
         String line;
         float score1 = -1;
         float score2 = -1;
+        float score3 = -1;
+        float score4 = -1;
         try {
             // create a process and execute
             Process p = Runtime.getRuntime().exec(Tournament, null, new File("./"));
@@ -87,24 +90,32 @@ public class CommandLine {
 //                System.out.println(line);
 
                 score1 = line.indexOf(competitorOne);
-//                System.out.println("index: " + score);
                 if (score1 != -1) {
-                    //System.out.println(line.substring((int)score + 7));
-                    score1 = Float.parseFloat(line.substring(scores.length()));
+                    score1 = Float.parseFloat(line.substring(competitorOne.length()));
                     break;
                 }
                 score2 = line.indexOf(competitorTwo);
-//                System.out.println("index: " + score);
                 if (score2 != -1) {
-                    //System.out.println(line.substring((int)score + 7));
-                    score2 = Float.parseFloat(line.substring(scores.length()));
+                    score2 = Float.parseFloat(line.substring(competitorTwo.length()));
+                    break;
+                }
+                score3 = line.indexOf(competitorThree);
+                if (score3 != -1) {
+                    score3 = Float.parseFloat(line.substring(competitorThree.length()));
+                    break;
+                }
+                score4 = line.indexOf(competitorFour);
+                if (score4 != -1) {
+                    score4 = Float.parseFloat(line.substring(competitorFour.length()));
                     break;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return score1>score2?true:false;
+        if(score1>score2 && score1>score3 && score1>score4) return 1;
+        if(score2>score1 && score2>score3 && score2>score4) return 2;
+        if(score3>score1 && score3>score2 && score3>score4) return 3;
+        else return 4;
     }
 }

@@ -6,7 +6,11 @@ public class Constants
 {
     public final static int DEFAULT_LENGTH = 1;
     private final static char EMPTY_CHAR = ' ';
-    public final static double ELITISM = 0.001;//top X percent of the population automatically kept
+    public static boolean bound = true;
+    public static final boolean DEBUG = true;
+    public final static double ELITISM = 0.01;//top X percent of the population automatically kept
+
+
     public static char[] Amodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
 //            '#',        // # immediate
@@ -42,12 +46,12 @@ public class Constants
         MOV("MOV",2),           // move (copies data from one address to another)
         ADD("ADD",2),           // add (adds one number to another)
         SUB("SUB",2),           // subtract (subtracts one number from another)
-        MUL("MUL",2),           // multiply (multiplies one number with another)
-        DIV("DIV",2),           // divide (divides one number with another)
-        MOD("MOD",2),           // modulus (divides one number with another and gives the remainder)
         JMP("JMP",1),           // jump (continues execution from another address)
         JMZ("JMZ",1),           // jump if zero (continues execution from another address)
         JMN("JMN",1),           // jump if not zero (tests a number and jumps if it isn't 0)
+        MUL("MUL",2),           // multiply (multiplies one number with another)
+        DIV("DIV",2),           // divide (divides one number with another)
+        MOD("MOD",2),           // modulus (divides one number with another and gives the remainder)
         DJN("DJN",2),           // decrement and jump if not zero (decrements a number by one and jumps unless the result is 0)
         SPL("SPL",2),           // split (starts an execution thread at another address)
         CMP("CMP",2),           // compare (same as SEQ)
@@ -95,4 +99,59 @@ public class Constants
         ONE_POINT_CROSSOVER
     }
 
+    public static final String CLOSING = "end";
+    public static final String ext = ".RED";
+
+    public static final String FILENAME = "Warriors_Folder/WARRIOR"+ext;
+    public static final String OPENING = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+
+    public static final String BEST_WARRIOR = "Top_Warriors/BEST_Warrior_";
+    public static final String WORST_WARRIOR = "Top_Warriors/WORST_Warrior_";
+    public static final String BEST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String WORST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+
+    //these values will be set when Population evaluates their population and compares to the absolute best
+    public static String type = "";//this value is set by Main to let users know what type of code was ran
+    public static double BEST_FITNESS = 0.0;
+    public static double WORST_FITNESS = 100.0;
+    public static final String ABS_BEST_WARRIOR = "Top_Warriors/ABS_BEST_Warrior"+type+ext;
+    public static final String ABS_WORST_WARRIOR = "Top_Warriors/ABS_WORST_Warrior"+type+ext;
+    public static final String ABS_BEST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String ABS_WORST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+
+    public static final String COMP_1 = "Warriors_Folder/Competitor_1"+ext;
+    public static final String COMP_2 = "Warriors_Folder/Competitor_2"+ext;
+    public static final String COMP_3 = "Warriors_Folder/Competitor_3"+ext;
+    public static final String COMP_4 = "Warriors_Folder/Competitor_4"+ext;
+    public static final String COMPETITOR_1 = "; redcode\n" +
+            "; name :  competitor 1\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String COMPETITOR_2 = "; redcode\n" +
+            "; name :  competitor 2\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String COMPETITOR_3 = "; redcode\n" +
+            "; name :  competitor 3\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String COMPETITOR_4 = "; redcode\n" +
+            "; name :  competitor 4\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
 }

@@ -33,7 +33,7 @@ public class Genome {
         genome = new ArrayList<>();
         this.random = random;
         this.fitness = 0;
-        generateGenome(-1);//default genome generation
+        generateGenome(10);//default genome generation
     }
 
     /**
@@ -171,7 +171,7 @@ public class Genome {
      * @return an int representation of a gene
      */
     private int[] generateGene(int length) {
-        int instruction = random.nextInt(Constants.INSTRUCTION.values().length - 1);
+        int instruction = random.nextInt(Constants.bound?7:Constants.INSTRUCTION.values().length - 1);
         int mode1 = random.nextInt(Constants.Amodes.length);
         int param1 = random.nextInt(2 * length) - length;
         int mode2 = random.nextInt(Constants.Bmodes.length);

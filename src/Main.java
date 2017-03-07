@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 /**
  * Created by thebaker on 2/24/17.
@@ -25,6 +24,16 @@ public class Main {
      * For now the redistribution will be the first island with all of the best, the second island with the next
      * interval best, and etc.
      */
+
+    /* TODO:1) run every selection type with crossover and mutation constant
+            2) Every crossover with selection and mutation constant
+            3) different mutation rates
+            4) different crossover rates
+            5) Island GA
+            6) different elitism values (0% or 2%) (OPTIONAL)
+            7) Record best/worst/avg warrior as .RED and for a csv for the fitness values PER generation
+                Add to constants for the filename used for them, and add folders for each step
+    */
     private void island() {
         int island_number = 10;
         int total_population = 1000;
