@@ -437,6 +437,7 @@ public class Population {
         }
         try {
             Warrior.makeWarrior(best, worst, generation);//save the best of this generation
+            Recorder.makeCSV(best.getFitness(),worst.getFitness());
             if (best.getFitness() > Constants.BEST_FITNESS) {
                 Constants.BEST_FITNESS = best.getFitness();
                 Warrior.makeBest(best);
