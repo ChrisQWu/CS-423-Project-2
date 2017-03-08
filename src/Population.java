@@ -57,7 +57,7 @@ public class Population {
 
     public void start() {
         generatePopulation();
-        runGeneticAlgorithm(400);
+        runGeneticAlgorithm(1000);
         int i = 0;
         for (Genome g : currentpopulation) {
             i++;
