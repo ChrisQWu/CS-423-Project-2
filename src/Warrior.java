@@ -61,6 +61,7 @@ public class Warrior {
         BufferedWriter bw = null;
         FileWriter fw = null;
 
+
         try {
 
             fw = new FileWriter(Constants.COMP_1, false);
