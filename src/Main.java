@@ -178,9 +178,8 @@ public class Main
         for (int j = 0; j < numberIsland; j++)
         {
             ArrayList<Genome> temp = new ArrayList<>();
-            for (int i = 0; i < population_size/numberIsland; i++) {
-                temp.add(allWarriors.remove(0));
-            }
+            temp.addAll(allWarriors.subList(0,population_size/numberIsland-1));
+            allWarriors.removeAll(allWarriors.subList(0,population_size/numberIsland-1));
             islands[j].setCurrentPopulation(temp);
         }
         allWarriors.clear();
