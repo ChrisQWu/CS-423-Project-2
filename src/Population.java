@@ -57,7 +57,7 @@ public class Population {
 
     public void start() {
         generatePopulation();
-        runGeneticAlgorithm(200);
+        runGeneticAlgorithm(100);
         int i = 0;
         for (Genome g : currentpopulation) {
             i++;
@@ -113,6 +113,7 @@ public class Population {
 
         switch (crossover_mode) {
             case NO_CROSSOVER:
+                toAdd.addAll(currentpopulation);
                 break;
             case ONE_POINT_CROSSOVER:
                 toAdd = onePointCrossover(selected);
