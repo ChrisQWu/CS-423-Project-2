@@ -7,36 +7,36 @@ public class Constants
     public final static int DEFAULT_LENGTH = 1;
     private final static char EMPTY_CHAR = ' ';
     public static boolean bound = true;
-    public static final boolean DEBUG = true;
-    public static double ELITISM = 0.01;//top X percent of the population automatically kept
+    public static final boolean DEBUG = false;
+    public static double ELITISM = 0.04;//top X percent of the population automatically kept
 
 
     public static char[] Amodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
-//            '#',        // # immediate
+            '#',        // # immediate
             EMPTY_CHAR,
-//            '$',        // $ direct
+            '$',        // $ direct
             EMPTY_CHAR,
             EMPTY_CHAR,
             EMPTY_CHAR,
-//            '*',        // * indirect using A-field
+            '*',        // * indirect using A-field
             EMPTY_CHAR,
-//            '{',        // { predrecement indirect using A-field
+            '{',        // { predrecement indirect using A-field
             EMPTY_CHAR,
-//            '}',        // } postincrement indirect using A-field
+            '}',        // } postincrement indirect using A-field
             EMPTY_CHAR,};
 
     public static char[] Bmodes = new char[]{//added a lot of extra EMPTY_CHAR to bias towards empty characters.
             EMPTY_CHAR,
-//            '#',        // # immediate
+            '#',        // # immediate
             EMPTY_CHAR,
-//            '$',        // $ direct
+            '$',        // $ direct
             EMPTY_CHAR,
-//            '@',        // @ indirect
+            '@',        // @ indirect
             EMPTY_CHAR,
-//            '<',        // < indirect with predecrement
+            '<',        // < indirect with predecrement
             EMPTY_CHAR,
-//            '>',        // > indirect with postdecrement
+            '>',        // > indirect with postdecrement
             EMPTY_CHAR,
             EMPTY_CHAR,
             EMPTY_CHAR,};

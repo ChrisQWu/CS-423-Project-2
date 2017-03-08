@@ -162,14 +162,14 @@ public class Warrior {
 
         try {
             System.out.println("folder: "+Constants.folder);
-            fw = new FileWriter(Constants.BEST_WARRIOR+iterations+Constants.ext, false);
+            fw = new FileWriter(Constants.BEST_WARRIOR+Constants.ext, false);
             bw = new BufferedWriter(fw);
             String content = genome1.getGenomeAsCommand();
             bw.write(Constants.BEST);
             bw.write(content);
             bw.write(Constants.CLOSING);
 
-            fw = new FileWriter(Constants.WORST_WARRIOR+iterations+Constants.ext, false);
+            fw = new FileWriter(Constants.WORST_WARRIOR+Constants.ext, false);
             bw = new BufferedWriter(fw);
             content = genome2.getGenomeAsCommand();
             bw.write(Constants.WORST);

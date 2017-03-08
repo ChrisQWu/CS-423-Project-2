@@ -18,7 +18,7 @@ public class Population {
     private FitnessComparator fitnessComparator = new FitnessComparator();
 
     Population() {
-        this(2000, 0.5, 0.02,
+        this(100, 0.5, 0.001,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
@@ -57,7 +57,7 @@ public class Population {
 
     public void start() {
         generatePopulation();
-        runGeneticAlgorithm(100);
+        runGeneticAlgorithm(200);
         int i = 0;
         for (Genome g : currentpopulation) {
             i++;
@@ -95,7 +95,6 @@ public class Population {
         List<Genome> selected = new ArrayList<>();
         List<Genome> toAdd = new ArrayList<>();
         elitism();
-        System.out.println("elites size:" + elites.size());
 
         switch (selection_mode) {
             case RANDOM:
@@ -423,11 +422,13 @@ public class Population {
     private void evaluatePopulation(int generation) {
         int pop = currentpopulation.size();
         Genome best = null, worst = null;
+        double totalFitness = 0;
         for (int i = 0; i < pop; i++) {
             Genome g = currentpopulation.get(i);
             Warrior.makeWarrior(g);
             float fitness = CommandLine.fitness();
             g.setFitness(fitness);
+            totalFitness += fitness;
             if (best == null && worst == null) {
                 best = g;
                 worst = g;
@@ -445,6 +446,7 @@ public class Population {
                 Constants.WORST_FITNESS = worst.getFitness();
                 Warrior.makeWorst(worst);
             }
+            Recorder.makeCSV(Constants.BEST_FITNESS, Constants.WORST_FITNESS, totalFitness);
         } catch (IOException e) {
             e.printStackTrace();
         }
