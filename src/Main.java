@@ -16,26 +16,26 @@ public class Main
 
     public Main()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            varySelection(i);
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            varyCrossover(i);
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            varyMutationRate(i);
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            varyCrossoverRate(i);
-        }
-//        for (int i = 0; i < 5; i++)
+//        for (int i = 0; i < 10; i++)
 //        {
-//            island(i);
+//            varySelection(i);
 //        }
+//        for (int i = 0; i < 10; i++)
+//        {
+//            varyCrossover(i);
+//        }
+//        for (int i = 0; i < 10; i++)
+//        {
+//            varyMutationRate(i);
+//        }
+//        for (int i = 0; i < 10; i++)
+//        {
+//            varyCrossoverRate(i);
+//        }
+        for (int i = 0; i < 5; i++)
+        {
+            island(i);
+        }
 //        for (int i = 0; i < 5; i++)
 //        {
 //            elitism(i);
@@ -174,7 +174,7 @@ public class Main
             allWarriors.addAll(p.getCurrentPopulationAndEmpty());
         }
         Collections.sort(allWarriors, new FitnessComparator());
-
+        System.out.println("All Warriors size "+allWarriors.size());
         for (int j = 0; j < numberIsland; j++)
         {
             ArrayList<Genome> temp = new ArrayList<>();
