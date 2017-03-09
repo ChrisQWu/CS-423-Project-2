@@ -60,6 +60,12 @@ public class Warrior {
 
         BufferedWriter bw = null;
         FileWriter fw = null;
+        BufferedWriter bw1 = null;
+        FileWriter fw1 = null;
+        BufferedWriter bw2 = null;
+        FileWriter fw2 = null;
+        BufferedWriter bw3 = null;
+        FileWriter fw3 = null;
 
 
         try {
@@ -71,26 +77,26 @@ public class Warrior {
             bw.write(content);
             bw.write(Constants.CLOSING);
 
-            fw = new FileWriter(Constants.COMP_2, false);
-            bw = new BufferedWriter(fw);
+            fw1 = new FileWriter(Constants.COMP_2, false);
+            bw1 = new BufferedWriter(fw1);
             content = genome2.getGenomeAsCommand();
-            bw.write(Constants.COMPETITOR_2);
-            bw.write(content);
-            bw.write(Constants.CLOSING);
+            bw1.write(Constants.COMPETITOR_2);
+            bw1.write(content);
+            bw1.write(Constants.CLOSING);
 
-            fw = new FileWriter(Constants.COMP_3, false);
-            bw = new BufferedWriter(fw);
+            fw2 = new FileWriter(Constants.COMP_3, false);
+            bw2 = new BufferedWriter(fw2);
             content = genome3.getGenomeAsCommand();
-            bw.write(Constants.COMPETITOR_3);
-            bw.write(content);
-            bw.write(Constants.CLOSING);
+            bw2.write(Constants.COMPETITOR_3);
+            bw2.write(content);
+            bw2.write(Constants.CLOSING);
 
-            fw = new FileWriter(Constants.COMP_4, false);
-            bw = new BufferedWriter(fw);
+            fw3 = new FileWriter(Constants.COMP_4, false);
+            bw3 = new BufferedWriter(fw3);
             content = genome4.getGenomeAsCommand();
-            bw.write(Constants.COMPETITOR_4);
-            bw.write(content);
-            bw.write(Constants.CLOSING);
+            bw3.write(Constants.COMPETITOR_4);
+            bw3.write(content);
+            bw3.write(Constants.CLOSING);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,6 +106,24 @@ public class Warrior {
             }
             if (fw != null) {
                 fw.close();
+            }
+            if (bw1 != null) {
+                bw1.close();
+            }
+            if (fw1 != null) {
+                fw1.close();
+            }
+            if (bw2 != null) {
+                bw2.close();
+            }
+            if (fw2 != null) {
+                fw2.close();
+            }
+            if (bw3 != null) {
+                bw3.close();
+            }
+            if (fw3 != null) {
+                fw3.close();
             }
         }
     }
@@ -159,6 +183,8 @@ public class Warrior {
 
         BufferedWriter bw = null;
         FileWriter fw = null;
+        BufferedWriter bw1 = null;
+        FileWriter fw1 = null;
 
         try {
             if(Constants.DEBUG) System.out.println("folder: "+Constants.folder);
@@ -169,12 +195,12 @@ public class Warrior {
             bw.write(content);
             bw.write(Constants.CLOSING);
 
-            fw = new FileWriter(Constants.WORST_WARRIOR+Constants.ext, false);
-            bw = new BufferedWriter(fw);
+            fw1 = new FileWriter(Constants.WORST_WARRIOR+Constants.ext, false);
+            bw1 = new BufferedWriter(fw1);
             content = genome2.getGenomeAsCommand();
-            bw.write(Constants.WORST);
-            bw.write(content);
-            bw.write(Constants.CLOSING);
+            bw1.write(Constants.WORST);
+            bw1.write(content);
+            bw1.write(Constants.CLOSING);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -184,6 +210,12 @@ public class Warrior {
             }
             if (fw != null) {
                 fw.close();
+            }
+            if (bw1 != null) {
+                bw1.close();
+            }
+            if (fw1 != null) {
+                fw1.close();
             }
         }
     }

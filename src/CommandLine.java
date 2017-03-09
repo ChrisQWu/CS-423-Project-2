@@ -10,6 +10,7 @@ public class CommandLine {
     private static final String Command = "./pmars -r 5 ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED";
     private static final String scores = ":  Handsome Jack by :  Team 12 scores ";
     //
+
     /**
      * Code from http://stackoverflow.com/questions/26697916/running-a-bash-command-in-different-directory-from-a-java-program
      *
@@ -20,6 +21,7 @@ public class CommandLine {
         String line;
         float score = -1;
         try {
+
             // create a process and execute
             Process p = Runtime.getRuntime().exec(Command, null, new File("."));
             BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -70,7 +72,7 @@ public class CommandLine {
         return score;
     }
 
-    private static final String Tournament = "./pmars -r 10 ./"+Constants.COMP_1+" ./"+Constants.COMP_2+" ./"+Constants.COMP_3+" ./"+Constants.COMP_4;
+    private static final String Tournament = "./pmars -r 10 ./" + Constants.COMP_1 + " ./" + Constants.COMP_2 + " ./" + Constants.COMP_3 + " ./" + Constants.COMP_4;
     private static final String competitorOne = ":  competitor 1 by :  Team 12 scores ";
     private static final String competitorTwo = ":  competitor 2 by :  Team 12 scores ";
     private static final String competitorThree = ":  competitor 3 by :  Team 12 scores ";
@@ -113,9 +115,9 @@ public class CommandLine {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(score1>score2 && score1>score3 && score1>score4) return 1;
-        if(score2>score1 && score2>score3 && score2>score4) return 2;
-        if(score3>score1 && score3>score2 && score3>score4) return 3;
+        if (score1 > score2 && score1 > score3 && score1 > score4) return 1;
+        if (score2 > score1 && score2 > score3 && score2 > score4) return 2;
+        if (score3 > score1 && score3 > score2 && score3 > score4) return 3;
         else return 4;
     }
 }
