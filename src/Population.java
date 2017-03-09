@@ -428,7 +428,9 @@ public class Population {
             Warrior.makeWarrior(g);
             float fitness = CommandLine.fitness();
             g.setFitness(fitness);
-            totalFitness += fitness;
+            if(fitness > 0) {
+                totalFitness += fitness;
+            }
             if (best == null && worst == null) {
                 best = g;
                 worst = g;
@@ -446,7 +448,7 @@ public class Population {
                 Constants.WORST_FITNESS = worst.getFitness();
                 Warrior.makeWorst(worst);
             }
-            Recorder.makeCSV(Constants.BEST_FITNESS, Constants.WORST_FITNESS, totalFitness);
+            Recorder.makeCSV(best.getFitness(), worst.getFitness(), totalFitness);
         } catch (IOException e) {
             e.printStackTrace();
         }

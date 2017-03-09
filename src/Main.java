@@ -20,26 +20,26 @@ public class Main
         {
             varySelection(i);
         }
-//        for (int i = 0; i < 10; i++)
-//        {
-//            varyCrossover(i);
-//        }
-//        for (int i = 0; i < 10; i++)
-//        {
-//            varyMutationRate(i);
-//        }
-//        for (int i = 0; i < 10; i++)
-//        {
-//            varyCrossoverRate(i);
-//        }
-//        for (int i = 0; i < 5; i++)
-//        {
-//            island(i);
-//        }
-//        for (int i = 0; i < 10; i++)
-//        {
-//            elitism(i);
-//        }
+        for (int i = 0; i < 10; i++)
+        {
+            varyCrossover(i);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            varyMutationRate(i);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            varyCrossoverRate(i);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            island(i);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            elitism(i);
+        }
     }
 
 
@@ -50,14 +50,14 @@ public class Main
     {
         Constants.folder = "Selection";
 
-        //Constants.type = "Random_OnePoint_Mutation_" + NUMBER;
+        Constants.type = "Random_OnePoint_Mutation_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
 
-//        (new Population(100, 0.5, 0.01,
-//            Constants.SELECTION_MODE.RANDOM,
-//            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-//            Constants.MUTATION_MODE.MUTATION)).start();
+        (new Population(100, 0.5, 0.01,
+            Constants.SELECTION_MODE.RANDOM,
+            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+            Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_OnePoint_Mutation_" + NUMBER;
         (new Population(100, 0.5, 0.01,
             Constants.SELECTION_MODE.ROULETTE,
