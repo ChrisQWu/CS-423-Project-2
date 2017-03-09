@@ -10,6 +10,8 @@ public class Population {
     private ArrayList<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
     private double crossoverRate;
+    private double bestOfPop = 0.0;
+    private double worstOfPop = 100.0;
     private int currentId;
     private double mutatationRate;
     private Constants.SELECTION_MODE selection_mode;
@@ -435,8 +437,17 @@ public class Population {
                 best = g;
                 worst = g;
             }
-            if (best.getFitness() < g.getFitness()) best = g;
-            if (worst.getFitness() > g.getFitness()) worst = g;
+            double fit = g.getFitness();
+            if (best.getFitness() < fit)
+            {
+                bestOfPop = fit;
+                best = g;
+            }
+            if (worst.getFitness() > fit)
+            {
+                worstOfPop = fit;
+                worst = g;
+            }
         }
         try {
             Warrior.makeWarrior(best, worst, generation);//save the best of this generation
@@ -448,7 +459,7 @@ public class Population {
                 Constants.WORST_FITNESS = worst.getFitness();
                 Warrior.makeWorst(worst);
             }
-            Recorder.makeCSV(best.getFitness(), worst.getFitness(), totalFitness);
+            Recorder.makeCSV(bestOfPop, worstOfPop, totalFitness);
         } catch (IOException e) {
             e.printStackTrace();
         }
