@@ -16,30 +16,30 @@ public class Main
 
     public Main()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            varySelection(i);
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            varyCrossover(i);
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            varyMutationRate(i);
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            varyCrossoverRate(i);
-        }
-//        for (int i = 0; i < 5; i++)
+//        for (int i = 0; i < 10; i++)
 //        {
-//            island(i);
+//            varySelection(i);
 //        }
-        for (int i = 0; i < 10; i++)
+//        for (int i = 0; i < 10; i++)
+//        {
+//            varyCrossover(i);
+//        }
+//        for (int i = 0; i < 10; i++)
+//        {
+//            varyMutationRate(i);
+//        }
+//        for (int i = 0; i < 10; i++)
+//        {
+//            varyCrossoverRate(i);
+//        }
+        for (int i = 0; i < 5; i++)
         {
-            elitism(i);
+            island(i);
         }
+//        for (int i = 0; i < 10; i++)
+//        {
+//            elitism(i);
+//        }
     }
 
 
@@ -160,27 +160,32 @@ public class Main
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         int numberIsland = 10;
         int population_size = 1000;
-        int totalIterations = 1000;
+        int totalIterations = 100;
         int seedIterations = totalIterations / 10;
         Population[] islands = new Population[numberIsland];
         ArrayList<Genome> allWarriors = new ArrayList<>();
-        for (Population p : islands)
+        System.out.println("initialzing");
+        for (int i=0; i<numberIsland; i++)
         {
-            p = new Population(population_size / numberIsland, 0.5, 0.01,
+            islands[i] = new Population(population_size / numberIsland, 0.5, 0.01,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                 Constants.MUTATION_MODE.MUTATION);
-            p.start(seedIterations);
-            allWarriors.addAll(p.getCurrentPopulationAndEmpty());
+            islands[i].start(seedIterations);
+            allWarriors.addAll(islands[i].getCurrentPopulationAndEmpty());
         }
         Collections.sort(allWarriors, new FitnessComparator());
-
-        for (int j = 0; j < numberIsland; j++)
+        System.out.println("redistributing");
+        for (int i=0; i<numberIsland; i++)
         {
             ArrayList<Genome> temp = new ArrayList<>();
-            temp.addAll(allWarriors.subList(0,population_size/numberIsland));
-            allWarriors.removeAll(allWarriors.subList(0,population_size/numberIsland));
-            islands[j].setCurrentPopulation(temp);
+            ArrayList<Genome> remove = new ArrayList<>();
+            remove.addAll(allWarriors.subList(0,population_size/numberIsland));
+            temp.addAll(remove);
+            for (Genome g:remove) {
+                allWarriors.remove(g);
+            }
+            islands[i].setCurrentPopulation(temp);
         }
         allWarriors.clear();
         for (Population p : islands)
