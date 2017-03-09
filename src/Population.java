@@ -440,14 +440,16 @@ public class Population {
             double fit = g.getFitness();
             if (best.getFitness() < fit)
             {
-                bestOfPop = fit;
                 best = g;
             }
+            if(bestOfPop < fit) bestOfPop = fit;
+
             if (worst.getFitness() > fit)
             {
-                worstOfPop = fit;
                 worst = g;
             }
+
+            if(worstOfPop > fit) worstOfPop = fit;
         }
         try {
             Warrior.makeWarrior(best, worst, generation);//save the best of this generation
