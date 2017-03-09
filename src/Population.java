@@ -12,6 +12,7 @@ public class Population {
     private double crossoverRate;
     private double bestOfPop = 0.0;
     private double worstOfPop = 100.0;
+    private double totalFitness = 0.0;
     private int currentId;
     private double mutatationRate;
     private Constants.SELECTION_MODE selection_mode;
@@ -424,32 +425,31 @@ public class Population {
     private void evaluatePopulation(int generation) {
         int pop = currentpopulation.size();
         Genome best = null, worst = null;
-        double totalFitness = 0;
+        double newTotalFitness = 0.0;
         for (int i = 0; i < pop; i++) {
             Genome g = currentpopulation.get(i);
             Warrior.makeWarrior(g);
             float fitness = CommandLine.fitness();
             g.setFitness(fitness);
             if(fitness > 0) {
-                totalFitness += fitness;
+                newTotalFitness += fitness;
             }
             if (best == null && worst == null) {
                 best = g;
                 worst = g;
             }
-            double fit = g.getFitness();
-            if (best.getFitness() < fit)
+            if (best.getFitness() < fitness)
             {
                 best = g;
             }
-            if(bestOfPop < fit) bestOfPop = fit;
+            if(bestOfPop < fitness) bestOfPop = fitness;
 
-            if (worst.getFitness() > fit)
+            if (worst.getFitness() > fitness)
             {
                 worst = g;
             }
 
-            if(worstOfPop > fit) worstOfPop = fit;
+            if(worstOfPop > fitness) worstOfPop = fitness;
         }
         try {
             Warrior.makeWarrior(best, worst, generation);//save the best of this generation
@@ -461,7 +461,9 @@ public class Population {
                 Constants.WORST_FITNESS = worst.getFitness();
                 Warrior.makeWorst(worst);
             }
+            if(newTotalFitness > 0) totalFitness = newTotalFitness;
             Recorder.makeCSV(bestOfPop, worstOfPop, totalFitness);
+            totalFitness = 0.0;
         } catch (IOException e) {
             e.printStackTrace();
         }

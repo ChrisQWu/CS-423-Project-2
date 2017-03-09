@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
  * Created by c on 2/23/2017.
  */
 public class CommandLine {
-    private static final String Command = "./pmars -r 5 ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED";
+    private static final String Command = "./pmars -r 5 ./Warriors_Folder/WARRIOR.RED ./WilkiesBench/BLUEFUNK.RED ./WilkiesBench/TORNADO.RED ./WilkiesBench/RAVE.RED";
     private static final String scores = ":  Handsome Jack by :  Team 12 scores ";
     //
 
