@@ -64,7 +64,7 @@ public class Population {
             if (Constants.DEBUG && g.getFitness() > 0) {
                 System.out.println(i + " fitness:" + g.getFitness());
             }
-            if (i < 10) {
+            if (Constants.DEBUG && i < 10) {
                 g.printGenome();
             }
         }
@@ -81,7 +81,7 @@ public class Population {
      */
     private void runGeneticAlgorithm(int iterations) {
         for (int i = 0; i < iterations; i++) {
-            System.out.println("iteration: " + i);
+            if(Constants.DEBUG)System.out.println("iteration: " + i);
             if (i > iterations / 10)
                 Constants.bound = false;//unbound the genome generation after some number of iterations
             generateNewPopulation(selection_mode, crossover_mode, mutation_mode);
@@ -113,7 +113,6 @@ public class Population {
 
         switch (crossover_mode) {
             case NO_CROSSOVER:
-                toAdd.addAll(currentpopulation);
                 break;
             case ONE_POINT_CROSSOVER:
                 toAdd = onePointCrossover(selected);
@@ -459,14 +458,13 @@ public class Population {
      * @return Empties the population to a list and returns that list
      */
     public List<Genome> getCurrentPopulationAndEmpty() {
-        List<Genome> population = new ArrayList<>();
-        population.addAll(currentpopulation);
-        currentpopulation.clear();
-        return population;
+
+        return currentpopulation;
     }
 
-    public void setCurrentPopulation(List<Genome> newPopulation) {
-        this.currentpopulation.addAll(newPopulation);
+    public void setCurrentPopulation(Collection<Genome> currentPopulation) {
+        currentPopulation.clear();
+        this.currentpopulation.addAll(currentPopulation);
     }
 
     class FitnessComparator implements Comparator<Genome> {
