@@ -155,23 +155,21 @@ public class Main {
         int seedIterations = totalIterations / 10;
         Population[] islands = new Population[numberIsland];
         ArrayList<Genome> allWarriors = new ArrayList<>();
-        for (Population p : islands) {
-            p = new Population(population_size / numberIsland, 0.5, 0.01,
+        for (int i = 0; i<numberIsland; i++) {
+            islands[i] = new Population(population_size / numberIsland, 0.5, 0.01,
                     Constants.SELECTION_MODE.ROULETTE,
                     Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                     Constants.MUTATION_MODE.MUTATION);
-            p.start(seedIterations);
-            allWarriors.addAll(p.getCurrentPopulationAndEmpty());
+            islands[i].start(seedIterations);
+            allWarriors.addAll(islands[i].getCurrentPopulationAndEmpty());
         }
         Collections.sort(allWarriors, new FitnessComparator());
-        System.out.println("All Warriors size " + allWarriors.size());
-        for (Population p : islands) {
+        for (int i = 0; i<numberIsland; i++) {
             ArrayList<Genome> temp = new ArrayList<>();
-            for (int i = 0; i < population_size / numberIsland; i++) {
+            for (int j = 0; j < population_size / numberIsland; j++) {
                 temp.add(allWarriors.remove(0));
             }
-            if(p != null) p.setCurrentPopulation(temp);
-            else System.out.println("WTF");
+            islands[i].setCurrentPopulation(temp);
         }
         allWarriors.clear();
         for (Population p : islands) {

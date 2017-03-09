@@ -458,7 +458,6 @@ public class Population {
      * @return Empties the population to a list and returns that list
      */
     public List<Genome> getCurrentPopulationAndEmpty() {
-
         return currentpopulation;
     }
 
