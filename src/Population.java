@@ -7,7 +7,7 @@ import java.util.*;
 public class Population {
     private final double POPULATION_SIZE;
     private final Random random = new Random();
-    private List<Genome> currentpopulation;
+    private ArrayList<Genome> currentpopulation;
     private List<Genome> elites = new ArrayList<>();
     private double crossoverRate;
     private int currentId;
@@ -57,7 +57,7 @@ public class Population {
 
     public void start() {
         generatePopulation();
-        runGeneticAlgorithm(100);
+        runGeneticAlgorithm(200);
         int i = 0;
         for (Genome g : currentpopulation) {
             i++;
@@ -113,7 +113,6 @@ public class Population {
 
         switch (crossover_mode) {
             case NO_CROSSOVER:
-                toAdd = currentpopulation;
                 break;
             case ONE_POINT_CROSSOVER:
                 toAdd = onePointCrossover(selected);
