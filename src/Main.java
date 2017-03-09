@@ -6,16 +6,13 @@ import java.util.List;
  * Created by thebaker on 2/24/17.
  * Entry point for the program. It's main use at the moment is to test out GA
  */
-public class Main
-{
+public class Main {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         new Main();
     }
 
-    public Main()
-    {
+    public Main() {
 //        for (int i = 0; i < 10; i++)
 //        {
 //            varySelection(i);
@@ -32,8 +29,7 @@ public class Main
 //        {
 //            varyCrossoverRate(i);
 //        }
-        for (int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             island(i);
         }
 //        for (int i = 0; i < 5; i++)
@@ -46,8 +42,7 @@ public class Main
     /**
      * Run GA with varied selections
      */
-    private void varySelection(int NUMBER)
-    {
+    private void varySelection(int NUMBER) {
         Constants.folder = "Selection";
 
         Constants.type = "Random_OnePoint_Mutation_" + NUMBER;
@@ -55,93 +50,90 @@ public class Main
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
 
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.RANDOM,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.RANDOM,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_OnePoint_Mutation";
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Tournament_OnePoint_Mutation";
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.TOURNAMENT,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.TOURNAMENT,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
-    private void varyCrossover(int NUMBER)
-    {
+    private void varyCrossover(int NUMBER) {
         Constants.folder = "Crossover";
 
         Constants.type = "Roulette_OnePoint_Mutation_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Uniform_Mutation_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_No_Mutation_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.NO_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.NO_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
-    private void varyMutationRate(int NUMBER)
-    {
+    private void varyMutationRate(int NUMBER) {
         Constants.folder = "Mutation_Rate";
 
         Constants.type = "Roulette_OnePoint_Zero_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.5, 0,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Uniform_NonZero_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Uniform_Greater_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.5, 0.025,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
-    private void varyCrossoverRate(int NUMBER)
-    {
+    private void varyCrossoverRate(int NUMBER) {
         Constants.folder = "Crossover_Rate";
 
         Constants.type = "Roulette_Half_Mutation_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.5, 0.01,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
         Constants.type = "Roulette_Quarter_Mutation_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         (new Population(100, 0.25, 0.01,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION)).start();
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION)).start();
     }
 
     /**
@@ -151,8 +143,7 @@ public class Main
      * For now the redistribution will be the first island with all of the best, the second island with the next
      * interval best, and etc.
      */
-    private void island(int NUMBER)
-    {
+    private void island(int NUMBER) {
         Constants.folder = "Island";
 
         Constants.type = "Roulette_OnePoint_Mutation_Island_" + NUMBER;
@@ -164,52 +155,49 @@ public class Main
         int seedIterations = totalIterations / 10;
         Population[] islands = new Population[numberIsland];
         ArrayList<Genome> allWarriors = new ArrayList<>();
-        for (Population p : islands)
-        {
+        for (Population p : islands) {
             p = new Population(population_size / numberIsland, 0.5, 0.01,
-                Constants.SELECTION_MODE.ROULETTE,
-                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                    Constants.SELECTION_MODE.ROULETTE,
+                    Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                    Constants.MUTATION_MODE.MUTATION);
             p.start(seedIterations);
             allWarriors.addAll(p.getCurrentPopulationAndEmpty());
         }
         Collections.sort(allWarriors, new FitnessComparator());
-        System.out.println("All Warriors size "+allWarriors.size());
-        for (int j = 0; j < numberIsland; j++)
-        {
+        System.out.println("All Warriors size " + allWarriors.size());
+        for (Population p : islands) {
             ArrayList<Genome> temp = new ArrayList<>();
-            for (int i = 0; i < population_size/numberIsland; i++) {
+            for (int i = 0; i < population_size / numberIsland; i++) {
                 temp.add(allWarriors.remove(0));
             }
-            islands[j].setCurrentPopulation(temp);
+            if(p != null) p.setCurrentPopulation(temp);
+            else System.out.println("WTF");
         }
         allWarriors.clear();
-        for (Population p : islands)
-        {
+        for (Population p : islands) {
             p.start(totalIterations - seedIterations);
         }
     }
 
-    private void elitism(int NUMBER)
-    {
+    private void elitism(int NUMBER) {
         Constants.folder = "Elitism";
 
         Constants.type = "Roulette_OnePoint_Mutation_Elite_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         new Population(1000, 0.5, 0.0001,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION);
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION);
 
         Constants.type = "Roulette_OnePoint_Mutation_NoElite_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         Constants.ELITISM = 0;
         new Population(1000, 0.25, 0.0001,
-            Constants.SELECTION_MODE.ROULETTE,
-            Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-            Constants.MUTATION_MODE.MUTATION);
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION);
     }
 
 }

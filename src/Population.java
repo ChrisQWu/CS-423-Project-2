@@ -465,8 +465,8 @@ public class Population {
         return population;
     }
 
-    public void setCurrentPopulation(Collection<Genome> currentPopulation) {
-        this.currentpopulation.addAll(currentPopulation);
+    public void setCurrentPopulation(List<Genome> newPopulation) {
+        this.currentpopulation.addAll(newPopulation);
     }
 
     class FitnessComparator implements Comparator<Genome> {
