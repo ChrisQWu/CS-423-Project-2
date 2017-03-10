@@ -25,6 +25,7 @@ public class Main {
         for (int i = 0; i < 5; i++) {
             varyCrossoverRate(i);
         }
+
 //        for (int i = 0; i < 10; i++) {
 //             island(i);
 //        }
