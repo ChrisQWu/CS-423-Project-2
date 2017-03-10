@@ -28,18 +28,18 @@ public class Main
         {
             varyMutationRate(i);
         }
-//        for (int i = 0; i < 10; i++)
-//        {
-//            varyCrossoverRate(i);
-//        }
-//        for (int i = 0; i < 10; i++)
-//        {
-//            island(i);
-//        }
-//        for (int i = 0; i < 10; i++)
-//        {
-//            elitism(i);
-//        }
+        for (int i = 0; i < 5; i++)
+        {
+            varyCrossoverRate(i);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            island(i);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            elitism(i);
+        }
     }
 
 
