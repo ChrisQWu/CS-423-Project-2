@@ -181,7 +181,7 @@ public class Main {
         new Population(100, 0.5, 0.01,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION).start();
 
         Constants.type = "Roulette_OnePoint_Mutation_NoElite_" + NUMBER;
         Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
@@ -190,7 +190,7 @@ public class Main {
         new Population(100, 0.5, 0.01,
                 Constants.SELECTION_MODE.ROULETTE,
                 Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
-                Constants.MUTATION_MODE.MUTATION);
+                Constants.MUTATION_MODE.MUTATION).start();
     }
 
 }
