@@ -442,14 +442,14 @@ public class Population {
             {
                 best = g;
             }
-            if(bestOfPop < fitness) bestOfPop = fitness;
+            //if(bestOfPop < fitness) bestOfPop = fitness;
 
             if (worst.getFitness() > fitness)
             {
                 worst = g;
             }
 
-            if(worstOfPop > fitness) worstOfPop = fitness;
+            //if(worstOfPop > fitness) worstOfPop = fitness;
         }
         try {
             Warrior.makeWarrior(best, worst, generation);//save the best of this generation
@@ -462,7 +462,7 @@ public class Population {
                 Warrior.makeWorst(worst);
             }
             if(newTotalFitness > 0) totalFitness = newTotalFitness;
-            Recorder.makeCSV(bestOfPop, worstOfPop, totalFitness);
+            Recorder.makeCSV(best.getFitness(), worst.getFitness(), totalFitness);
             totalFitness = 0.0;
         } catch (IOException e) {
             e.printStackTrace();

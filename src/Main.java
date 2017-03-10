@@ -13,22 +13,22 @@ public class Main {
     }
 
     public Main() {
-//        for (int i = 0; i < 10; i++) {
-//            varySelection(i);
-//        }
-//        for (int i = 0; i < 10; i++) {
-//            varyCrossover(i);
-//        }
-//        for (int i = 0; i < 10; i++) {
-//            varyMutationRate(i);
-//        }
-//        for (int i = 0; i < 10; i++) {
-//            varyCrossoverRate(i);
-//        }
+        for (int i = 0; i < 5; i++) {
+            varySelection(i);
+        }
+        for (int i = 0; i < 5; i++) {
+            varyCrossover(i);
+        }
+        for (int i = 0; i < 5; i++) {
+            varyMutationRate(i);
+        }
+        for (int i = 0; i < 5; i++) {
+            varyCrossoverRate(i);
+        }
 //        for (int i = 0; i < 10; i++) {
 //             island(i);
 //        }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             elitism(i);
         }
     }
