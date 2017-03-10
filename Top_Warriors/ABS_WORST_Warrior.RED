@@ -2,11 +2,9 @@
 ; name :  Handsome Jack
 ; author :  Team 12
 ; assert    CORESIZE == 8000 && MAXLENGTH >= 100
-MOV  2,  0
-MOV  6,  2
-JMN  -5,  -1
-DAT  -5, <1
-ADD *1,  3
-MOV  4, <4
-ADD #0,  -7
+JMP $-5,  3
+MOV  -1, #4
+JMN }7,  -6
+SUB  5,  -6
+JMZ *-6, <-5
 end
