@@ -13,25 +13,25 @@ public class Main {
     }
 
     public Main() {
-        for (int i = 0; i < 5; i++) {
-            varySelection(i);
-        }
-        for (int i = 0; i < 5; i++) {
-            varyCrossover(i);
-        }
-        for (int i = 0; i < 5; i++) {
-            varyMutationRate(i);
-        }
-        for (int i = 0; i < 5; i++) {
-            varyCrossoverRate(i);
-        }
-
-//        for (int i = 0; i < 10; i++) {
-//             island(i);
+//        for (int i = 0; i < 5; i++) {
+//            varySelection(i);
 //        }
-        for (int i = 0; i < 5; i++) {
-            elitism(i);
+//        for (int i = 0; i < 5; i++) {
+//            varyCrossover(i);
+//        }
+//        for (int i = 0; i < 5; i++) {
+//            varyMutationRate(i);
+//        }
+//        for (int i = 0; i < 5; i++) {
+//            varyCrossoverRate(i);
+//        }
+
+        for (int i = 0; i < 10; i++) {
+             island(i);
         }
+//        for (int i = 0; i < 5; i++) {
+//            elitism(i);
+//        }
     }
 
 
@@ -147,7 +147,7 @@ public class Main {
         Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
         int numberIsland = 10;
         int population_size = 1000;
-        int totalIterations = 1000;
+        int totalIterations = 100;
         int seedIterations = totalIterations / 10;
         Population[] islands = new Population[numberIsland];
         ArrayList<Genome> allWarriors = new ArrayList<>();
@@ -163,8 +163,10 @@ public class Main {
 
         for (int j = 0; j < numberIsland; j++) {
             ArrayList<Genome> temp = new ArrayList<>();
-            temp.addAll(allWarriors.subList(0, population_size / numberIsland));
-            allWarriors.removeAll(allWarriors.subList(0, population_size / numberIsland));
+            for(int i = 0; i<population_size/numberIsland; i++)
+            {
+                temp.add(allWarriors.remove(0));
+            }
             islands[j].setCurrentPopulation(temp);
         }
         allWarriors.clear();
