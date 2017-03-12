@@ -26,12 +26,13 @@ public class Main {
 //            varyCrossoverRate(i);
 //        }
 
-        for (int i = 0; i < 10; i++) {
-             island(i);
-        }
+//        for (int i = 0; i < 10; i++) {
+//             island(i);
+//        }
 //        for (int i = 0; i < 5; i++) {
 //            elitism(i);
 //        }
+        bestOfTheBest();
     }
 
 
@@ -196,4 +197,45 @@ public class Main {
                 Constants.MUTATION_MODE.MUTATION).start();
     }
 
+    public void bestOfTheBest()
+    {
+        Constants.ELITISM = 0.2;
+        Constants.folder = "BEST_OF_BEST";
+        Constants.type = "Roulette_One";
+        Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
+        Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
+
+        new Population(1000, 0.5, 0.01,
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION).start(500);
+
+        Constants.type = "Roulette_Uniform";
+        Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
+        Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
+
+        new Population(1000, 0.5, 0.01,
+                Constants.SELECTION_MODE.ROULETTE,
+                Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION).start(500);
+
+
+        Constants.type = "Random_One";
+        Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
+        Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
+
+        new Population(1000, 0.5, 0.01,
+                Constants.SELECTION_MODE.RANDOM,
+                Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION).start(500);
+
+        Constants.type = "Random_Uniform";
+        Constants.BEST_WARRIOR = Constants.folder + "/BEST_Warrior_" + Constants.type + "_";
+        Constants.WORST_WARRIOR = Constants.folder + "/WORST_Warrior_" + Constants.type + "_";
+
+        new Population(1000, 0.5, 0.01,
+                Constants.SELECTION_MODE.RANDOM,
+                Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
+                Constants.MUTATION_MODE.MUTATION).start(500);
+    }
 }
