@@ -213,6 +213,7 @@ public class Main {
                     Constants.MUTATION_MODE.MUTATION).start(500);
 
 
+
             new Population(1000, 0.5, 0.01,
                     Constants.SELECTION_MODE.RANDOM,
                     Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
