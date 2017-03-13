@@ -201,25 +201,28 @@ public class Main {
     {
         Constants.ELITISM = 0.2;
 
-        while(true) {
+        for(int i = 0; i < 5; i++) {
             new Population(1000, 0.5, 0.01,
                     Constants.SELECTION_MODE.ROULETTE,
                     Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                     Constants.MUTATION_MODE.MUTATION).start(500);
+        }
 
+        for(int i = 0; i < 5; i++) {
             new Population(1000, 0.5, 0.01,
                     Constants.SELECTION_MODE.ROULETTE,
                     Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,
                     Constants.MUTATION_MODE.MUTATION).start(500);
+        }
 
-
-
+        for(int i = 0; i < 5; i++) {
             new Population(1000, 0.5, 0.01,
                     Constants.SELECTION_MODE.RANDOM,
                     Constants.CROSSOVER_MODE.ONE_POINT_CROSSOVER,
                     Constants.MUTATION_MODE.MUTATION).start(500);
+        }
 
-
+        for(int i = 0; i < 5; i++) {
             new Population(1000, 0.5, 0.01,
                     Constants.SELECTION_MODE.RANDOM,
                     Constants.CROSSOVER_MODE.UNIFORM_CROSSOVER,

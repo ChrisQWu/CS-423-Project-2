@@ -416,7 +416,7 @@ public class Population {
 
         }
         try {
-            Warrior.makeWarrior(best, secondBest, generation);//save the best of this generation
+            if(Constants.DEBUG) Warrior.makeWarrior(best, secondBest, generation);//save the best of this generation
             if(Constants.DEBUG) Warrior.makeWarrior(best, worst, generation);
             if (best.getFitness() > Constants.BEST_FITNESS) {
                 Constants.BEST_FITNESS = best.getFitness();
