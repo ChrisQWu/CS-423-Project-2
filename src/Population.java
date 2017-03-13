@@ -143,8 +143,6 @@ public class Population {
                 break;
         }
 
-
-
     }
 
 
@@ -290,17 +288,6 @@ public class Population {
                 }
             }
         }
-
-//        //Removes the parents of the soon to be children
-//        for (Genome g : winners) {
-//            if (!elites.contains(g)) {
-//                currentpopulation.remove(g);
-//            } else {
-//                int size = currentpopulation.size();
-//                currentpopulation.remove(size - 1);
-//            }
-//        }
-
         return winners;
     }
 
@@ -329,16 +316,6 @@ public class Population {
                 }
             }
 
-            //Removes the parents of the soon to be children
-            /*for (Genome g : winners) {
-                if (!elites.contains(g)) {
-                    currentpopulation.remove(g);
-                } else {
-                    int size = currentpopulation.size();
-                    currentpopulation.remove(size - 1);
-                }
-            }*/
-
         } else {//might as well do random picking if there are no good genomes
             winners = selectRandom();
         }
@@ -354,13 +331,6 @@ public class Population {
                     g2 = currentpopulation.get(random.nextInt(currentpopulation.size())),
                     g3 = currentpopulation.get(random.nextInt(currentpopulation.size())),
                     g4 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-//            while (true) {
-//                if (!elites.contains(g1)) g1 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-//                if (!elites.contains(g2)) g2 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-//                if (!elites.contains(g3)) g3 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-//                if (!elites.contains(g4)) g4 = currentpopulation.get(random.nextInt(currentpopulation.size()));
-//                if (!elites.contains(g1) && !elites.contains(g2) && !elites.contains(g3) && !elites.contains(g4)) break;
-//            }
             try {
                 Warrior.makeWarrior(g1, g2, g3, g4);
                 short round_winner = CommandLine.tournament();
@@ -384,25 +354,6 @@ public class Population {
                 e.printStackTrace();
             }
         }
-
-        //Removes the parents of the soon to be children
-        /*for (Genome g : winners) {
-            int pop;
-            if (!elites.contains(g)) {
-                if (currentpopulation.contains(g)) {
-                    currentpopulation.remove(g);
-                    removed++;
-                } else {
-                    pop = currentpopulation.size();
-                    currentpopulation.remove(pop - 1);
-                    removed++;
-                }
-            } else {
-                pop = currentpopulation.size();
-                currentpopulation.remove(pop - 1);
-                removed++;
-            }
-        }*/
 
         return winners;
     }
@@ -442,14 +393,12 @@ public class Population {
             {
                 best = g;
             }
-            //if(bestOfPop < fitness) bestOfPop = fitness;
 
             if (worst.getFitness() > fitness)
             {
                 worst = g;
             }
 
-            //if(worstOfPop > fitness) worstOfPop = fitness;
         }
         try {
             Warrior.makeWarrior(best, worst, generation);//save the best of this generation
