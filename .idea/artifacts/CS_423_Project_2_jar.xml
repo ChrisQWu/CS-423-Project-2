@@ -3,6 +3,9 @@
     <output-path>$PROJECT_DIR$/out/artifacts/CS_423_Project_2_jar</output-path>
     <root id="archive" name="CS-423-Project-2.jar">
       <element id="module-output" name="CS-423-Project-2" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      </element>
     </root>
   </artifact>
 </component>

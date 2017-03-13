@@ -116,6 +116,10 @@ public class Constants
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String SECOND_BEST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
     public static final String WORST = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
@@ -123,10 +127,16 @@ public class Constants
 
     //these values will be set when Population evaluates their population and compares to the absolute best
     public static double BEST_FITNESS = 0.0;
+    public static double SECOND_BEST_FITNESS = 0.0;
     public static double WORST_FITNESS = 100.0;
+    public static String SECOND_BEST_WARRIOR = "Top_Warriors/SECOND_BEST_Warrior"+type+ext;
     public static String ABS_BEST_WARRIOR = "Top_Warriors/ABS_BEST_Warrior"+type+ext;
     public static String ABS_WORST_WARRIOR = "Top_Warriors/ABS_WORST_Warrior"+type+ext;
     public static final String ABS_BEST = "; redcode\n" +
+            "; name :  Handsome Jack\n" +
+            "; author :  Team 12\n" +
+            "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";
+    public static final String ABS_SECOND_BEST = "; redcode\n" +
             "; name :  Handsome Jack\n" +
             "; author :  Team 12\n" +
             "; assert    CORESIZE == 8000 && MAXLENGTH >= 100\n";

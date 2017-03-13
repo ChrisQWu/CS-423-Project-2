@@ -375,43 +375,71 @@ public class Population {
      */
     private void evaluatePopulation(int generation) {
         int pop = currentpopulation.size();
-        Genome best = null, worst = null;
+        Genome best = null, worst = null, secondBest = null;
         double newTotalFitness = 0.0;
         for (int i = 0; i < pop; i++) {
             Genome g = currentpopulation.get(i);
             Warrior.makeWarrior(g);
             float fitness = CommandLine.fitness();
             g.setFitness(fitness);
-            if(fitness > 0) {
-                newTotalFitness += fitness;
+            if(Constants.DEBUG)
+            {
+                if(fitness > 0) {
+                    newTotalFitness += fitness;
+                }
             }
-            if (best == null && worst == null) {
+            if (best == null&& secondBest == null) {
                 best = g;
-                worst = g;
+                secondBest = g;
             }
+
             if (best.getFitness() < fitness)
             {
                 best = g;
             }
-
-            if (worst.getFitness() > fitness)
+            else if(secondBest.getFitness() < fitness)
             {
-                worst = g;
+                secondBest = g;
+            }
+
+            if(Constants.DEBUG)
+            {
+                if(worst == null)
+                {
+                    worst = g;
+                }
+                if (worst.getFitness() > fitness)
+                {
+                    worst = g;
+                }
             }
 
         }
         try {
-            Warrior.makeWarrior(best, worst, generation);//save the best of this generation
+            Warrior.makeWarrior(best, secondBest, generation);//save the best of this generation
+            if(Constants.DEBUG) Warrior.makeWarrior(best, worst, generation);
             if (best.getFitness() > Constants.BEST_FITNESS) {
                 Constants.BEST_FITNESS = best.getFitness();
                 Warrior.makeBest(best);
             }
-            if (worst.getFitness() < Constants.WORST_FITNESS) {
-                Constants.WORST_FITNESS = worst.getFitness();
-                Warrior.makeWorst(worst);
+            else if (best.getFitness() > Constants.SECOND_BEST_FITNESS) {
+                Constants.SECOND_BEST_FITNESS = best.getFitness();
+                Warrior.makeSecondBest(best);
             }
-            if(newTotalFitness > 0) totalFitness = newTotalFitness;
-            Recorder.makeCSV(best.getFitness(), worst.getFitness(), totalFitness);
+
+            if (secondBest.getFitness() > Constants.SECOND_BEST_FITNESS) {
+                Constants.SECOND_BEST_FITNESS = secondBest.getFitness();
+                Warrior.makeSecondBest(secondBest);
+            }
+
+            if(Constants.DEBUG) {
+                if (worst.getFitness() < Constants.WORST_FITNESS) {
+                    Constants.WORST_FITNESS = worst.getFitness();
+                    Warrior.makeWorst(worst);
+                }
+            }
+            if(Constants.DEBUG) if(newTotalFitness > 0) totalFitness = newTotalFitness;
+            if(Constants.DEBUG) Recorder.makeCSV(best.getFitness(), worst.getFitness(), totalFitness);
             totalFitness = 0.0;
         } catch (IOException e) {
             e.printStackTrace();

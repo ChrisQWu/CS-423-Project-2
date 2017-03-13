@@ -154,6 +154,32 @@ public class Warrior {
         }
     }
 
+    public static void makeSecondBest(Genome secondBest) throws IOException {
+
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+
+        try {
+
+            fw = new FileWriter(Constants.SECOND_BEST_WARRIOR, false);
+            bw = new BufferedWriter(fw);
+            String content = secondBest.getGenomeAsCommand();
+            bw.write(Constants.ABS_SECOND_BEST);
+            bw.write(content);
+            bw.write(Constants.CLOSING);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bw != null) {
+                bw.close();
+            }
+            if (fw != null) {
+                fw.close();
+            }
+        }
+    }
+
     public static void makeWorst(Genome worst) throws IOException {
 
         BufferedWriter bw = null;
@@ -195,12 +221,22 @@ public class Warrior {
             bw.write(content);
             bw.write(Constants.CLOSING);
 
-            fw1 = new FileWriter(Constants.WORST_WARRIOR+Constants.ext, false);
+            if(Constants.DEBUG)
+            {
+                fw1 = new FileWriter(Constants.WORST_WARRIOR + Constants.ext, false);
+                bw1 = new BufferedWriter(fw1);
+                content = genome2.getGenomeAsCommand();
+                bw1.write(Constants.WORST);
+                bw1.write(content);
+                bw1.write(Constants.CLOSING);
+            }
+            fw1 = new FileWriter(Constants.SECOND_BEST_WARRIOR + Constants.ext, false);
             bw1 = new BufferedWriter(fw1);
             content = genome2.getGenomeAsCommand();
-            bw1.write(Constants.WORST);
+            bw1.write(Constants.SECOND_BEST);
             bw1.write(content);
             bw1.write(Constants.CLOSING);
+
 
         } catch (IOException e) {
             e.printStackTrace();
